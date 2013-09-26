@@ -1,0 +1,94 @@
+\area{Programming skills \& IT} % IT \& programming skills
+\label{programming}
+
+  A portfolio of some of my most noteworthy open projects can be found on my
+  website \href{http://viktorq.se/projects}{viktorq.se/projects}.
+
+\newenvironment{myitemize}{%
+  \let\olditem\item
+  \renewcommand\item[1][]{\olditem \textbf{##1}\hspace{0.35em}}
+  \begin{list}{}{%
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{0.25em}
+    \setlength{\parskip}{0em}
+    \setlength{\parsep}{0.25em}
+  }
+}{%
+  \end{list}
+}
+
+\begin{myitemize}
+
+  \item[Web technologies]
+    \begin{list}{}{%
+      \setlength{\leftmargin}{1.5em}
+      \setlength{\itemsep}{0em}
+      \setlength{\parskip}{0em}
+      \setlength{\parsep}{0.25em}
+    }
+      \item[Client side]
+        I have experience, from both my time at Ericsson Research and from hobby projects,
+        in developing responsive, data-intensive applications
+        with modern web technologies.
+
+        Experience with MV* frameworks, mainly
+        \emph{AngularJS} (favorite) and \emph{Backbone.js}. Layout and design; media queries
+        transitions and animations, \emph{Twitter Bootstrap}.
+
+        I get very happy when working
+        with real-time collaborative solutions: experience with websockets and \emph{SocketIO}.
+      \item[Server side]
+        \emph{NodeJS} fanboy. Enjoying \emph{NoSQL} databases such as \emph{mongodb}.
+        Liking the mindset of serving data via \emph{REST API} and rendering data on client side
+        from AJAX calls --- or websockets depending on the needs.
+
+        Experience in using integrated authentication via \emph{Facebook} and and other authentication
+        providers.
+
+        Familiarity with \emph{Ruby on Rails}, \emph{Django}, \emph{PHP} and related services
+        and technologies.
+
+        Experience with hosting in the cloud on PaaS'es, mainly working with \emph{Heroku}.
+    \end{list}
+
+  \item[Languages]
+    \begin{list}{}{%
+      \setlength{\leftmargin}{1.5em}
+      \setlength{\itemsep}{0em}
+      \setlength{\parskip}{0em}
+      \setlength{\parsep}{0.25em}
+    }
+      \item[JavaScript] Currently my favorite language, have written lots of code
+        in JS. Also accustomed to CoffeeScript and dialects. See below for
+        more details regarding web technologies.
+      \item[Python] My first language, currently not coding actively but still very comfortable.
+      \item[Bash] Simple scripts and automated system maintenance. See for example my
+        \href{https://github.com/ViktorQvarfordt/automated-incremental-backups}{automated backup-system}
+        implemented in bash.
+      \item[Matlab] Mainly for data analysis, have also explored the object oriented parts Matlab.
+      \item[C++] Basic knowledge, one 7.5 ECTS course.
+      \item[Misc.] Scheme and dialects of Lisp. Some familiarity (so far mainly fascination) with
+        Haskell and other functional languages. Comfortable with Regular Expressions.
+    \end{list}
+
+  \item[Numerical methods and analysis] Comfortable implementing numerical methods for solving
+    differential equations; Runge Kutta and others. Besides Matlab and Mathematica I have used
+    the Python modules SciPy and NumPy, Sage. Experience in statistical analysis of large
+    sets of data collected from experiments.
+
+  \item[Misc.]
+    \emph{Version management}: Git, Mercurial. \,\,
+    \emph{Digital typesetting}: \LaTeX. \,\,
+    \emph{Editors}: Emacs, Vim, SublimeText
+\end{myitemize}
+
+
+%% \begin{itemize}
+%% \item one \dots{}
+%%      \begin{itemize}
+%%         \item Language Models
+%%         \item Vector Space Models
+%%      \end{itemize}
+%% \item two \dots{}
+%% \item three \dots{}
+%% \end{itemize}

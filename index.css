@@ -30,8 +30,8 @@ body {
 html { background-color: #fff; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: 300; color: #333; font-family: 'Trykker'; }
-h1 { font-size: 40px; text-align: center; }
-h2 { font-size: 29px; }
+h2 { font-size: 38px; text-align: center; }
+#cv h2 small { padding-left: 10px; font-size: 20px; }
 /*p  { text-align: justify; }*/
 
 #header       { padding-top: 20px; font-family: 'Trykker'; padding: 20 40px; }
@@ -61,9 +61,6 @@ h2 { font-size: 29px; }
 .clearfix:after {
   clear: both;
 }
-
-#cv h1       { text-align: center; }
-#cv h1 small { padding-left: 10px; font-size: 20px; }
 
 
 hr {

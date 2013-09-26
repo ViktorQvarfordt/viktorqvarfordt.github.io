@@ -49,10 +49,10 @@
 %% }
 
 \newenvironment{myindentpar}%
-               {\begin{list}{}%
-                   {\setlength{\leftmargin}{1.5em}}%
-                 \item[]}
-               {\end{list}}
+  {\begin{list}{}%
+    {\setlength{\leftmargin}{1.5em}}%
+    \item[]}
+  {\end{list}}
 
 
 %% Customize page headers
@@ -113,7 +113,7 @@
 
 \newcommand{\entry}[3]{
   %\vspace{0.5em}
-  \vskip 0.5em
+  \vskip 0.8em
   \raggedleft
   \begin{minipage}[t]{\textwidth - 2em}
     \textbf{#1}\hfill\textit{#2}
@@ -137,7 +137,6 @@
 \clubpenalty 10000
 
 
-
 %% DOCUMENT
 
 \begin{document}
@@ -145,14 +144,16 @@
 \thispagestyle{firststyle}
 
 \input{header}
-\input{akademisk_utbildning}
-\input{arbetslivserfarenhet}
-\clearpage
-\input{ovrig_utbildning_och_engagemang}
-\input{it_programmering}
+
+% \emph{Parts of this document are currently only drafts.}
+
+\input{education}
+\input{experience}
+\input{misc}
+\input{programming}
 \input{languages}
 
 %% Footer
-% \vfill\centering\small uppdaterat \today
+% \vfill\centering\small Updated \today
 
 \end{document}

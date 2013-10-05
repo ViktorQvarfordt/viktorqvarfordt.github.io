@@ -31,6 +31,7 @@ html { background-color: #fff; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: 300; color: #333; font-family: 'Trykker'; }
 h2 { font-size: 38px; text-align: center; }
+h3 { font-size: 27px; text-align: center; }
 #cv h2 small { padding-left: 10px; font-size: 20px; }
 /*p  { text-align: justify; }*/
 
@@ -67,6 +68,11 @@ hr {
   border: 0;
   height: 1px;
   background-color: #ddd;
+  margin-top: 20px;
+}
+
+li {
+  padding: 0.5em 0;
 }
 
 /*hr {

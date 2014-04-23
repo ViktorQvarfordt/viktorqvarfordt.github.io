@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/style.css">
+  </head>
+  <body>
+    <div class="content"><h1 id="ssh-proxy-browser-the-web-over-an-ssh-tunnel">SSH Proxy: Browser the web over an ssh tunnel</h1>
+<p>An outline of how to set up an ssh tunnel that can be used with a web browser. The first section covers the most common use case, while the second section outlines how to set up a tunnel through multiple computers.</p>
+<h2 id="tunnel-through-one-computer">Tunnel through one computer</h2>
+<p>Set up the tunnel to <code>host</code> on localhost port 8080:</p>
+<pre><code>$ ssh -ND 8080 user@host
+</code></pre><p>Configure the browser to connect to this <code>SOCKS5</code> proxy.</p>
+<p><strong>Firefox:</strong> Edit -&gt; Preferences -&gt; Advanced -&gt; Network -&gt; Settings -&gt; Manual proxy configuration: Fill in SOCKS Host and port, leave the rest blank.</p>
+<p><strong>Google chrome:</strong> (on linux)</p>
+<pre><code>$ google-chrome --proxy-server=socks5://localhost:8080 --user-data-dir=/tmp/tmpuser
+</code></pre><p>The last argument ensures we get a clean browser session.</p>
+<h2 id="tunnel-through-several-computers">Tunnel through several computers</h2>
+<p>Assume <code>desktop</code> wants to access the web through a tunnel going through <code>host1</code> and <code>host2</code> (that is, <code>desktop</code> will use the ip of <code>host2</code> on the web).</p>
+<pre><code>desktop -&gt; host1 -&gt; host2 -&gt; internet
+</code></pre><p>On <code>desktop</code> (and every host in the tunnel-chain, except the next-to-last host) we run</p>
+<pre><code>$ ssh -N user@host1 -L 8080:localhost:8080
+</code></pre><p>On <code>host1</code> (the &quot;next-to-last&quot; machine) we run (just like in case of a direct tunnel)</p>
+<pre><code>$ ssh -ND 8080 user@host2
+</code></pre><hr>
+<p><em>Of course, consult the man page of ssh for a description of the flags etc.</em></p>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

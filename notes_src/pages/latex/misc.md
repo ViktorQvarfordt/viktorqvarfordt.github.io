@@ -1,6 +1,6 @@
 # Miscellaneous TeXy stuff
 
-```latex
+```tex
 %% Numbering based on section number.
 \numberwithin{equation}{section}
 \numberwithin{table}{section}
@@ -16,7 +16,7 @@
 
 [Centering figure that is wider than \textwidth](http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth), example:
 
-```latex
+```tex
 \begin{figure}[!htbp]
   \centering
   \makebox[1pt][c]{\includegraphics[width=\paperwidth]{imgpath}}
@@ -27,7 +27,7 @@
 
 Alternatively using `\centerfloat` from the memoir-class:
 
-```latex
+```tex
 \makeatletter
 \newcommand*{\centerfloat}{%
   \parindent \z@
@@ -39,7 +39,7 @@ Alternatively using `\centerfloat` from the memoir-class:
 
 Use just as `\centering`:
 
-```latex
+```tex
 \begin{figure}[!htbp]
   \centerfloat
   \includegraphics[width=\paperwidth]{imgpath}
@@ -50,7 +50,7 @@ Use just as `\centering`:
 
 Alternative to `\centerfloat`, "`\forcecenter`":
 
-```latex
+```tex
   \newcommand{\forcecenter}[1]{%
       \makebox[0pt][c]{#1}%
   }
@@ -58,7 +58,7 @@ Alternative to `\centerfloat`, "`\forcecenter`":
 
 ## Full-page-image
 
-```latex
+```tex
 \clearpage
 \newgeometry{margin=0pt}
 

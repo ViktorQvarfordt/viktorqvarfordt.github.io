@@ -1,15 +1,17 @@
 <html>
   <head>
     <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <!-- <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css"> -->
   </head>
   <body>
     <div class="content"><h1 id="controlling-floats">Controlling floats</h1>
 <h2 id="-floatbarrier-from-placeins"><code>\FloatBarrier</code> from placeins</h2>
 <p>Using the <a href="http://ctan.uib.no/macros/latex/contrib/placeins/placeins-doc.pdf">placeins</a> package to force floats (figures and tables) to only appear inside the (sub)sections where they are defined:</p>
-<pre><code class="lang-latex">  % Force floats inside respective (sub)sections.
-  \usepackage[section]{placeins}
-  \let\oldsubsection\subsection
-  \renewcommand\subsection{\FloatBarrier\oldsubsection}
+<pre><code class="tex">  <span class="hljs-comment">% Force floats inside respective (sub)sections.</span>
+  <span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>section<span class="hljs-special">]</span><span class="hljs-special">{</span>placeins<span class="hljs-special">}</span>
+  <span class="hljs-command">\let</span><span class="hljs-command">\oldsubsection</span><span class="hljs-command">\subsection</span>
+  <span class="hljs-command">\renewcommand</span><span class="hljs-command">\subsection</span><span class="hljs-special">{</span><span class="hljs-command">\FloatBarrier</span><span class="hljs-command">\oldsubsection</span><span class="hljs-special">}</span>
 </code></pre>
 <h2 id="-clearpage-"><code>\clearpage</code></h2>
 <p>The command <code>\clearpage</code> will not only start a new page, but will also force any unset floats to be set before the page break. Read <a href="http://tex.stackexchange.com/a/281">more about <code>\clearpage</code></a>.</p>
@@ -19,5 +21,8 @@
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+
+    <!-- <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script> -->
+    <!-- <script>hljs.initHighlightingOnLoad();</script> -->
   </body>
 </html>

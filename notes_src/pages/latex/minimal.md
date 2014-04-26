@@ -8,7 +8,7 @@ If this package is not available (it is rather new, and thus not included in the
 
 The result of the folowing document is a pdf with no margins and no page breaks. The size of the document is adapted exactly to the size of your content (no page numbers etc). The `varwidth` parameter makes line-break behave normally.
 
-```latex
+```tex
 \documentclass[varwidth]{standalone}
 \begin{document}
   Hello minimal world!
@@ -19,7 +19,7 @@ The result of the folowing document is a pdf with no margins and no page breaks.
 
 This is a command (included in the texlive latex distribution for linux) that crops margins from pdf documents. The command does not remove page breaks. You have to suppress page numbers explicitly.
 
-```latex
+```tex
   \documentclass[a4paper]{article}
   \thispagestyle{none}
   \begin{document}

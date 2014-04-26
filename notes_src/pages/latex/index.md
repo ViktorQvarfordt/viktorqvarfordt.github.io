@@ -36,7 +36,7 @@ This short script automagically compiles your tex document when you
 modify the source file! Also, no messy output is shown, only error
 messages (if any). Requires the `inotify-tools` package.
 
-```sh
+```bash
 while inotifywait -qq -e modify *.tex; do
   clear && pdflatex -interaction=nonstopmode *.tex | grep "^\!\|^l."
 done
@@ -63,7 +63,7 @@ Hyphenation in your language: `\usepackage[swedish]{babel}`.
 LaTeX is really old, so support for modern font encodings is not built
 in, so we use packages:
 
-```latex
+```tex
 \usepackage[utf8]{inputenc} % Input can be utf8
 \usepackage[T1]{fontenc}    % Output just gets it right
 ```
@@ -79,7 +79,7 @@ from plain LaTeX, they're both part of texlive and so on.
 
 ### Math and other sciency stuff
 
-```latex
+```tex
 \usepackage{mathtools} % This is preferred
 \usepackage{amsmath}   % Otherwise use this
 \usepackage{amssymb}   % Gives more symbols
@@ -108,7 +108,7 @@ your code environment.
 
 I like to have something like this:
 
-```latex
+```tex
 % Grey line numbers, so that they don't catch too much attention.
 \renewcommand{\theFancyVerbLine}{
   \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
@@ -125,7 +125,7 @@ I like to have something like this:
 The default text width might be considered too narrow in some cases, so we make the
 margins smaller with the `geometry` package.
 
-```latex
+```tex
 \usepackage[top=1cm, bottom=2cm, left=3cm, right=4cm]{geometry}
 ```
 
@@ -140,7 +140,7 @@ See
 [Paragraph Indents](http://en.wikibooks.org/wiki/LaTeX/Paragraph_Formatting#Paragraph_Indents)
 at Wikibooks, for more details.
 
-```latex
+```tex
 \usepackage{parskip}
 ```
 
@@ -151,7 +151,7 @@ See
 [page styles](http://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_styles)
 for more info.
 
-```latex
+```tex
 \usepackage{fancyhdr}
 
 \lhead{left header}
@@ -170,7 +170,7 @@ for more info.
 
 An example.
 
-```latex
+```tex
 \usepackage{fancyhdr}
   \lhead{\textsc{Title}}
   \rhead{\thepage}
@@ -183,7 +183,7 @@ An example.
 
 To include an image you need `\usepackage{graphicx}`, then use:
 
-```latex
+```tex
 \begin{figure}
   \centering
   \includegraphics[width=0.8\linewidth]{filename}
@@ -233,7 +233,7 @@ Nifty notes in the margins: `\usepackage{marginnote}`
 
 Table of contents dots for sections:
 
-```latex
+```tex
 \usepackage{tocloft}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 ```
@@ -250,7 +250,7 @@ not so tight table cells use this:
 
 ### General document structure
 
-```latex
+```tex
 \documentclass[oneside, a4paper, 11pt]{article}
 
 \usepackage{..all your packages..}
@@ -282,7 +282,7 @@ Hello world!
 
 ### Titlepage
 
-```latex
+```tex
 \documentclass[..., titlepage, ...]{article}
 
 % ...
@@ -325,7 +325,7 @@ Hello world!
 This is a list the latex-packages that I use on my system.
 In a Debian-based distributions they can be installed with this command.
 
-```sh
+```bash
 sudo apt-get install texlive texlive-latex-recommended texlive-latex-extra \
 texlive-science texlive-math-extra cm-super texlive-xetex texlive-lang-swedish
 ```
@@ -343,7 +343,7 @@ Other apparently useful packages.
 ### Automated compilation from git
 Automated compilation of LaTeX source pulled from a git repository
 
-```sh
+```bash
 cd /path/to/git/repo/
 git pull
 cd /path/to/new/pdf/

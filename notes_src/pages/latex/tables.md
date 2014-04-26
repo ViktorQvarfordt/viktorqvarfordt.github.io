@@ -6,7 +6,7 @@
 
 For an in-depth discussion read the [siunitx-package docummentation](http://ctan.uib.no/macros/latex/contrib/siunitx/siunitx.pdf), below I give an example showing the essential parts.
 
-```latex
+```tex
 \begin{table}
   \centering
   \sisetup{

@@ -2,7 +2,7 @@
 
 ## Mathematics
 
-```latex
+```tex
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 %\renewcommand{\vec}[1]{\mathbf{#1}}
 \newcommand{\D}[2]{\frac{d #1}{d #2}}
@@ -24,19 +24,19 @@
 
 \renewcommand\Re{\operatorname{Re}}
 \renewcommand\Im{\operatorname{Im}}
-```latex
+```tex
 
 ## Figures
 
 Convenience command for inserting figures. Usage:
 
-```latex
+```tex
 \fig[<position>]{<label>}{<path/to/img>}{<scalefactor relative \linewidth>}{<caption>}
 ```
 
 Code:
 
-```latex
+```tex
 \newcommand{\fig}[5][!htbp]{%
   \begin{figure}[#1]
     \centering
@@ -49,7 +49,7 @@ Code:
 
 More aggressive method, the figure will really end up where you put it, no matter what.
 
-```latex
+```tex
 \newcommand{\fig}[4][]{%
   \begin{minipage}{\linewidth}
     % Yes, not \centering, minipage provides no extra spacing of its own.
@@ -64,7 +64,7 @@ More aggressive method, the figure will really end up where you put it, no matte
 
 ## Comma separated arguments
 
-```latex
+```tex
 % inner product: \ip{u,v}
 \def\ip#1{\ipinner(#1)}
 \def\ipinner(#1,#2){\ensuremath{\langle #1, #2 \rangle}}
@@ -72,7 +72,7 @@ More aggressive method, the figure will really end up where you put it, no matte
 
 Allow both normal and comma separated style:
 
-```latex
+```tex
 \documentclass{article}
 
 \usepackage{amsmath}

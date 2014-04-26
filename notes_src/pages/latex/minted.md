@@ -2,7 +2,7 @@
 
 <https://code.google.com/p/minted/>
 
-```latex
+```tex
 % Import package
 \usepackage{minted}
 

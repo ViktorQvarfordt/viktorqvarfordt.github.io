@@ -1,6 +1,6 @@
 # Titlepage
 
-```latex
+```tex
 \begin{titlepage}
   \thispagestyle{empty}
   % \null\vskip{-2em}

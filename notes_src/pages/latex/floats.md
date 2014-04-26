@@ -4,7 +4,7 @@
 
 Using the [placeins](http://ctan.uib.no/macros/latex/contrib/placeins/placeins-doc.pdf) package to force floats (figures and tables) to only appear inside the (sub)sections where they are defined:
 
-```latex
+```tex
   % Force floats inside respective (sub)sections.
   \usepackage[section]{placeins}
   \let\oldsubsection\subsection

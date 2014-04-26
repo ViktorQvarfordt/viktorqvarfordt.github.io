@@ -2,7 +2,7 @@
 
 ## Main document
 
-```latex
+```tex
 \documentclass[a4paper, 11pt]{article}
 
 \usepackage{fontspec}
@@ -27,7 +27,7 @@
 
 ## Titlepage
 
-```latex
+```tex
 \begin{titlepage}
   \thispagestyle{empty}
   % \null\vskip{-2em}

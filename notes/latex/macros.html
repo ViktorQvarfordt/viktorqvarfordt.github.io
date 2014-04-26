@@ -1,85 +1,90 @@
 <html>
   <head>
     <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <!-- <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css"> -->
   </head>
   <body>
     <div class="content"><h1 id="macros-and-commands">Macros and commands</h1>
 <h2 id="mathematics">Mathematics</h2>
-<pre><code class="lang-latex">\renewcommand{\vec}[1]{\boldsymbol{#1}}
-%\renewcommand{\vec}[1]{\mathbf{#1}}
-\newcommand{\D}[2]{\frac{d #1}{d #2}}
-\newcommand{\pD}[2]{\frac{\partial #1}{\partial #2}}
+<pre><code class="tex"><span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\vec</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\boldsymbol</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-comment">%\renewcommand{\vec}[1]{\mathbf{#1}}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\D</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span>d <span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span>d <span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\pD</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span> <span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span> <span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
 
-%% Plus-minus symbol with parenthesis around the minus sign
-%% http://tex.stackexchange.com/a/17553
-\newcommand\varpm{\mathbin{\vcenter{\hbox{%
-  \oalign{\hfil$\scriptstyle+$\hfil\cr
-          \noalign{\kern-.3ex}
-          $\scriptscriptstyle({-})$\cr}}}}}
+<span class="hljs-comment">%% Plus-minus symbol with parenthesis around the minus sign</span>
+<span class="hljs-comment">%% http://tex.stackexchange.com/a/17553</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-command">\varpm</span><span class="hljs-special">{</span><span class="hljs-command">\mathbin</span><span class="hljs-special">{</span><span class="hljs-command">\vcenter</span><span class="hljs-special">{</span><span class="hljs-command">\hbox</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
+  <span class="hljs-command">\oalign</span><span class="hljs-special">{</span><span class="hljs-command">\hfil</span><span class="hljs-formula">$<span class="hljs-command">\scriptstyle</span>+$</span><span class="hljs-command">\hfil</span><span class="hljs-command">\cr</span>
+          <span class="hljs-command">\noalign</span><span class="hljs-special">{</span><span class="hljs-command">\kern</span>-.3ex<span class="hljs-special">}</span>
+          <span class="hljs-formula">$<span class="hljs-command">\scriptscriptstyle</span>(<span class="hljs-special">{</span>-<span class="hljs-special">}</span>)$</span><span class="hljs-command">\cr</span><span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
 
-%% Create a system of equations. Similar to cases environment, but
-%% with brace on the right and spacing like in align environment.
-%% http://tex.stackexchange.com/a/47563
-\newenvironment{eqsys}
-  {\left.\begin{aligned}}
-  {\end{aligned}\right\rbrace}
+<span class="hljs-comment">%% Create a system of equations. Similar to cases environment, but</span>
+<span class="hljs-comment">%% with brace on the right and spacing like in align environment.</span>
+<span class="hljs-comment">%% http://tex.stackexchange.com/a/47563</span>
+<span class="hljs-command">\newenvironment</span><span class="hljs-special">{</span>eqsys<span class="hljs-special">}</span>
+  <span class="hljs-special">{</span><span class="hljs-command">\left</span>.<span class="hljs-command">\begin</span><span class="hljs-special">{</span>aligned<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-special">{</span><span class="hljs-command">\end</span><span class="hljs-special">{</span>aligned<span class="hljs-special">}</span><span class="hljs-command">\right</span><span class="hljs-command">\rbrace</span><span class="hljs-special">}</span>
 
-\renewcommand\Re{\operatorname{Re}}
-\renewcommand\Im{\operatorname{Im}}
-```latex
+<span class="hljs-command">\renewcommand</span><span class="hljs-command">\Re</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Re<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-command">\Im</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Im<span class="hljs-special">}</span><span class="hljs-special">}</span>
+```tex
 
-## Figures
+<span class="hljs-special">#</span><span class="hljs-special">#</span> Figures
 
 Convenience command for inserting figures. Usage:
 
-```latex
-\fig[&lt;position&gt;]{&lt;label&gt;}{&lt;path/to/img&gt;}{&lt;scalefactor relative \linewidth&gt;}{&lt;caption&gt;}
+```tex
+<span class="hljs-command">\fig</span><span class="hljs-special">[</span>&lt;position&gt;<span class="hljs-special">]</span><span class="hljs-special">{</span>&lt;label&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;path/to/img&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;scalefactor relative <span class="hljs-command">\linewidth</span>&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;caption&gt;<span class="hljs-special">}</span>
 </code></pre>
 <p>Code:</p>
-<pre><code class="lang-latex">\newcommand{\fig}[5][!htbp]{%
-  \begin{figure}[#1]
-    \centering
-    \includegraphics[width=#4\linewidth]{#3}
-    \caption{#5}
-    \label{#2}
-  \end{figure}%
-}
+<pre><code class="tex"><span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\fig</span><span class="hljs-special">}</span><span class="hljs-special">[</span>5<span class="hljs-special">]</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
+  <span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span><span class="hljs-special">#</span>1<span class="hljs-special">]</span>
+    <span class="hljs-command">\centering</span>
+    <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-special">#</span>4<span class="hljs-command">\linewidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-special">#</span>3<span class="hljs-special">}</span>
+    <span class="hljs-command">\caption</span><span class="hljs-special">{</span><span class="hljs-special">#</span>5<span class="hljs-special">}</span>
+    <span class="hljs-command">\label</span><span class="hljs-special">{</span><span class="hljs-special">#</span>2<span class="hljs-special">}</span>
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-comment">%</span>
+<span class="hljs-special">}</span>
 </code></pre>
 <p>More aggressive method, the figure will really end up where you put it, no matter what.</p>
-<pre><code class="lang-latex">\newcommand{\fig}[4][]{%
-  \begin{minipage}{\linewidth}
-    % Yes, not \centering, minipage provides no extra spacing of its own.
-    \begin{center}
-      \includegraphics[width=#3\linewidth]{#2}
-      \captionof{figure}{#4}
-      \ifthenelse{\isempty{#1}}{}{\label{#1}}
-    \end{center}
-  \end{minipage}%
-}
+<pre><code class="tex"><span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\fig</span><span class="hljs-special">}</span><span class="hljs-special">[</span>4<span class="hljs-special">]</span><span class="hljs-special">[</span><span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
+  <span class="hljs-command">\begin</span><span class="hljs-special">{</span>minipage<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\linewidth</span><span class="hljs-special">}</span>
+    <span class="hljs-comment">% Yes, not \centering, minipage provides no extra spacing of its own.</span>
+    <span class="hljs-command">\begin</span><span class="hljs-special">{</span>center<span class="hljs-special">}</span>
+      <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-special">#</span>3<span class="hljs-command">\linewidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-special">#</span>2<span class="hljs-special">}</span>
+      <span class="hljs-command">\captionof</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-special">#</span>4<span class="hljs-special">}</span>
+      <span class="hljs-command">\ifthenelse</span><span class="hljs-special">{</span><span class="hljs-command">\isempty</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\label</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span>
+    <span class="hljs-command">\end</span><span class="hljs-special">{</span>center<span class="hljs-special">}</span>
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>minipage<span class="hljs-special">}</span><span class="hljs-comment">%</span>
+<span class="hljs-special">}</span>
 </code></pre>
 <h2 id="comma-separated-arguments">Comma separated arguments</h2>
-<pre><code class="lang-latex">% inner product: \ip{u,v}
-\def\ip#1{\ipinner(#1)}
-\def\ipinner(#1,#2){\ensuremath{\langle #1, #2 \rangle}}
+<pre><code class="tex"><span class="hljs-comment">% inner product: \ip{u,v}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ip</span><span class="hljs-special">#</span>1<span class="hljs-special">{</span><span class="hljs-command">\ipinner</span>(<span class="hljs-special">#</span>1)<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ipinner</span>(<span class="hljs-special">#</span>1,<span class="hljs-special">#</span>2)<span class="hljs-special">{</span><span class="hljs-command">\ensuremath</span><span class="hljs-special">{</span><span class="hljs-command">\langle</span> <span class="hljs-special">#</span>1, <span class="hljs-special">#</span>2 <span class="hljs-command">\rangle</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
 </code></pre>
 <p>Allow both normal and comma separated style:</p>
-<pre><code class="lang-latex">\documentclass{article}
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
 
-\usepackage{amsmath}
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>amsmath<span class="hljs-special">}</span>
 
-% Inner product.
-\makeatletter
-\def\ip#1{\expandafter\iphelp#1}
-\def\iphelp#1{\@ifnextchar,{\ipinner#1}{\ipinner#1,}}
-\def\ipinner#1,#2{\langle #1, #2 \rangle}
-\makeatletter
+<span class="hljs-comment">% Inner product.</span>
+<span class="hljs-command">\makeatletter</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ip</span><span class="hljs-special">#</span>1<span class="hljs-special">{</span><span class="hljs-command">\expandafter</span><span class="hljs-command">\iphelp</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\iphelp</span><span class="hljs-special">#</span>1<span class="hljs-special">{</span><span class="hljs-command">\@</span>ifnextchar,<span class="hljs-special">{</span><span class="hljs-command">\ipinner</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\ipinner</span><span class="hljs-special">#</span>1,<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ipinner</span><span class="hljs-special">#</span>1,<span class="hljs-special">#</span>2<span class="hljs-special">{</span><span class="hljs-command">\langle</span> <span class="hljs-special">#</span>1, <span class="hljs-special">#</span>2 <span class="hljs-command">\rangle</span><span class="hljs-special">}</span>
+<span class="hljs-command">\makeatletter</span>
 
-\begin{document}
-$\ip u,v \ip uv \ip{u}{v} \ip {u,v}$
-\end{document}
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+<span class="hljs-formula">$<span class="hljs-command">\ip</span> u,v <span class="hljs-command">\ip</span> uv <span class="hljs-command">\ip</span><span class="hljs-special">{</span>u<span class="hljs-special">}</span><span class="hljs-special">{</span>v<span class="hljs-special">}</span> <span class="hljs-command">\ip</span> <span class="hljs-special">{</span>u,v<span class="hljs-special">}</span>$</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 </code></pre>
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+
+    <!-- <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script> -->
+    <!-- <script>hljs.initHighlightingOnLoad();</script> -->
   </body>
 </html>

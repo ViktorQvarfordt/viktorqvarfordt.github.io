@@ -1,6 +1,8 @@
 <html>
   <head>
     <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <!-- <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css"> -->
   </head>
   <body>
     <div class="content"><h1 id="-latex-">$\LaTeX$</h1>
@@ -32,9 +34,9 @@ put it all here mainly as a reference for my self.</p>
 <p>This short script automagically compiles your tex document when you
 modify the source file! Also, no messy output is shown, only error
 messages (if any). Requires the <code>inotify-tools</code> package.</p>
-<pre><code class="lang-sh">while inotifywait -qq -e modify *.tex; do
-  clear &amp;&amp; pdflatex -interaction=nonstopmode *.tex | grep &quot;^\!\|^l.&quot;
-done
+<pre><code class="bash"><span class="hljs-keyword">while</span> inotifywait -qq <span class="hljs-operator">-e</span> modify *.tex; <span class="hljs-keyword">do</span>
+  clear &amp;&amp; pdflatex -interaction=nonstopmode *.tex | grep <span class="hljs-string">"^\!\|^l."</span>
+<span class="hljs-keyword">done</span>
 </code></pre>
 <p>To really benefit from this you need a PDF reader that reloads the
 document when it is modified,
@@ -50,8 +52,8 @@ time). Put it in your
 <p>Hyphenation in your language: <code>\usepackage[swedish]{babel}</code>.</p>
 <p>LaTeX is really old, so support for modern font encodings is not built
 in, so we use packages:</p>
-<pre><code class="lang-latex">\usepackage[utf8]{inputenc} % Input can be utf8
-\usepackage[T1]{fontenc}    % Output just gets it right
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>utf8<span class="hljs-special">]</span><span class="hljs-special">{</span>inputenc<span class="hljs-special">}</span> <span class="hljs-comment">% Input can be utf8</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>T1<span class="hljs-special">]</span><span class="hljs-special">{</span>fontenc<span class="hljs-special">}</span>    <span class="hljs-comment">% Output just gets it right</span>
 </code></pre>
 <p>Read <a href="http://tex.stackexchange.com/a/44699">this</a> to clear up
 potential confusion about <code>inputenc</code> and <code>fontenc</code>.
@@ -61,13 +63,13 @@ However, you should really consider using
 utf8 (among other things) much smoother. They&#39;re not very different
 from plain LaTeX, they&#39;re both part of texlive and so on.</p>
 <h3 id="math-and-other-sciency-stuff">Math and other sciency stuff</h3>
-<pre><code class="lang-latex">\usepackage{mathtools} % This is preferred
-\usepackage{amsmath}   % Otherwise use this
-\usepackage{amssymb}   % Gives more symbols
-\usepackage{stmaryrd}  % Even more symbols
-\usepackage{siunitx}   % Dealing with units
-\usepackage{subdepth}
-\usepackage[version=3]{mhchem} % Chemistry.. i don&#39;t know
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>mathtools<span class="hljs-special">}</span> <span class="hljs-comment">% This is preferred</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>amsmath<span class="hljs-special">}</span>   <span class="hljs-comment">% Otherwise use this</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>amssymb<span class="hljs-special">}</span>   <span class="hljs-comment">% Gives more symbols</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>stmaryrd<span class="hljs-special">}</span>  <span class="hljs-comment">% Even more symbols</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>siunitx<span class="hljs-special">}</span>   <span class="hljs-comment">% Dealing with units</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>subdepth<span class="hljs-special">}</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>version=3<span class="hljs-special">]</span><span class="hljs-special">{</span>mhchem<span class="hljs-special">}</span> <span class="hljs-comment">% Chemistry.. i don't know</span>
 </code></pre>
 <ul>
 <li><a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics">Most of what you need</a></li>
@@ -85,18 +87,18 @@ in python). Also have a look at minteds
 especially section 6 if you use quite a lot of optional commands for
 your code environment.</p>
 <p>I like to have something like this:</p>
-<pre><code class="lang-latex">% Grey line numbers, so that they don&#39;t catch too much attention.
-\renewcommand{\theFancyVerbLine}{
-  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+<pre><code class="tex"><span class="hljs-comment">% Grey line numbers, so that they don't catch too much attention.</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\theFancyVerbLine</span><span class="hljs-special">}</span><span class="hljs-special">{</span>
+  <span class="hljs-command">\sffamily</span><span class="hljs-command">\textcolor</span><span class="hljs-special">[</span>rgb<span class="hljs-special">]</span><span class="hljs-special">{</span>0.5,0.5,0.5<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\scriptsize</span><span class="hljs-command">\arabic</span><span class="hljs-special">{</span>FancyVerbLine<span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
 
-% Custom environment for some language.
-\newminted{python}{linenos,numbersep=5pt}
+<span class="hljs-comment">% Custom environment for some language.</span>
+<span class="hljs-command">\newminted</span><span class="hljs-special">{</span>python<span class="hljs-special">}</span><span class="hljs-special">{</span>linenos,numbersep=5pt<span class="hljs-special">}</span>
 </code></pre>
 <h2 id="tweaks">Tweaks</h2>
 <h3 id="margins">Margins</h3>
 <p>The default text width might be considered too narrow in some cases, so we make the
 margins smaller with the <code>geometry</code> package.</p>
-<pre><code class="lang-latex">\usepackage[top=1cm, bottom=2cm, left=3cm, right=4cm]{geometry}
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>top=1cm, bottom=2cm, left=3cm, right=4cm<span class="hljs-special">]</span><span class="hljs-special">{</span>geometry<span class="hljs-special">}</span>
 </code></pre>
 <p>And you should read
 <a href="http://en.wikibooks.org/wiki/LaTeX/Page_Layout">Page Layout</a> at
@@ -105,43 +107,43 @@ Wikibooks.</p>
 <p>See
 <a href="http://en.wikibooks.org/wiki/LaTeX/Paragraph_Formatting#Paragraph_Indents">Paragraph Indents</a>
 at Wikibooks, for more details.</p>
-<pre><code class="lang-latex">\usepackage{parskip}
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>parskip<span class="hljs-special">}</span>
 </code></pre>
 <h3 id="fancy-headers-with-fancyhdr-">Fancy headers with <code>fancyhdr</code></h3>
 <p>See
 <a href="http://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_styles">page styles</a>
 for more info.</p>
-<pre><code class="lang-latex">\usepackage{fancyhdr}
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>fancyhdr<span class="hljs-special">}</span>
 
-\lhead{left header}
-\chead{center header}
-\rhead{right header}
+<span class="hljs-command">\lhead</span><span class="hljs-special">{</span>left header<span class="hljs-special">}</span>
+<span class="hljs-command">\chead</span><span class="hljs-special">{</span>center header<span class="hljs-special">}</span>
+<span class="hljs-command">\rhead</span><span class="hljs-special">{</span>right header<span class="hljs-special">}</span>
 
-\lfoot{left footer}
-\cfoot{center footer}
-\rfoot{right footer}
+<span class="hljs-command">\lfoot</span><span class="hljs-special">{</span>left footer<span class="hljs-special">}</span>
+<span class="hljs-command">\cfoot</span><span class="hljs-special">{</span>center footer<span class="hljs-special">}</span>
+<span class="hljs-command">\rfoot</span><span class="hljs-special">{</span>right footer<span class="hljs-special">}</span>
 
-\pagestyle{fancy}
+<span class="hljs-command">\pagestyle</span><span class="hljs-special">{</span>fancy<span class="hljs-special">}</span>
 
-% hline in the footer, just like header.
-\renewcommand{\footrulewidth}{0.4pt}
+<span class="hljs-comment">% hline in the footer, just like header.</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\footrulewidth</span><span class="hljs-special">}</span><span class="hljs-special">{</span>0.4pt<span class="hljs-special">}</span>
 </code></pre>
 <p>An example.</p>
-<pre><code class="lang-latex">\usepackage{fancyhdr}
-  \lhead{\textsc{Title}}
-  \rhead{\thepage}
-  \cfoot{}
-  \rfoot{\textsl{Author}}
-\pagestyle{fancy}
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>fancyhdr<span class="hljs-special">}</span>
+  <span class="hljs-command">\lhead</span><span class="hljs-special">{</span><span class="hljs-command">\textsc</span><span class="hljs-special">{</span>Title<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\rhead</span><span class="hljs-special">{</span><span class="hljs-command">\thepage</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\cfoot</span><span class="hljs-special">{</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\rfoot</span><span class="hljs-special">{</span><span class="hljs-command">\textsl</span><span class="hljs-special">{</span>Author<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\pagestyle</span><span class="hljs-special">{</span>fancy<span class="hljs-special">}</span>
 </code></pre>
 <h3 id="graphics-images-and-figures">Graphics, images and figures</h3>
 <p>To include an image you need <code>\usepackage{graphicx}</code>, then use:</p>
-<pre><code class="lang-latex">\begin{figure}
-  \centering
-  \includegraphics[width=0.8\linewidth]{filename}
-  \caption{Descriptive text.}
-  \label{fig:foo}
-\end{figure}
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+  <span class="hljs-command">\centering</span>
+  <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=0.8<span class="hljs-command">\linewidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span>filename<span class="hljs-special">}</span>
+  <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text.<span class="hljs-special">}</span>
+  <span class="hljs-command">\label</span><span class="hljs-special">{</span>fig:foo<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
 </code></pre>
 <p>Note that I use <code>[width=0.8\linewidth]</code> to scale the image to 80 \% of
 the (usable) width of the document. (See
@@ -170,85 +172,85 @@ be interesting.</p>
 <p>Clickable links in PDF: <code>\usepackage{hyperref}</code>.</p>
 <p>Nifty notes in the margins: <code>\usepackage{marginnote}</code></p>
 <p>Table of contents dots for sections:</p>
-<pre><code class="lang-latex">\usepackage{tocloft}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>tocloft<span class="hljs-special">}</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\cftsecleader</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\cftdotfill</span><span class="hljs-special">{</span><span class="hljs-command">\cftdotsep</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
 </code></pre>
 <p>Tables, have a closer look in
 <a href="http://en.wikibooks.org/wiki/LaTeX/Tables">Tables</a> at Wikibooks. For
 not so tight table cells use this:</p>
-<pre><code>\renewcommand{\arraystretch}{1.4}
-\renewcommand{\tabcolsep}{0.2cm}
+<pre><code>\renewcommand<span class="hljs-list">{\arraystretch}</span><span class="hljs-list">{1.4}</span>
+\renewcommand<span class="hljs-list">{\tabcolsep}</span><span class="hljs-list">{0.2cm}</span>
 </code></pre><h2 id="templates">Templates</h2>
 <h3 id="general-document-structure">General document structure</h3>
-<pre><code class="lang-latex">\documentclass[oneside, a4paper, 11pt]{article}
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>oneside, a4paper, 11pt<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
 
-\usepackage{..all your packages..}
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>..all your packages..<span class="hljs-special">}</span>
 
-% General configurations goes here, see tweaks above.
+<span class="hljs-comment">% General configurations goes here, see tweaks above.</span>
 
-\title{Title}
-\author{Author}
+<span class="hljs-command">\title</span><span class="hljs-special">{</span>Title<span class="hljs-special">}</span>
+<span class="hljs-command">\author</span><span class="hljs-special">{</span>Author<span class="hljs-special">}</span>
 
-\begin{document}
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 
-\maketitle
+<span class="hljs-command">\maketitle</span>
 
-% \tableofcontents
-% \newpage
+<span class="hljs-comment">% \tableofcontents</span>
+<span class="hljs-comment">% \newpage</span>
 
-\section{Introduction}
+<span class="hljs-command">\section</span><span class="hljs-special">{</span>Introduction<span class="hljs-special">}</span>
 
 Hello world!
 
-% Bibliography
-\newpage
-\begin{thebibliography}{99}
-  \bibitem{biblabel1} \url{http://www.example.com/}, 2012-12-09
-\end{thebibliography}
+<span class="hljs-comment">% Bibliography</span>
+<span class="hljs-command">\newpage</span>
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>thebibliography<span class="hljs-special">}</span><span class="hljs-special">{</span>99<span class="hljs-special">}</span>
+  <span class="hljs-command">\bibitem</span><span class="hljs-special">{</span>biblabel1<span class="hljs-special">}</span> <span class="hljs-command">\url</span><span class="hljs-special">{</span>http://www.example.com/<span class="hljs-special">}</span>, 2012-12-09
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>thebibliography<span class="hljs-special">}</span>
 
-\end{document}
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 </code></pre>
 <h3 id="titlepage">Titlepage</h3>
-<pre><code class="lang-latex">\documentclass[..., titlepage, ...]{article}
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>..., titlepage, ...<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
 
-% ...
+<span class="hljs-comment">% ...</span>
 
-\def\title{Title}
-\def\course{Course}
-\def\author{Author}
-\def\examiner{Examiner}
-\def\school{School}
+<span class="hljs-command">\def</span><span class="hljs-command">\title</span><span class="hljs-special">{</span>Title<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\course</span><span class="hljs-special">{</span>Course<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\author</span><span class="hljs-special">{</span>Author<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\examiner</span><span class="hljs-special">{</span>Examiner<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\school</span><span class="hljs-special">{</span>School<span class="hljs-special">}</span>
 
-\begin{document}
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 
-\begin{titlepage}
-  \thispagestyle{empty}
-  \null
-  \vskip -2em%
-  \noindent \large{\textbf{\school \hfill \today}}
-  \vskip 10em
-  \begin{center}
-    \vskip 2em
-    \Huge{\textbf{\title}} \\
-    \vskip 2em
-    \Large{\course} \\
-    \vskip 10em
-    \begin{large}
-      \begin{tabular}{ll}
-    \textbf{Authors} &amp; \author \\
-    \textbf{Examiner} &amp; \examiner \rule{0pt}{1.5em}
-      \end{tabular}
-    \end{large}
-    \vfill
-  \end{center}
-\end{titlepage}
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+  <span class="hljs-command">\thispagestyle</span><span class="hljs-special">{</span>empty<span class="hljs-special">}</span>
+  <span class="hljs-command">\null</span>
+  <span class="hljs-command">\vskip</span> -2em<span class="hljs-comment">%</span>
+  <span class="hljs-command">\noindent</span> <span class="hljs-command">\large</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span><span class="hljs-command">\school</span> <span class="hljs-command">\hfill</span> <span class="hljs-command">\today</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\vskip</span> 10em
+  <span class="hljs-command">\begin</span><span class="hljs-special">{</span>center<span class="hljs-special">}</span>
+    <span class="hljs-command">\vskip</span> 2em
+    <span class="hljs-command">\Huge</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span><span class="hljs-command">\title</span><span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\vskip</span> 2em
+    <span class="hljs-command">\Large</span><span class="hljs-special">{</span><span class="hljs-command">\course</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\vskip</span> 10em
+    <span class="hljs-command">\begin</span><span class="hljs-special">{</span>large<span class="hljs-special">}</span>
+      <span class="hljs-command">\begin</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">{</span>ll<span class="hljs-special">}</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Authors<span class="hljs-special">}</span> <span class="hljs-special">&amp;</span> <span class="hljs-command">\author</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Examiner<span class="hljs-special">}</span> <span class="hljs-special">&amp;</span> <span class="hljs-command">\examiner</span> <span class="hljs-command">\rule</span><span class="hljs-special">{</span>0pt<span class="hljs-special">}</span><span class="hljs-special">{</span>1.5em<span class="hljs-special">}</span>
+      <span class="hljs-command">\end</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span>
+    <span class="hljs-command">\end</span><span class="hljs-special">{</span>large<span class="hljs-special">}</span>
+    <span class="hljs-command">\vfill</span>
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>center<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
 
-% ...
+<span class="hljs-comment">% ...</span>
 </code></pre>
 <h2 id="installing-latex-and-related-packages-debian-based-">Installing LaTeX and related packages (debian-based)</h2>
 <p>This is a list the latex-packages that I use on my system.
 In a Debian-based distributions they can be installed with this command.</p>
-<pre><code class="lang-sh">sudo apt-get install texlive texlive-latex-recommended texlive-latex-extra \
+<pre><code class="bash"><span class="hljs-built_in">sudo</span> apt-get install texlive texlive-latex-recommended texlive-latex-extra \
 texlive-science texlive-math-extra cm-super texlive-xetex texlive-lang-swedish
 </code></pre>
 <p>Other apparently useful packages.</p>
@@ -261,13 +263,13 @@ texlive-science texlive-math-extra cm-super texlive-xetex texlive-lang-swedish
 <h2 id="miscellaneous">Miscellaneous</h2>
 <h3 id="automated-compilation-from-git">Automated compilation from git</h3>
 <p>Automated compilation of LaTeX source pulled from a git repository</p>
-<pre><code class="lang-sh">cd /path/to/git/repo/
+<pre><code class="bash"><span class="hljs-built_in">cd</span> /path/to/git/repo/
 git pull
-cd /path/to/new/pdf/
-rm -f *
+<span class="hljs-built_in">cd</span> /path/to/new/pdf/
+rm <span class="hljs-operator">-f</span> *
 cp /path/to/git/repo/LaTeX-source/* ./
 pdflatex -interaction=batchmode main.tex
-pdflatex -interaction=batchmode main.tex  # Twice if needed.
+pdflatex -interaction=batchmode main.tex  <span class="hljs-comment"># Twice if needed.</span>
 </code></pre>
 <p><code>/path/to/new/pdf/</code> might be on a web-server from where the script is
 run as a cron-job.</p>
@@ -291,5 +293,8 @@ pollute the source dir.</p>
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+
+    <!-- <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script> -->
+    <!-- <script>hljs.initHighlightingOnLoad();</script> -->
   </body>
 </html>

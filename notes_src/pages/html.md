@@ -6,7 +6,7 @@
 
 Make page behave nicely on mobile devices:
 
-```htm
+```html
 <meta name="viewport"
       content="width=device-width,
                initial-scale=1,

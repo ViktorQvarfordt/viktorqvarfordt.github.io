@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+  </head>
+  <body>
+    <div class="content"><h1 id="miscellaneous-texy-stuff">Miscellaneous TeXy stuff</h1>
+<pre><code class="lang-latex">%% Numbering based on section number.
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+
+%% Hide section numbers
+\setcounter{secnumdepth}{0}
+
+%% TOC dots for sections
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+</code></pre>
+<p><a href="http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth">Centering figure that is wider than \textwidth</a>, example:</p>
+<pre><code class="lang-latex">\begin{figure}[!htbp]
+  \centering
+  \makebox[1pt][c]{\includegraphics[width=\paperwidth]{imgpath}}
+  \caption{Descriptive text}
+  \label{fig:myfig}
+\end{figure}
+</code></pre>
+<p>Alternatively using <code>\centerfloat</code> from the memoir-class:</p>
+<pre><code class="lang-latex">\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+</code></pre>
+<p>Use just as <code>\centering</code>:</p>
+<pre><code class="lang-latex">\begin{figure}[!htbp]
+  \centerfloat
+  \includegraphics[width=\paperwidth]{imgpath}
+  \caption{Descriptive text}
+  \label{fig:myfig}
+\end{figure}
+</code></pre>
+<p>Alternative to <code>\centerfloat</code>, &quot;<code>\forcecenter</code>&quot;:</p>
+<pre><code class="lang-latex">  \newcommand{\forcecenter}[1]{%
+      \makebox[0pt][c]{#1}%
+  }
+</code></pre>
+<h2 id="full-page-image">Full-page-image</h2>
+<pre><code class="lang-latex">\clearpage
+\newgeometry{margin=0pt}
+
+\newlength\figheight
+\setlength\figheight\paperheight
+\addtolength\figheight{-4cm}
+
+\newlength\figwidth
+\setlength\figwidth\paperwidth
+\addtolength\figwidth{-4cm}
+
+\begin{figure}
+  \centerfloat
+  \includegraphics[width=\figwidth,height=\figheight,keepaspectratio]{flow_diagram_1_1}
+  \caption{Descriptive text}
+  \label{fig:myfig}
+\end{figure}
+
+\restoregeometry
+\clearpage
+</code></pre>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

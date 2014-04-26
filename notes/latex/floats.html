@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+  </head>
+  <body>
+    <div class="content"><h1 id="controlling-floats">Controlling floats</h1>
+<h2 id="-floatbarrier-from-placeins"><code>\FloatBarrier</code> from placeins</h2>
+<p>Using the <a href="http://ctan.uib.no/macros/latex/contrib/placeins/placeins-doc.pdf">placeins</a> package to force floats (figures and tables) to only appear inside the (sub)sections where they are defined:</p>
+<pre><code class="lang-latex">  % Force floats inside respective (sub)sections.
+  \usepackage[section]{placeins}
+  \let\oldsubsection\subsection
+  \renewcommand\subsection{\FloatBarrier\oldsubsection}
+</code></pre>
+<h2 id="-clearpage-"><code>\clearpage</code></h2>
+<p>The command <code>\clearpage</code> will not only start a new page, but will also force any unset floats to be set before the page break. Read <a href="http://tex.stackexchange.com/a/281">more about <code>\clearpage</code></a>.</p>
+<h2 id="i-want-my-float-exactly-here-">I want my float <em>exactly here</em>!</h2>
+<p>Consult <a href="http://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions#Figures">this</a> resource, the shown table applies for any float, not only figure.</p>
+<p><a href="http://tex.stackexchange.com/a/1527">Often</a> it&#39;s satifsying to specify all possible placement options <code>!htbp</code>.</p>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+  </head>
+  <body>
+    <div class="content"><h1 id="code-highlighting-with-minted">Code highlighting with minted</h1>
+<p><a href="https://code.google.com/p/minted/">https://code.google.com/p/minted/</a></p>
+<pre><code class="lang-latex">% Import package
+\usepackage{minted}
+
+% Line numbers; gray and smaller
+\renewcommand{\theFancyVerbLine}{
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
+% Provides `matlabcode` command.
+\newminted{matlab}{linenos,numbersep=5pt,frame=lines,framesep=2mm}
+
+% Provides `matlabfile` command.
+\newmintedfile{matlab}{linenos,numbersep=5pt}
+
+% Colored background
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\newminted{matlab}{bgcolor=bg}
+</code></pre>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

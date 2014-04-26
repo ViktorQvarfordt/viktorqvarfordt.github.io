@@ -1,0 +1,295 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+  </head>
+  <body>
+    <div class="content"><h1 id="-latex-">$\LaTeX$</h1>
+<h2 id="introduction">Introduction</h2>
+<ul>
+<li><a href="floats">Controlling floats</a></li>
+<li><a href="minted">Minted</a> – <em>Source code highlighting</em></li>
+<li><a href="misc">Miscellaneous</a></li>
+<li><a href="macros">Macros and commands</a></li>
+<li><a href="minimal">Minimal document</a></li>
+<li><a href="https://github.com/c3l/auto-tex-compile">auto-tex-compile</a>, a script I wrote to automatically compile the document as the source files are saved.</li>
+<li><a href="templates">Templates</a></li>
+</ul>
+<hr>
+<p>Refactoring content below to sub-pages, new stuff is above.</p>
+<p>LaTeX documentation is found at:</p>
+<ul>
+<li><a href="http://en.wikibooks.org/wiki/LaTeX">Wikibooks LaTeX</a></li>
+<li><a href="http://tobi.oetiker.ch/lshort/lshort.pdf">The Not So Short Introduction to LaTeX</a></li>
+</ul>
+<p>Those two resources are great! Although it is quite a lot to read, I
+promise, life gets better when you&#39;ve done it!</p>
+<p>I frequently use Wikibooks as a reference, and I suggest you do the
+same, and maybe even contribute to make it more comprehensive.</p>
+<p>This document is merely a compilation of my notes on certain edge
+cases and stuff that I tend to forget, along with code snippets. I&#39;ve
+put it all here mainly as a reference for my self.</p>
+<h2 id="automagically-compile-document">Automagically compile document</h2>
+<p>This short script automagically compiles your tex document when you
+modify the source file! Also, no messy output is shown, only error
+messages (if any). Requires the <code>inotify-tools</code> package.</p>
+<pre><code class="lang-sh">while inotifywait -qq -e modify *.tex; do
+  clear &amp;&amp; pdflatex -interaction=nonstopmode *.tex | grep &quot;^\!\|^l.&quot;
+done
+</code></pre>
+<p>To really benefit from this you need a PDF reader that reloads the
+document when it is modified,
+<a href="http://en.wikipedia.org/wiki/Evince">Evince</a> does this.</p>
+<p>The above script is quite basic, it does for instance not handle
+command line arguments. Have a look at the
+<a href="https://www.dropbox.com/s/t587neki0zgxuw9/latex-autocompile">extended version</a>
+directly from my dropbox (it changes and improves slightly over
+time). Put it in your
+<a href="http://en.wikipedia.org/wiki/PATH_(variable">PATH</a>) for ease of use.</p>
+<h2 id="packages">Packages</h2>
+<h3 id="internationalization">Internationalization</h3>
+<p>Hyphenation in your language: <code>\usepackage[swedish]{babel}</code>.</p>
+<p>LaTeX is really old, so support for modern font encodings is not built
+in, so we use packages:</p>
+<pre><code class="lang-latex">\usepackage[utf8]{inputenc} % Input can be utf8
+\usepackage[T1]{fontenc}    % Output just gets it right
+</code></pre>
+<p>Read <a href="http://tex.stackexchange.com/a/44699">this</a> to clear up
+potential confusion about <code>inputenc</code> and <code>fontenc</code>.
+However, you should really consider using
+<a href="http://en.wikipedia.org/wiki/XeTeX">XeTeX</a> or
+<a href="http://en.wikipedia.org/wiki/LuaTeX">LuaTeX</a> instead, they handle
+utf8 (among other things) much smoother. They&#39;re not very different
+from plain LaTeX, they&#39;re both part of texlive and so on.</p>
+<h3 id="math-and-other-sciency-stuff">Math and other sciency stuff</h3>
+<pre><code class="lang-latex">\usepackage{mathtools} % This is preferred
+\usepackage{amsmath}   % Otherwise use this
+\usepackage{amssymb}   % Gives more symbols
+\usepackage{stmaryrd}  % Even more symbols
+\usepackage{siunitx}   % Dealing with units
+\usepackage{subdepth}
+\usepackage[version=3]{mhchem} % Chemistry.. i don&#39;t know
+</code></pre>
+<ul>
+<li><a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics">Most of what you need</a></li>
+<li><a href="ftp://ftp.ams.org/ams/doc/amsmath/amsldoc.pdf">Amsmath doc</a></li>
+<li><a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Formatting_mathematics_symbols">Math symbols</a></li>
+</ul>
+<h3 id="source-code-highlighting">Source code highlighting</h3>
+<p>Are you using <code>listings</code>? Stop! It&#39;s really quite cumbersome and
+messy. Have a look at the package
+<a href="http://code.google.com/p/minted/"><code>minted</code></a>, it takes care of
+everything and works great! It uses the command <code>pygmentize</code> provided
+by the (super great) <a href="http://pygments.org/">pygments</a> program (written
+in python). Also have a look at minteds
+<a href="http://minted.googlecode.com/files/minted.pdf">docummentation</a>,
+especially section 6 if you use quite a lot of optional commands for
+your code environment.</p>
+<p>I like to have something like this:</p>
+<pre><code class="lang-latex">% Grey line numbers, so that they don&#39;t catch too much attention.
+\renewcommand{\theFancyVerbLine}{
+  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+
+% Custom environment for some language.
+\newminted{python}{linenos,numbersep=5pt}
+</code></pre>
+<h2 id="tweaks">Tweaks</h2>
+<h3 id="margins">Margins</h3>
+<p>The default text width might be considered too narrow in some cases, so we make the
+margins smaller with the <code>geometry</code> package.</p>
+<pre><code class="lang-latex">\usepackage[top=1cm, bottom=2cm, left=3cm, right=4cm]{geometry}
+</code></pre>
+<p>And you should read
+<a href="http://en.wikibooks.org/wiki/LaTeX/Page_Layout">Page Layout</a> at
+Wikibooks.</p>
+<h4 id="european-style-paragraph-newline-no-indentation-">European style paragraph newline (no indentation)</h4>
+<p>See
+<a href="http://en.wikibooks.org/wiki/LaTeX/Paragraph_Formatting#Paragraph_Indents">Paragraph Indents</a>
+at Wikibooks, for more details.</p>
+<pre><code class="lang-latex">\usepackage{parskip}
+</code></pre>
+<h3 id="fancy-headers-with-fancyhdr-">Fancy headers with <code>fancyhdr</code></h3>
+<p>See
+<a href="http://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_styles">page styles</a>
+for more info.</p>
+<pre><code class="lang-latex">\usepackage{fancyhdr}
+
+\lhead{left header}
+\chead{center header}
+\rhead{right header}
+
+\lfoot{left footer}
+\cfoot{center footer}
+\rfoot{right footer}
+
+\pagestyle{fancy}
+
+% hline in the footer, just like header.
+\renewcommand{\footrulewidth}{0.4pt}
+</code></pre>
+<p>An example.</p>
+<pre><code class="lang-latex">\usepackage{fancyhdr}
+  \lhead{\textsc{Title}}
+  \rhead{\thepage}
+  \cfoot{}
+  \rfoot{\textsl{Author}}
+\pagestyle{fancy}
+</code></pre>
+<h3 id="graphics-images-and-figures">Graphics, images and figures</h3>
+<p>To include an image you need <code>\usepackage{graphicx}</code>, then use:</p>
+<pre><code class="lang-latex">\begin{figure}
+  \centering
+  \includegraphics[width=0.8\linewidth]{filename}
+  \caption{Descriptive text.}
+  \label{fig:foo}
+\end{figure}
+</code></pre>
+<p>Note that I use <code>[width=0.8\linewidth]</code> to scale the image to 80 \% of
+the (usable) width of the document. (See
+<a href="http://tex.stackexchange.com/questions/16942/difference-between-textwidth-linewidth-and-hsize">this</a>
+for more info. on <code>\linewidth</code> vs. <code>\textwidth</code>.)</p>
+<p>Normally LaTeX positions your figure in the resulting document where
+the typographical rules find it best. This is most usually not where
+the figure occurs in the source. If you don&#39;t want LaTeX to choose
+where to put your figure, use the <code>float</code> package and begin the
+<code>figure</code> environment like this <code>\begin{figure}[H]</code>.</p>
+<p>However, I recommend letting LaTeX position your figures
+automatically -- they might end up on a different page, but it is
+usually for the best. Simply be consistent with referencing your
+figures in the text  and use meningful captions.</p>
+<p>Sometimes LaTeX likes to spread out your figures just a bit too much
+-- If you have a section that is rather small, the figures in that
+section might actually end up in another section. Sometimes this is
+simply not acceptable; then use <code>\usepackage[section]{placeins}</code>.</p>
+<h4 id="advanced-pgf-tikz">Advanced, PGF/TikZ</h4>
+<p>For more advance usage, coding your vectorized images, the
+<a href="http://en.wikibooks.org/wiki/LaTeX/PGF/TikZ">PGF/TikZ</a> package might
+be interesting.</p>
+<h3 id="fonts">Fonts</h3>
+<p>Just go <a href="http://en.wikibooks.org/wiki/LaTeX/Text_Formatting#Fonts">here</a></p>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<p>Clickable links in PDF: <code>\usepackage{hyperref}</code>.</p>
+<p>Nifty notes in the margins: <code>\usepackage{marginnote}</code></p>
+<p>Table of contents dots for sections:</p>
+<pre><code class="lang-latex">\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+</code></pre>
+<p>Tables, have a closer look in
+<a href="http://en.wikibooks.org/wiki/LaTeX/Tables">Tables</a> at Wikibooks. For
+not so tight table cells use this:</p>
+<pre><code>\renewcommand{\arraystretch}{1.4}
+\renewcommand{\tabcolsep}{0.2cm}
+</code></pre><h2 id="templates">Templates</h2>
+<h3 id="general-document-structure">General document structure</h3>
+<pre><code class="lang-latex">\documentclass[oneside, a4paper, 11pt]{article}
+
+\usepackage{..all your packages..}
+
+% General configurations goes here, see tweaks above.
+
+\title{Title}
+\author{Author}
+
+\begin{document}
+
+\maketitle
+
+% \tableofcontents
+% \newpage
+
+\section{Introduction}
+
+Hello world!
+
+% Bibliography
+\newpage
+\begin{thebibliography}{99}
+  \bibitem{biblabel1} \url{http://www.example.com/}, 2012-12-09
+\end{thebibliography}
+
+\end{document}
+</code></pre>
+<h3 id="titlepage">Titlepage</h3>
+<pre><code class="lang-latex">\documentclass[..., titlepage, ...]{article}
+
+% ...
+
+\def\title{Title}
+\def\course{Course}
+\def\author{Author}
+\def\examiner{Examiner}
+\def\school{School}
+
+\begin{document}
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \null
+  \vskip -2em%
+  \noindent \large{\textbf{\school \hfill \today}}
+  \vskip 10em
+  \begin{center}
+    \vskip 2em
+    \Huge{\textbf{\title}} \\
+    \vskip 2em
+    \Large{\course} \\
+    \vskip 10em
+    \begin{large}
+      \begin{tabular}{ll}
+    \textbf{Authors} &amp; \author \\
+    \textbf{Examiner} &amp; \examiner \rule{0pt}{1.5em}
+      \end{tabular}
+    \end{large}
+    \vfill
+  \end{center}
+\end{titlepage}
+
+% ...
+</code></pre>
+<h2 id="installing-latex-and-related-packages-debian-based-">Installing LaTeX and related packages (debian-based)</h2>
+<p>This is a list the latex-packages that I use on my system.
+In a Debian-based distributions they can be installed with this command.</p>
+<pre><code class="lang-sh">sudo apt-get install texlive texlive-latex-recommended texlive-latex-extra \
+texlive-science texlive-math-extra cm-super texlive-xetex texlive-lang-swedish
+</code></pre>
+<p>Other apparently useful packages.</p>
+<ul>
+<li>texlive-latex3</li>
+<li>texlive-publishers</li>
+<li>texlive-fonts-recommended</li>
+<li>texlive-fonts-extra</li>
+</ul>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<h3 id="automated-compilation-from-git">Automated compilation from git</h3>
+<p>Automated compilation of LaTeX source pulled from a git repository</p>
+<pre><code class="lang-sh">cd /path/to/git/repo/
+git pull
+cd /path/to/new/pdf/
+rm -f *
+cp /path/to/git/repo/LaTeX-source/* ./
+pdflatex -interaction=batchmode main.tex
+pdflatex -interaction=batchmode main.tex  # Twice if needed.
+</code></pre>
+<p><code>/path/to/new/pdf/</code> might be on a web-server from where the script is
+run as a cron-job.</p>
+<p>When working with the LaTeX-source in the git repository, it is
+convenient to compile with the flag <code>-output-directory /tmp/</code> to not
+pollute the source dir.</p>
+<ul>
+<li><a href="http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth">Centering figure that is wider than <code>\textwidth</code></a></li>
+</ul>
+<h3 id="documentclasses">Documentclasses</h3>
+<h4 id="revtex-2-column-report-style">Revtex -- 2-column report style</h4>
+<ul>
+<li><a href="https://authors.aps.org/revtex4/">https://authors.aps.org/revtex4/</a></li>
+<li><a href="https://authors.aps.org/revtex4/auguide4-1.pdf">https://authors.aps.org/revtex4/auguide4-1.pdf</a></li>
+</ul>
+<h3 id="other-useful-links">Other useful links</h3>
+<ul>
+<li><a href="http://www.tug.org/TUGboat/tb28-3/tb90hoeppner.pdf">Typesetting tables with LaTeX</a></li>
+<li><a href="http://qwone.com/~jason/latex/">http://qwone.com/~jason/latex/</a></li>
+</ul>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

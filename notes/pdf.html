@@ -2,7 +2,19 @@
   <head>
     <link rel="stylesheet" href="/assets/notes.css">
     <link rel="stylesheet" href="/assets/hljs-github.css">
-    <!-- <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css"> -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
   </head>
   <body>
     <div class="content"><h1 id="manipulating-pdf-files">Manipulating pdf files</h1>
@@ -16,8 +28,5 @@
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
-
-    <!-- <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script> -->
-    <!-- <script>hljs.initHighlightingOnLoad();</script> -->
   </body>
 </html>

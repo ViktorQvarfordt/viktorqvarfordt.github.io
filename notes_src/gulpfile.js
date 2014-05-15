@@ -18,8 +18,8 @@ gulp.task('default', function() {
       highlight: function (code, lang) {
         if (lang)
           return hljs.highlight(lang, code).value;
-        else
-          return hljs.highlightAuto(code).value;
+        // else
+        //   return hljs.highlightAuto(code).value;
       }
     }))
     .pipe(tap(function(file) {

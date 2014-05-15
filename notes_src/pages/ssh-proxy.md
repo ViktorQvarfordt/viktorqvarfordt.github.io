@@ -1,6 +1,7 @@
-# SSH Proxy: Browser the web over an ssh tunnel
+# SSH Proxy: Tunnel traffic through SSH
 
-An outline of how to set up an ssh tunnel that can be used with a web browser. The first section covers the most common use case, while the second section outlines how to set up a tunnel through multiple computers.
+This is an outline of how to set up an ssh tunnel that can be used with a web browser. The first section covers the most common use case, while the second section outlines how to set up a tunnel through multiple computers.
+
 
 ## Tunnel through one computer
 
@@ -45,4 +46,4 @@ $ ssh -ND 8080 user@host2
 
 ---
 
-_Of course, consult the man page of ssh for a description of the flags etc._
+_Consult the man page of ssh for a description of the flags etc._

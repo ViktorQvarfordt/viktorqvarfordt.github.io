@@ -1,47 +1,41 @@
 # SSH Proxy: Tunnel traffic through SSH
 
-This is an outline of how to set up an ssh tunnel that can be used with a web browser. The first section covers the most common use case, while the second section outlines how to set up a tunnel through multiple computers.
+_How to set up a ssh tunnel and how to use it as a proxy in a browser._
 
 
-## Tunnel through one computer
+## Direct tunnel
 
-Set up the tunnel to `host` on localhost port 8080:
-
-```
-$ ssh -ND 8080 user@host
-```
-
-Configure the browser to connect to this `SOCKS5` proxy.
-
-**Firefox:** Edit -> Preferences -> Advanced -> Network -> Settings -> Manual proxy configuration: Fill in SOCKS Host and port, leave the rest blank.
-
-**Google chrome:** (on linux)
+Set up a tunnel to `host` on localhost's port 8080:
 
 ```
-$ google-chrome --proxy-server=socks5://localhost:8080 --user-data-dir=/tmp/tmpuser
+ssh -ND 8080 user@host
 ```
 
-The last argument ensures we get a clean browser session.
+### Configure the browser to connect to this `SOCKS5` proxy.
+
+**Google chrome:** Start a new browser session connected to the proxy (linux):
+
+```
+google-chrome --proxy-server=socks5://localhost:8080 --user-data-dir=/tmp/tmpuser
+```
+
+**Firefox:** `Edit -> Preferences -> Advanced -> Network -> Settings -> Manual proxy configuration`: Fill in SOCKS Host and port, leave the rest blank.
 
 
 ## Tunnel through several computers
 
-Assume `desktop` wants to access the web through a tunnel going through `host1` and `host2` (that is, `desktop` will use the ip of `host2` on the web).
+We want to set up a tunnel from `host0` going through `host1`, `host2`, ..., `host(n-1)`, `hostn` (that is, `host0` will use the ip of `hostn` on the web).
+
+On `hostk` for `k = 0, 1, ..., (n-2)` we run
 
 ```
-desktop -> host1 -> host2 -> internet
+ssh -N user@host(k+1) -L port:localhost:hostport
 ```
 
-On `desktop` (and every host in the tunnel-chain, except the next-to-last host) we run
+On `host(n-1)` we run (just like in case of a direct tunnel)
 
 ```
-$ ssh -N user@host1 -L 8080:localhost:8080
-```
-
-On `host1` (the "next-to-last" machine) we run (just like in case of a direct tunnel)
-
-```
-$ ssh -ND 8080 user@host2
+ssh -ND 8080 user@hostn
 ```
 
 ---

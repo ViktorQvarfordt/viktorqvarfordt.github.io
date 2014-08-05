@@ -7,6 +7,7 @@
 - [Miscellaneous](misc)
 - [Macros and commands](macros)
 - [Minimal document](minimal)
+- [Biblatex](biblatex)
 - [auto-tex-compile](https://github.com/c3l/auto-tex-compile), a script I wrote to automatically compile the document as the source files are saved.
 - [Templates](templates)
 

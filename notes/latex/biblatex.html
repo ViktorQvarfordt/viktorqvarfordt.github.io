@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  </head>
+  <body>
+    <div class="content"><h1 id="biblatex">Biblatex</h1>
+<pre><code class="tex"><span class="hljs-comment">% document.tex</span>
+<span class="hljs-command">\documentclass</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>backend=biber<span class="hljs-special">]</span><span class="hljs-special">{</span>biblatex<span class="hljs-special">}</span>
+<span class="hljs-command">\addbibresource</span><span class="hljs-special">{</span>refs.bib<span class="hljs-special">}</span>
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+<span class="hljs-command">\cite</span><span class="hljs-special">{</span>&lt;some-ref&gt;<span class="hljs-special">}</span>
+<span class="hljs-comment">% \nocite{*} % to print all references from databse</span>
+<span class="hljs-command">\printbibliography</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<pre><code>$ pdflatex document.tex &amp;&amp; biber document.bcf &amp;&amp; pdflatex document.tex
+</code></pre><p>Where <code>refs.bib</code> may look like <a href="http://ctan.space-pro.be/tex-archive/macros/latex/contrib/biblatex/doc/examples/biblatex-examples.bib">this</a>.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf">http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf</a></li>
+<li><a href="http://www.ctan.org/tex-archive/macros/latex/exptl/biblatex/doc/examples">http://www.ctan.org/tex-archive/macros/latex/exptl/biblatex/doc/examples</a></li>
+<li><a href="http://tex.stackexchange.com/questions/13509/biblatex-for-idiots">http://tex.stackexchange.com/questions/13509/biblatex-for-idiots</a></li>
+<li><a href="http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex">http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex</a></li>
+</ul>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

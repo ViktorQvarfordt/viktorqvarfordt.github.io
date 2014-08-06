@@ -24,7 +24,11 @@
 
 \renewcommand\Re{\operatorname{Re}}
 \renewcommand\Im{\operatorname{Im}}
-```tex
+
+\newcommand{\Ker}{\operatorname{Ker}}
+% Equivalen to
+\DeclareMathOperator{\Ker}{Ker}
+```
 
 ## Figures
 

@@ -41,14 +41,14 @@
 
 <span class="hljs-command">\renewcommand</span><span class="hljs-command">\Re</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Re<span class="hljs-special">}</span><span class="hljs-special">}</span>
 <span class="hljs-command">\renewcommand</span><span class="hljs-command">\Im</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Im<span class="hljs-special">}</span><span class="hljs-special">}</span>
-```tex
 
-<span class="hljs-special">#</span><span class="hljs-special">#</span> Figures
-
-Convenience command for inserting figures. Usage:
-
-```tex
-<span class="hljs-command">\fig</span><span class="hljs-special">[</span>&lt;position&gt;<span class="hljs-special">]</span><span class="hljs-special">{</span>&lt;label&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;path/to/img&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;scalefactor relative <span class="hljs-command">\linewidth</span>&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;caption&gt;<span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Ker</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Ker<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-comment">% Equivalen to</span>
+<span class="hljs-command">\DeclareMathOperator</span><span class="hljs-special">{</span><span class="hljs-command">\Ker</span><span class="hljs-special">}</span><span class="hljs-special">{</span>Ker<span class="hljs-special">}</span>
+</code></pre>
+<h2 id="figures">Figures</h2>
+<p>Convenience command for inserting figures. Usage:</p>
+<pre><code class="tex"><span class="hljs-command">\fig</span><span class="hljs-special">[</span>&lt;position&gt;<span class="hljs-special">]</span><span class="hljs-special">{</span>&lt;label&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;path/to/img&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;scalefactor relative <span class="hljs-command">\linewidth</span>&gt;<span class="hljs-special">}</span><span class="hljs-special">{</span>&lt;caption&gt;<span class="hljs-special">}</span>
 </code></pre>
 <p>Code:</p>
 <pre><code class="tex"><span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\fig</span><span class="hljs-special">}</span><span class="hljs-special">[</span>5<span class="hljs-special">]</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>

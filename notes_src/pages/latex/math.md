@@ -49,9 +49,7 @@
 
 %% Notation
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-\newcommand{\Norm}[1]{\lVert#1\rVert}
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
-\newcommand{\Abs}[1]{\lvert#1\rvert}
 \newcommand{\ip}[2]{\ensuremath{\langle #1, #2 \rangle}}
 
 %% Operators

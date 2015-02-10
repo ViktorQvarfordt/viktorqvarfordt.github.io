@@ -227,9 +227,22 @@ be interesting.
 Just go [here](http://en.wikibooks.org/wiki/LaTeX/Text_Formatting#Fonts)
 
 
-### Miscellaneous
+### Hyperref
 
-Clickable links in PDF: `\usepackage{hyperref}`.
+Use `\autoref{label}` instead of `figure~\ref{label}`, customize automatic reference names as below.
+
+```tex
+\usepackage[hidelinks]{hyperref}
+
+\def\equationautorefname~#1\null{Equation~(#1)\null}
+
+\def\figureautorefname{Figure}
+```
+
+Link a word to a reference label with `\hyperref[label]{text}`.
+
+
+### Miscellaneous
 
 Nifty notes in the margins: `\usepackage{marginnote}`
 

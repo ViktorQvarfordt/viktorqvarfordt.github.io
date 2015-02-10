@@ -1,7 +1,8 @@
 # $\LaTeX$
 
-## Introduction
+## Sub-pages
 
+- [Mathematics](math)
 - [Controlling floats](floats)
 - [Minted](minted) – *Source code highlighting*
 - [Miscellaneous](misc)

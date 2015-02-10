@@ -1,13 +1,8 @@
 # Macros and commands
 
-## Mathematics
+## Misc.
 
 ```tex
-\renewcommand{\vec}[1]{\boldsymbol{#1}}
-%\renewcommand{\vec}[1]{\mathbf{#1}}
-\newcommand{\D}[2]{\frac{d #1}{d #2}}
-\newcommand{\pD}[2]{\frac{\partial #1}{\partial #2}}
-
 %% Plus-minus symbol with parenthesis around the minus sign
 %% http://tex.stackexchange.com/a/17553
 \newcommand\varpm{\mathbin{\vcenter{\hbox{%
@@ -21,13 +16,6 @@
 \newenvironment{eqsys}
   {\left.\begin{aligned}}
   {\end{aligned}\right\rbrace}
-
-\renewcommand\Re{\operatorname{Re}}
-\renewcommand\Im{\operatorname{Im}}
-
-\newcommand{\Ker}{\operatorname{Ker}}
-% Equivalen to
-\DeclareMathOperator{\Ker}{Ker}
 ```
 
 ## Figures

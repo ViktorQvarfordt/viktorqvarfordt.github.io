@@ -19,13 +19,8 @@
   </head>
   <body>
     <div class="content"><h1 id="macros-and-commands">Macros and commands</h1>
-<h2 id="mathematics">Mathematics</h2>
-<pre><code class="tex"><span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\vec</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\boldsymbol</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span>
-<span class="hljs-comment">%\renewcommand{\vec}[1]{\mathbf{#1}}</span>
-<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\D</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span>d <span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span>d <span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
-<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\pD</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span> <span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span> <span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
-
-<span class="hljs-comment">%% Plus-minus symbol with parenthesis around the minus sign</span>
+<h2 id="misc-">Misc.</h2>
+<pre><code class="tex"><span class="hljs-comment">%% Plus-minus symbol with parenthesis around the minus sign</span>
 <span class="hljs-comment">%% http://tex.stackexchange.com/a/17553</span>
 <span class="hljs-command">\newcommand</span><span class="hljs-command">\varpm</span><span class="hljs-special">{</span><span class="hljs-command">\mathbin</span><span class="hljs-special">{</span><span class="hljs-command">\vcenter</span><span class="hljs-special">{</span><span class="hljs-command">\hbox</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
   <span class="hljs-command">\oalign</span><span class="hljs-special">{</span><span class="hljs-command">\hfil</span><span class="hljs-formula">$<span class="hljs-command">\scriptstyle</span>+$</span><span class="hljs-command">\hfil</span><span class="hljs-command">\cr</span>
@@ -38,13 +33,6 @@
 <span class="hljs-command">\newenvironment</span><span class="hljs-special">{</span>eqsys<span class="hljs-special">}</span>
   <span class="hljs-special">{</span><span class="hljs-command">\left</span>.<span class="hljs-command">\begin</span><span class="hljs-special">{</span>aligned<span class="hljs-special">}</span><span class="hljs-special">}</span>
   <span class="hljs-special">{</span><span class="hljs-command">\end</span><span class="hljs-special">{</span>aligned<span class="hljs-special">}</span><span class="hljs-command">\right</span><span class="hljs-command">\rbrace</span><span class="hljs-special">}</span>
-
-<span class="hljs-command">\renewcommand</span><span class="hljs-command">\Re</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Re<span class="hljs-special">}</span><span class="hljs-special">}</span>
-<span class="hljs-command">\renewcommand</span><span class="hljs-command">\Im</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Im<span class="hljs-special">}</span><span class="hljs-special">}</span>
-
-<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Ker</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Ker<span class="hljs-special">}</span><span class="hljs-special">}</span>
-<span class="hljs-comment">% Equivalen to</span>
-<span class="hljs-command">\DeclareMathOperator</span><span class="hljs-special">{</span><span class="hljs-command">\Ker</span><span class="hljs-special">}</span><span class="hljs-special">{</span>Ker<span class="hljs-special">}</span>
 </code></pre>
 <h2 id="figures">Figures</h2>
 <p>Convenience command for inserting figures. Usage:</p>

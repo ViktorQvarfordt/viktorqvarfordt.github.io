@@ -1,5 +1,7 @@
 # $\LaTeX$
 
+[TOC]
+
 ## Sub-pages
 
 - [Mathematics](math)

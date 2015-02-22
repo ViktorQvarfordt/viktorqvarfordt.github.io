@@ -23,14 +23,14 @@
 <p>If this package is not available (it is rather new, and thus not included in the default set of packages, but should be easily installed) you can resort to using the <code>pdfcrop</code> command.</p>
 <h2 id="-standalone-package"><code>standalone</code> package</h2>
 <p>The result of the folowing document is a pdf with no margins and no page breaks. The size of the document is adapted exactly to the size of your content (no page numbers etc). The <code>varwidth</code> parameter makes line-break behave normally.</p>
-<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>varwidth<span class="hljs-special">]</span><span class="hljs-special">{</span>standalone<span class="hljs-special">}</span>
+<pre><code class="lang-tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>varwidth<span class="hljs-special">]</span><span class="hljs-special">{</span>standalone<span class="hljs-special">}</span>
 <span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
   Hello minimal world!
 <span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 </code></pre>
 <h2 id="-pdfcrop-command"><code>pdfcrop</code> command</h2>
 <p>This is a command (included in the texlive latex distribution for linux) that crops margins from pdf documents. The command does not remove page breaks. You have to suppress page numbers explicitly.</p>
-<pre><code class="tex">  <span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>a4paper<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+<pre><code class="lang-tex">  <span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>a4paper<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
   <span class="hljs-command">\thispagestyle</span><span class="hljs-special">{</span>none<span class="hljs-special">}</span>
   <span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
     Hello cropped world!

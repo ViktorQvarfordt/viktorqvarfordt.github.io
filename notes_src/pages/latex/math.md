@@ -19,6 +19,16 @@
 \newtheorem{remark}{Remark}[section]
 ```
 
+## Formatting homework problems
+
+```tex
+\newcommand{\problem}[3]{%
+\section*{#1}%
+{\itshape#2}%
+\ifvmode\else\\[1em]\fi%
+\noindent#3}
+```
+
 ## Equation numbering
 
 ```tex

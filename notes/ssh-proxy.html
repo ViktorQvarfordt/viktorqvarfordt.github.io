@@ -23,7 +23,7 @@
 <h2 id="direct-tunnel">Direct tunnel</h2>
 <p>Set up a tunnel to <code>host</code> on localhost’s port 8080:</p>
 <pre><code>ssh -ND 8080 user@host
-</code></pre><h3 id="configure-the-browser-to-connect-to-this-socks5-proxy-">Configure the browser to connect to this <code>SOCKS5</code> proxy.</h3>
+</code></pre><h3 id="configure-the-browser-to-connect-to-this-socks5-proxy">Configure the browser to connect to this <code>SOCKS5</code> proxy.</h3>
 <p><strong>Google chrome:</strong> Start a new browser session connected to the proxy (linux):</p>
 <pre><code>google-chrome --proxy-server=socks5://localhost:8080 --user-data-dir=/tmp/tmpuser
 </code></pre><p><strong>Firefox:</strong> <code>Edit -&gt; Preferences -&gt; Advanced -&gt; Network -&gt; Settings -&gt; Manual proxy configuration</code>: Fill in SOCKS Host and port, leave the rest blank.</p>

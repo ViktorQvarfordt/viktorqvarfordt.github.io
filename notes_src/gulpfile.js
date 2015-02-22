@@ -7,7 +7,18 @@ var hljs = require('highlight.js');
 var marked = require('marked');
 var mkToc = require('markdown-toc');
 
+var renderer = new marked.Renderer();
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^\w]+/g, '-').replace(/-$/, '');
+}
+
+renderer.heading = function(text, level, raw) {
+  return '<h' + level + ' id="' + this.options.headerPrefix + slugify(raw) + '">' + text + '</h' + level + '>\n';
+};
+
 marked.setOptions({
+  renderer: renderer,
   // langPrefix: '',
   smartypants: true,
   highlight: function (code, lang) {
@@ -30,9 +41,7 @@ gulp.task('default', function() {
       try {
         toc = mkToc(file.contents.toString(), {
           firsth1: false,
-          slugify: function(str) {
-            return str.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          }
+          slugify: slugify
         }).content;
       } catch(e) {
         toc = e.toString();

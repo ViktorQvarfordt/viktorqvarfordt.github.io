@@ -1,6 +1,5 @@
 var fs = require('fs');
 var gulp = require('gulp');
-var markdown = require('gulp-markdown');
 var Handlebars = require('handlebars');
 var tap = require('gulp-tap');
 var rimraf = require('rimraf');

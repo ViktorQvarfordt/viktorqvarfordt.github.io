@@ -26,7 +26,7 @@ if (window.MathJax === undefined) {
               + '    availableFonts: ["TeX"]'
               + '  }'
               + '});'
-              + '// Run mathjax every second (the overhead is very low).'
+              // Run mathjax every second (the overhead is very low).
               + '(function doMathJax() {'
               + '  window.setTimeout(doMathJax, 1000);'
               + '  window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);'

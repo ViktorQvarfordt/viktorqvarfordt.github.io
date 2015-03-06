@@ -26,7 +26,7 @@
 \section*{#1}%
 {\itshape#2}%
 \ifvmode\else\\[1em]\fi%
-\noindent#3}
+\noindent#3\hspace*{0pt}\hfill\ensuremath{\square}}
 ```
 
 ## Equation numbering

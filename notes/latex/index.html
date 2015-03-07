@@ -50,6 +50,7 @@
 </li>
 <li><a href="#installing-latex-and-related-packages-debian-based">Installing LaTeX and related packages (debian-based)</a></li>
 <li><a href="#miscellaneous">Miscellaneous</a><ul>
+<li><a href="#force-hfill">Force <code>\hfill</code></a></li>
 <li><a href="#automated-compilation-from-git">Automated compilation from git</a></li>
 <li><a href="#documentclasses">Documentclasses</a><ul>
 <li><a href="#revtex-2-column-report-style">Revtex — 2-column report style</a></li>
@@ -324,6 +325,8 @@ texlive-science texlive-math-extra cm-super texlive-xetex texlive-lang-swedish
 <li>texlive-fonts-extra</li>
 </ul>
 <h2 id="miscellaneous">Miscellaneous</h2>
+<h3 id="force-hfill">Force <code>\hfill</code></h3>
+<p><code>lefttext \hfill righttext</code> might fail to right-align <code>righttext</code> if <code>lefttext</code> takes up the entire text width. Solve this by using <code>lefttext \hspace*{0pt}\hfill righttext</code>.</p>
 <h3 id="automated-compilation-from-git">Automated compilation from git</h3>
 <p>Automated compilation of LaTeX source pulled from a git repository</p>
 <pre><code class="lang-bash"><span class="hljs-built_in">cd</span> /path/to/git/repo/

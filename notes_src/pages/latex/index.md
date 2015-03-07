@@ -357,6 +357,10 @@ Other apparently useful packages.
 
 ## Miscellaneous
 
+### Force `\hfill`
+
+`lefttext \hfill righttext` might fail to right-align `righttext` if `lefttext` takes up the entire text width. Solve this by using `lefttext \hspace*{0pt}\hfill righttext`.
+
 ### Automated compilation from git
 Automated compilation of LaTeX source pulled from a git repository
 

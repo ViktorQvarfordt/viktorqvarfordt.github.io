@@ -19,9 +19,23 @@
   </head>
   <body>
     <div class="content"><h1 id="git">Git</h1>
-<p><a href="http://www.youtube.com/watch?v=ZDR433b0HJY">http://www.youtube.com/watch?v=ZDR433b0HJY</a></p>
+<h2 id="fancy-log">Fancy log</h2>
 <pre><code>git log --graph --pretty=tformat:&quot;%C(6)%an: %C(7)%s%n%C(2)%h%C(7): %C(5)%t%C(1)%d %C(3)% ar %C(4)%ad%n&quot; --abbrev=5 --date=short --all
-</code></pre></div>
+</code></pre><p>Or use <code>gitg</code>.</p>
+<h2 id="push-to-non-bare-repo">Push to non-bare repo</h2>
+<p>On the receiving repo, set</p>
+<pre><code>$ git config receive.denyCurrentBranch ignore
+</code></pre><p>then</p>
+<pre><code>$ git push /path/to/receiving-repo master:master
+</code></pre><p>Finally, on the receiving repo</p>
+<pre><code>$ git reset --hard
+</code></pre><p>See <a href="https://github.com/englishtown/stash-hook-mirror/wiki/Mirror-To-Non-Bare-Remote-Repo">this</a> for something more elaborate.</p>
+<h2 id="misc">Misc.</h2>
+<ul>
+<li><a href="http://git-scm.com/book/">http://git-scm.com/book/</a></li>
+<li><a href="http://www.youtube.com/watch?v=ZDR433b0HJY">http://www.youtube.com/watch?v=ZDR433b0HJY</a></li>
+</ul>
+</div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
   </body>

@@ -1,14 +1,16 @@
 # User scripts
 
+Consult [this](http://wiki.greasespot.net/Metadata_Block) for how to customize the meta block, in particular the include and exclude [rules](http://wiki.greasespot.net/Include_and_exclude_rules).
+
 [TOC]
 
-## MathJax on any website (trello)
+## MathJax on any website
 
 ```js
 // ==UserScript==
 // @name        MathJax Trello
 // @description Apply Mathjax to Trello
-// @namespace   https://trello.com/*
+// @include     https://trello.com/*
 // @grant       none
 // ==/UserScript==
 

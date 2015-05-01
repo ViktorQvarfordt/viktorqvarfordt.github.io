@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Reaction speed test</title>
+  <style>
+    body {
+      position: absolute;
+      top: 0; bottom: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: center; /* align horizontal */
+      align-items: center; /* align vertical */
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="info">Press space to start</div>
+
+<script>
+  var ctx = new AudioContext();
+  var osc = ctx.createOscillator();
+  osc.frequency.value = 1000; // Hz
+  var vol = ctx.createGain();
+
+  vol.gain.value = 0
+  osc.connect(vol)
+  vol.connect(ctx.destination)
+  osc.start(0)
+
+  var state = 'idle'
+  var timeBeep
+  var hasBeeped = false
+  var beepHandle
+  var delay = {
+    start: 2000,
+    end: 4000
+  }
+
+  function beep() {
+    vol.gain.value = 1
+    setTimeout(function() {
+      vol.gain.value = 0
+    }, 100)
+  }
+
+  function initRandomBeep() {
+    hasBeeped = false
+    beepHandle = setTimeout(function() {
+      beep()
+      hasBeeped = true
+      timeBeep = Date.now()
+      info.textContent = 'GO!'
+      document.body.style.backgroundColor = 'red'
+    }, Math.random() * (delay.end - delay.start) + delay.start)
+  }
+
+  window.addEventListener('keydown', function(e) {
+    if (e.keyCode === 32) {
+      if (state === 'idle') {
+        initRandomBeep()
+        info.textContent = 'Wait for it...'
+        state = 'waiting'
+      } else if (state === 'waiting') {
+        if (hasBeeped) {
+          var reactionSpeed = Date.now() - timeBeep
+          info.textContent = reactionSpeed + ' ms'
+          document.body.style.backgroundColor = ''
+        } else {
+          info.textContent = 'Too soon!'
+          clearTimeout(beepHandle)
+        }
+        state = 'idle'
+      }
+    }
+  })
+
+  console.log('You can modify the beep interval. Defaults are (ms):\n\ndelay.start = 2000\ndelay.end = 4000')
+</script>
+
+</body>
+</html>

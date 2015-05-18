@@ -1,5 +1,9 @@
 # Mathematics
 
+```tex
+\newcommand{\qed}{\hspace*{0pt}\hfill\ensuremath{\square}}
+```
+
 ## Formatting theorems, definitions, etc.
 
 ```tex

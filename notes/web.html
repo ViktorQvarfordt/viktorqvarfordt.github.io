@@ -21,27 +21,29 @@
     <div class="content"><h1 id="web">Web</h1>
 <h2 id="apache-proxy-node-app">Apache proxy node app</h2>
 <ol>
-<li>Aktivera modulerna <code>mod_proxy</code>, <code>mod_proxy_http</code>.</li>
-<li>Kör nodeservern på port <code>3000</code>.</li>
+<li><p>Aktivera modulerna <code>mod_proxy</code>, <code>mod_proxy_http</code>.</p>
+</li>
+<li><p>Kör nodeservern på port <code>3000</code>.</p>
+</li>
 <li><p>Definiera <code>VirtualHost</code>:</p>
-<pre><code>&lt;VirtualHost &lt;serverns ip&gt;:80&gt;
-ServerName sub.domain.com
-
-ProxyRequests off
-
-&lt;Proxy *&gt;
- Order deny,allow
- Allow from all
-&lt;/Proxy&gt;
-
-&lt;Location /&gt;
- ProxyPass http://localhost:3000/
- ProxyPassReverse http://localhost:3000/
-&lt;/Location&gt;
-&lt;/VirtualHost&gt;
-</code></pre></li>
+</li>
 </ol>
-</div>
+<pre><code>&lt;VirtualHost &lt;serverns ip&gt;:80&gt;
+  ServerName sub.domain.com
+
+  ProxyRequests off
+
+  &lt;Proxy *&gt;
+    Order deny,allow
+    Allow from all
+  &lt;/Proxy&gt;
+
+  &lt;Location /&gt;
+    ProxyPass http://localhost:3000/
+    ProxyPassReverse http://localhost:3000/
+  &lt;/Location&gt;
+&lt;/VirtualHost&gt;
+</code></pre></div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
   </body>

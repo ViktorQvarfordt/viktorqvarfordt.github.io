@@ -3,8 +3,11 @@
 ## Apache proxy node app
 
 1. Aktivera modulerna `mod_proxy`, `mod_proxy_http`.
+
 2. Kör nodeservern på port `3000`.
+
 3. Definiera `VirtualHost`:
+
 ```
 <VirtualHost <serverns ip>:80>
   ServerName sub.domain.com

@@ -117,7 +117,13 @@ a:hover, a:focus { color:#005580; text-decoration:underline; }
 .footer p { margin: 0; }
 .footer a { color: inherit !important; }
 
+li p:first-child {
+  margin-top: 0;
+}
 
+li p:last-child {
+  margin-bottom: 0;
+}
 
 
 

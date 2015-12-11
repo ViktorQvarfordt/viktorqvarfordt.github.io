@@ -97,7 +97,7 @@ function initO2() {
     </table>
 
     <button id="startButton" onclick="startTable();">Start O<sub>2</sub> table</button>
-    <button id="stopButton" style="display: none;" onclick="stopTable();">Stop</button>`;
+    <button id="stopButton" style="display: none;" onclick="init();">Stop</button>`;
 
   O2Prep.value = localStorage.getItem("O2Prep") || 120;
   O2MaxHold.value = localStorage.getItem("O2MaxHold") || 160;
@@ -179,7 +179,7 @@ function initCO2() {
     </table>
 
     <button id="startButton" onclick="startTable();">Start CO<sub>2</sub> table</button>
-    <button id="stopButton" style="display: none;" onclick="stopTable();">Stop</button>`;
+    <button id="stopButton" style="display: none;" onclick="init();">Stop</button>`;
 
   CO2Hold.value = localStorage.getItem("CO2Hold") || 120;
   CO2LastPrep.value = localStorage.getItem("CO2LastPrep") || 15;
@@ -233,6 +233,8 @@ function startTable() {
     if (elapsedTime < totalTime) {
       updateTable(elapsedTime);
       setTimeout(f, 1000);
+    } else {
+      init();
     }
   })();
   startButton.style.display = 'none';
@@ -242,7 +244,7 @@ function startTable() {
   stopButton.style.display = 'inline';
 }
 
-function stopTable() {
+function init() {
   if (o2.checked) {
     initO2();
   } else {

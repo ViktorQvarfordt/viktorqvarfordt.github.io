@@ -59,6 +59,14 @@ function showSeries() {
 
 function showEpisodes(url) {
 
+  var savedSeries = JSON.parse(localStorage.series);
+  if (!savedSeries.hasOwnProperty(url)) {
+    var name = url.match(/watch-(.*)-tvshow/)[1].replace(/-/g, ' ').replace(/\b./g, function(m) { return m.toUpperCase(); });
+    savedSeries[url] = name;
+    localStorage.series = JSON.stringify(savedSeries);
+    showSeries();
+  }
+
   episodes.innerHTML = '';
 
   get(url, function(err, res) {
@@ -73,14 +81,6 @@ function showEpisodes(url) {
       } else {
         episodes.innerHTML += `<div><a href="#" onclick="goToEpisode('${match[1]}'); event.preventDefault();">${episode}</a></div>`;
       }
-    }
-
-    var savedSeries = JSON.parse(localStorage.series);
-    if (!savedSeries.hasOwnProperty(url)) {
-      var name = re.exec(res)[2].match(/([\w\s]*) Season/)[1];
-      savedSeries[url] = name;
-      localStorage.series = JSON.stringify(savedSeries);
-      showSeries();
     }
 
   });

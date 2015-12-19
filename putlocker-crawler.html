@@ -58,7 +58,6 @@ function showSeries() {
 }
 
 function showEpisodes(url) {
-
   var savedSeries = JSON.parse(localStorage.series);
   if (!savedSeries.hasOwnProperty(url)) {
     var name = url.match(/watch-(.*)-tvshow/)[1].replace(/-/g, ' ').replace(/\b./g, function(m) { return m.toUpperCase(); });
@@ -66,29 +65,31 @@ function showEpisodes(url) {
     localStorage.series = JSON.stringify(savedSeries);
     showSeries();
   }
-
-  episodes.innerHTML = '';
-
   get(url, function(err, res) {
     if (err) { alert(JSON.stringify('Error')); console.log(err); return; }
     // This regex seems to uniquely capture all episode-urls.
-    var re = /<a href="([^>]*)" title="([^>]*)">\s*<strong>[^>]*<\/strong><\/a>\s*&nbsp;&nbsp;-&nbsp;&nbsp;/g;
-    while (match = re.exec(res)) {
-      var episode = match[2].replace(/.*Season /, 'S').replace(' Episode ', 'E').replace(/(\D)(\d)(\D)/, '$10$2$3').replace(/(\D)(\d)(\D)/, '$10$2$3');
-      if (localStorage[match[1]]) {
-        var date = dateToYMD(new Date(parseInt(localStorage[match[1]])));
-        episodes.innerHTML += `<div><a href="#" onclick="goToEpisode('${match[1]}'); event.preventDefault();">${episode}</a> (${date})</div>`;
-      } else {
-        episodes.innerHTML += `<div><a href="#" onclick="goToEpisode('${match[1]}'); event.preventDefault();">${episode}</a></div>`;
-      }
-    }
-
+    renderEpisodeList(res);
+    episodesRaw = res;
   });
+}
 
+function renderEpisodeList(res) {
+  episodes.innerHTML = '';
+  var re = /<a href="([^>]*)" title="([^>]*)">\s*<strong>[^>]*<\/strong><\/a>\s*&nbsp;&nbsp;-&nbsp;&nbsp;/g;
+  while (match = re.exec(res)) {
+    var episode = match[2].replace(/.*Season /, 'S').replace(' Episode ', 'E').replace(/(\D)(\d)(\D)/, '$10$2$3').replace(/(\D)(\d)(\D)/, '$10$2$3');
+    if (localStorage[match[1]]) {
+      var date = dateToYMD(new Date(parseInt(localStorage[match[1]])));
+      episodes.innerHTML += `<div><a href="#" onclick="goToEpisode('${match[1]}'); event.preventDefault();">${episode}</a> (${date})</div>`;
+    } else {
+      episodes.innerHTML += `<div><a href="#" onclick="goToEpisode('${match[1]}'); event.preventDefault();">${episode}</a></div>`;
+    }
+  }
 }
 
 function goToEpisode(url) {
   localStorage[url] = Date.now();
+  renderEpisodeList(episodesRaw);
   get(url, function(err, res) {
     if (err) { alert(JSON.stringify('Error')); console.log(err); return; }
     var videoUrl = doit(res.match(/<div class="video">\s*<script type="text\/javascript">document.write\(doit\('([^']*)'\)\);<\/script>\s*<\/div>/)[1]).match(/src="([^"]*)"/)[1];
@@ -99,10 +100,8 @@ function goToEpisode(url) {
 }
 
 function get(url, cb) {
-
   var request = new XMLHttpRequest()
   request.open('GET', 'http://cors.io/?u=' + url)
-
   request.onload = function() {
     if (this.status === 200) {
       cb(null, this.response)
@@ -110,11 +109,8 @@ function get(url, cb) {
       cb(this)
     }
   }
-
   request.onerror = function() { cb(this) }
-
   request.send()
-
 }
 
 function dateToYMD(date) {

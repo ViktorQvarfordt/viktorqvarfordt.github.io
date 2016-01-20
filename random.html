@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random</title>
+  <style>
+    * { font-family: monospace; box-sizing: border-box; }
+    input, tr td:last-child { width: 100%; }
+    html, body { padding: 0; }
+  </style>
+</head>
+<body>
+
+<table>
+  <tr>
+    <td>Characters:</td>
+    <td><input type="text" id="chars" value="!&quot;#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~" onkeydown="randomize()"></td>
+  </tr>
+  <tr>
+    <td>Length:</td>
+    <td><input type="number" id="outputLength" value="100" onkeydown="randomize()"></td>
+  </tr>
+  <tr>
+    <td>Random:</td>
+    <td><input type="text" id="output"></input></td>
+  </tr>
+</table>
+
+<!-- <input type="button" value="Randomize" onclick="randomize()"> -->
+
+<script>
+  function randomize() {
+    setTimeout(function() {
+      output.value = ''
+      for (var i = 0; i < parseInt(outputLength.value); i++) {
+        output.value += chars.value[Math.floor(Math.random()*(chars.value.length))]
+      }
+    }, 0)
+  }
+  randomize()
+</script>
+
+</body>
+</html>

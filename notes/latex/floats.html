@@ -21,7 +21,7 @@
     <div class="content"><h1 id="controlling-floats">Controlling floats</h1>
 <h2 id="-floatbarrier-from-placeins"><code>\FloatBarrier</code> from placeins</h2>
 <p>Using the <a href="http://ctan.uib.no/macros/latex/contrib/placeins/placeins-doc.pdf">placeins</a> package to force floats (figures and tables) to only appear inside the (sub)sections where they are defined:</p>
-<pre><code class="lang-tex">  <span class="hljs-comment">% Force floats inside respective (sub)sections.</span>
+<pre><code class="tex">  <span class="hljs-comment">% Force floats inside respective (sub)sections.</span>
   <span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>section<span class="hljs-special">]</span><span class="hljs-special">{</span>placeins<span class="hljs-special">}</span>
   <span class="hljs-command">\let</span><span class="hljs-command">\oldsubsection</span><span class="hljs-command">\subsection</span>
   <span class="hljs-command">\renewcommand</span><span class="hljs-command">\subsection</span><span class="hljs-special">{</span><span class="hljs-command">\FloatBarrier</span><span class="hljs-command">\oldsubsection</span><span class="hljs-special">}</span>

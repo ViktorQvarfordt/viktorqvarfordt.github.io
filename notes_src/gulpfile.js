@@ -19,7 +19,7 @@ renderer.heading = function(text, level, raw) {
 
 marked.setOptions({
   renderer: renderer,
-  // langPrefix: '',
+  langPrefix: '',
   smartypants: true,
   highlight: function (code, lang) {
     if (lang)

@@ -1,5 +1,7 @@
 # Mathematics
 
+Square-symbol properly floating to the right.
+
 ```tex
 \newcommand{\qed}{\hspace*{0pt}\hfill\ensuremath{\square}}
 ```
@@ -21,16 +23,6 @@
 
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}[section]
-```
-
-## Formatting homework problems
-
-```tex
-\newcommand{\problem}[3]{%
-\section*{#1}%
-{\itshape#2}%
-\ifvmode\else\\[1em]\fi%
-\noindent#3\hspace*{0pt}\hfill\ensuremath{\square}}
 ```
 
 ## Equation numbering
@@ -73,4 +65,14 @@
 %% Vectors
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 %\renewcommand{\vec}[1]{\mathbf{#1}}
+```
+
+## Misc.
+
+```tex
+\newcommand{\problem}[3]{%
+\section*{#1}%
+{\itshape#2}%
+\ifvmode\else\\[1em]\fi%
+\noindent#3\hspace*{0pt}\hfill\ensuremath{\square}}
 ```

@@ -19,7 +19,7 @@
   </head>
   <body>
     <div class="content"><h1 id="miscellaneous-texy-stuff">Miscellaneous TeXy stuff</h1>
-<pre><code class="lang-tex"><span class="hljs-comment">%% Numbering based on section number.</span>
+<pre><code class="tex"><span class="hljs-comment">%% Numbering based on section number.</span>
 <span class="hljs-command">\numberwithin</span><span class="hljs-special">{</span>equation<span class="hljs-special">}</span><span class="hljs-special">{</span>section<span class="hljs-special">}</span>
 <span class="hljs-command">\numberwithin</span><span class="hljs-special">{</span>table<span class="hljs-special">}</span><span class="hljs-special">{</span>section<span class="hljs-special">}</span>
 <span class="hljs-command">\numberwithin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">{</span>section<span class="hljs-special">}</span>
@@ -32,7 +32,7 @@
 <span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\cftsecleader</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\cftdotfill</span><span class="hljs-special">{</span><span class="hljs-command">\cftdotsep</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
 </code></pre>
 <p><a href="http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth">Centering figure that is wider than \textwidth</a>, example:</p>
-<pre><code class="lang-tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span>
   <span class="hljs-command">\centering</span>
   <span class="hljs-command">\makebox</span><span class="hljs-special">[</span>1pt<span class="hljs-special">]</span><span class="hljs-special">[</span>c<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-command">\paperwidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span>imgpath<span class="hljs-special">}</span><span class="hljs-special">}</span>
   <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text<span class="hljs-special">}</span>
@@ -40,7 +40,7 @@
 <span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
 </code></pre>
 <p>Alternatively using <code>\centerfloat</code> from the memoir-class:</p>
-<pre><code class="lang-tex"><span class="hljs-command">\makeatletter</span>
+<pre><code class="tex"><span class="hljs-command">\makeatletter</span>
 <span class="hljs-command">\newcommand*</span><span class="hljs-special">{</span><span class="hljs-command">\centerfloat</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
   <span class="hljs-command">\parindent</span> <span class="hljs-command">\z</span>@
   <span class="hljs-command">\leftskip</span> <span class="hljs-command">\z</span>@ <span class="hljs-command">\@</span>plus 1fil <span class="hljs-command">\@</span>minus <span class="hljs-command">\textwidth</span>
@@ -49,7 +49,7 @@
 <span class="hljs-command">\makeatother</span>
 </code></pre>
 <p>Use just as <code>\centering</code>:</p>
-<pre><code class="lang-tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span>
   <span class="hljs-command">\centerfloat</span>
   <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-command">\paperwidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span>imgpath<span class="hljs-special">}</span>
   <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text<span class="hljs-special">}</span>
@@ -57,12 +57,12 @@
 <span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
 </code></pre>
 <p>Alternative to <code>\centerfloat</code>, “<code>\forcecenter</code>“:</p>
-<pre><code class="lang-tex">  <span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\forcecenter</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
+<pre><code class="tex">  <span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\forcecenter</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
       <span class="hljs-command">\makebox</span><span class="hljs-special">[</span>0pt<span class="hljs-special">]</span><span class="hljs-special">[</span>c<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-comment">%</span>
   <span class="hljs-special">}</span>
 </code></pre>
 <h2 id="full-page-image">Full-page-image</h2>
-<pre><code class="lang-tex"><span class="hljs-command">\clearpage</span>
+<pre><code class="tex"><span class="hljs-command">\clearpage</span>
 <span class="hljs-command">\newgeometry</span><span class="hljs-special">{</span>margin=0pt<span class="hljs-special">}</span>
 
 <span class="hljs-command">\newlength</span><span class="hljs-command">\figheight</span>

@@ -23,7 +23,7 @@
 <p><strong>Set up HTTPS certificate:</strong> (Press enter on all fields.)</p>
 <pre><code>$ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
 </code></pre><p><strong>Setup server:</strong></p>
-<pre><code class="lang-js"><span class="hljs-keyword">var</span> options = {
+<pre><code class="js"><span class="hljs-keyword">var</span> options = {
   key: fs.readFileSync(path.join(__dirname, <span class="hljs-string">'key.pem'</span>)),
   cert: fs.readFileSync(path.join(__dirname, <span class="hljs-string">'cert.pem'</span>))
 }

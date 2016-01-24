@@ -1,0 +1,203 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  </head>
+  <body>
+    <div class="content"><h1 id="js">JS</h1>
+<h2 id="http">HTTP</h2>
+<pre><code class="lang-js">window.http = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+
+  <span class="hljs-keyword">var</span> logger = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, data)</span> {</span>
+    console.log(err, data)
+  }
+
+  <span class="hljs-keyword">return</span> {
+
+    get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, cb)</span> {</span>
+
+      <span class="hljs-keyword">if</span> (!cb) cb = logger
+
+      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      request.open(<span class="hljs-string">'GET'</span>, url)
+
+      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
+          <span class="hljs-keyword">var</span> err = <span class="hljs-literal">null</span>
+          <span class="hljs-keyword">var</span> data = <span class="hljs-literal">null</span>
+          <span class="hljs-keyword">try</span> {
+            data = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.response)
+          } <span class="hljs-keyword">catch</span> (e) {
+            err = <span class="hljs-string">'Cannot parse response: '</span> + <span class="hljs-keyword">this</span>.response
+          }
+          cb(err, data)
+        } <span class="hljs-keyword">else</span> {
+          cb(<span class="hljs-keyword">this</span>)
+        }
+      }
+
+      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+
+      request.send()
+
+    },
+
+    post: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, data, cb)</span> {</span>
+
+      <span class="hljs-keyword">if</span> (!cb) cb = logger
+
+      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      request.open(<span class="hljs-string">'POST'</span>, url)
+      request.setRequestHeader(<span class="hljs-string">'Content-type'</span>, <span class="hljs-string">'application/json; charset=utf-8'</span>)
+
+      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
+          <span class="hljs-keyword">var</span> resData = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.response)
+          cb(<span class="hljs-literal">null</span>, resData)
+        } <span class="hljs-keyword">else</span> {
+          cb(<span class="hljs-keyword">this</span>)
+        }
+      }
+
+      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+
+      request.send(<span class="hljs-built_in">JSON</span>.stringify(data))
+
+    },
+
+    put: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, data, cb)</span> {</span>
+
+      <span class="hljs-keyword">if</span> (!cb) cb = logger
+
+      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      request.open(<span class="hljs-string">'PUT'</span>, url)
+      request.setRequestHeader(<span class="hljs-string">'Content-type'</span>, <span class="hljs-string">'application/json; charset=utf-8'</span>)
+
+      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
+          <span class="hljs-keyword">var</span> resData = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.response)
+          cb(<span class="hljs-literal">null</span>, resData)
+        } <span class="hljs-keyword">else</span> {
+          cb(<span class="hljs-keyword">this</span>)
+        }
+      }
+
+      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+
+      request.send(<span class="hljs-built_in">JSON</span>.stringify(data))
+
+    },
+
+    <span class="hljs-keyword">delete</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, cb)</span> {</span>
+
+      <span class="hljs-keyword">if</span> (!cb) cb = logger
+
+      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      request.open(<span class="hljs-string">'DELETE'</span>, url)
+
+      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
+          cb(<span class="hljs-literal">null</span>)
+        } <span class="hljs-keyword">else</span> {
+          cb(<span class="hljs-keyword">this</span>)
+        }
+      }
+
+      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+
+      request.send()
+
+    }
+
+  }
+
+})()
+</code></pre>
+<h2 id="arrop">ArrOP</h2>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">match</span><span class="hljs-params">(el, query)</span> {</span>
+  <span class="hljs-keyword">var</span> result = <span class="hljs-literal">true</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> prop <span class="hljs-keyword">in</span> query) {
+    <span class="hljs-comment">// Treat time objects separately. To make a proper comparison we must use .getTime()</span>
+    <span class="hljs-keyword">if</span> (el[prop] &amp;&amp; el[prop].getTime &amp;&amp; query[prop].getTime) {
+      <span class="hljs-keyword">if</span> (el[prop].getTime() !== query[prop].getTime()) {
+        result = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">break</span>
+      }
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">if</span> (el[prop] !== query[prop]) {
+        result = <span class="hljs-literal">false</span>
+        <span class="hljs-keyword">break</span>
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> result
+}
+
+window.arrop = {
+
+  remove: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arr, query)</span> {</span>
+    <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">var</span> i = arr.length
+    <span class="hljs-keyword">while</span> (i--) {
+      <span class="hljs-keyword">if</span> (match(arr[i], query)) {
+        arr.splice(i, <span class="hljs-number">1</span>)
+        count++
+      }
+    }
+    <span class="hljs-keyword">return</span> count
+  },
+
+  removeByFilter: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arr, query)</span> {</span>
+    <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>
+    arr = arr.filter(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(el)</span> {</span>
+      <span class="hljs-keyword">if</span> (match(el, query)) {
+        count++
+      }
+      <span class="hljs-keyword">return</span> match
+    })
+    <span class="hljs-keyword">return</span> count
+  },
+
+  findOne: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arr, query)</span> {</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) {
+      <span class="hljs-keyword">if</span> (match(arr[i], query)) {
+        <span class="hljs-keyword">return</span> arr[i]
+      }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+  },
+
+  contains: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arr, query)</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.findOne(arr, query) !== <span class="hljs-literal">null</span>
+  },
+
+  indexOf: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arr, query)</span> {</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) {
+      <span class="hljs-keyword">if</span> (match(arr[i], query)) {
+        <span class="hljs-keyword">return</span> i
+      }
+    }
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
+  }
+
+}
+</code></pre>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

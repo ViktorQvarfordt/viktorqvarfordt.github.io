@@ -1,11 +1,15 @@
 # Some notes
 
 * [LaTeX](latex)
-* [SSH Proxy](ssh-proxy)
-* [Mathematica](mathematica)
-* [User scripts](user-scripts)
-* [PDF](pdf)
+
+
 * [HTML](html)
 * [CSS](css)
-* [Git](git)
+* [JS](js)
 
+
+* [User scripts](user-scripts)
+* [Mathematica](mathematica)
+* [SSH Proxy](ssh-proxy)
+* [PDF](pdf)
+* [Git](git)

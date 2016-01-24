@@ -98,28 +98,6 @@ from plain LaTeX, they're both part of texlive and so on.
 - [Math symbols](http://en.wikibooks.org/wiki/LaTeX/Mathematics#Formatting_mathematics_symbols)
 
 
-### Source code highlighting
-
-Are you using `listings`? Stop! It's really quite cumbersome and
-messy. Have a look at the package
-[`minted`](http://code.google.com/p/minted/), it takes care of
-everything and works great! It uses the command `pygmentize` provided
-by the (super great) [pygments](http://pygments.org/) program (written
-in python). Also have a look at minteds
-[docummentation](http://minted.googlecode.com/files/minted.pdf),
-especially section 6 if you use quite a lot of optional commands for
-your code environment.
-
-I like to have something like this:
-
-```tex
-% Grey line numbers, so that they don't catch too much attention.
-\renewcommand{\theFancyVerbLine}{
-  \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
-
-% Custom environment for some language.
-\newminted{python}{linenos,numbersep=5pt}
-```
 
 ## Tweaks
 

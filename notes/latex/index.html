@@ -25,7 +25,6 @@
 <li><a href="#packages">Packages</a><ul>
 <li><a href="#internationalization">Internationalization</a></li>
 <li><a href="#math-and-other-sciency-stuff">Math and other sciency stuff</a></li>
-<li><a href="#source-code-highlighting">Source code highlighting</a></li>
 </ul>
 </li>
 <li><a href="#tweaks">Tweaks</a><ul>
@@ -132,24 +131,6 @@ from plain LaTeX, they’re both part of texlive and so on.</p>
 <li><a href="ftp://ftp.ams.org/ams/doc/amsmath/amsldoc.pdf">Amsmath doc</a></li>
 <li><a href="http://en.wikibooks.org/wiki/LaTeX/Mathematics#Formatting_mathematics_symbols">Math symbols</a></li>
 </ul>
-<h3 id="source-code-highlighting">Source code highlighting</h3>
-<p>Are you using <code>listings</code>? Stop! It’s really quite cumbersome and
-messy. Have a look at the package
-<a href="http://code.google.com/p/minted/"><code>minted</code></a>, it takes care of
-everything and works great! It uses the command <code>pygmentize</code> provided
-by the (super great) <a href="http://pygments.org/">pygments</a> program (written
-in python). Also have a look at minteds
-<a href="http://minted.googlecode.com/files/minted.pdf">docummentation</a>,
-especially section 6 if you use quite a lot of optional commands for
-your code environment.</p>
-<p>I like to have something like this:</p>
-<pre><code class="lang-tex"><span class="hljs-comment">% Grey line numbers, so that they don't catch too much attention.</span>
-<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\theFancyVerbLine</span><span class="hljs-special">}</span><span class="hljs-special">{</span>
-  <span class="hljs-command">\sffamily</span><span class="hljs-command">\textcolor</span><span class="hljs-special">[</span>rgb<span class="hljs-special">]</span><span class="hljs-special">{</span>0.5,0.5,0.5<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\scriptsize</span><span class="hljs-command">\arabic</span><span class="hljs-special">{</span>FancyVerbLine<span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
-
-<span class="hljs-comment">% Custom environment for some language.</span>
-<span class="hljs-command">\newminted</span><span class="hljs-special">{</span>python<span class="hljs-special">}</span><span class="hljs-special">{</span>linenos,numbersep=5pt<span class="hljs-special">}</span>
-</code></pre>
 <h2 id="tweaks">Tweaks</h2>
 <h3 id="margins">Margins</h3>
 <p>The default text width might be considered too narrow in some cases, so we make the

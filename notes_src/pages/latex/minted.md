@@ -1,4 +1,4 @@
-# Code highlighting with minted
+# Code highlighting with `minted`
 
 <https://code.google.com/p/minted/>
 

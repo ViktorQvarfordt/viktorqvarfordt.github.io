@@ -111,7 +111,7 @@ window.http = (function() {
 })()
 ```
 
-## ArrOP
+## ArrOp
 
 ```js
 function match(el, query) {

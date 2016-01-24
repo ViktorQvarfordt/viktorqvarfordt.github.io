@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <title>Note trainer</title>
+  <style>
+    #noteImg {
+      width: 200px;
+      display: block;
+      margin: 50px auto 20px auto;
+    }
+
+    #noteLetterGuess, #noteLetterCorrect {
+      font-family: sans-serif;
+      font-size: 50px;
+      font-weight: bold;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    #noteLetterCorrect {
+      color: green;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .fail {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="noteImg">
+  <div id="noteLetterGuess"></div>
+  <div id="noteLetterCorrect"></div>
+
+  <script>
+    var notes = ["a", "b", "c'", "d'", "e'", "f'", "g'", "a'", "b'", "c''", "d''", "e''", "f''", "g''", "a''"];
+    var currentNote = "";
+    var acceptingInput = true;
+
+    function setRandomNote() {
+      var newNote = notes[Math.floor(Math.random() * notes.length)];
+      if (newNote === currentNote) {
+        setRandomNote();
+      } else {
+        currentNote = newNote;
+      }
+    }
+
+    function showNote() {
+      setRandomNote()
+      noteImg.src =  'img/' + currentNote + '.svg';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (!acceptingInput) return;
+      acceptingInput = false;
+      noteLetterGuess.textContent = String.fromCharCode(e.keyCode);
+      noteLetterGuess.classList.remove('success')
+      noteLetterGuess.classList.remove('fail')
+      if (currentNote.replace(/'/g, '') === String.fromCharCode(e.keyCode).toLowerCase()) {
+        noteLetterGuess.classList.add('success')
+      } else {
+        noteLetterGuess.classList.add('fail')
+        noteLetterCorrect.textContent += currentNote.replace(/'/g, '').toUpperCase();
+      }
+      setTimeout(function() {
+        acceptingInput = true;
+        showNote()
+        noteLetterGuess.textContent = '';
+        noteLetterCorrect.textContent = '';
+      }, 1000)
+    })
+
+
+    showNote()
+  </script>
+
+</body>
+</html>

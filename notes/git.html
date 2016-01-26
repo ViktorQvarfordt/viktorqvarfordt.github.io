@@ -53,7 +53,11 @@
 <li><a href="http://www.youtube.com/watch?v=ZDR433b0HJY">http://www.youtube.com/watch?v=ZDR433b0HJY</a></li>
 <li><a href="http://toroid.org/ams/git-website-howto">Using hooks</a></li>
 </ul>
-</div>
+<h2 id="send-mail-on-push">Send mail on push</h2>
+<p>Put the following 2 files in <code>.git/hooks/</code>; <a href="https://github.com/git-multimail/git-multimail/blob/master/git-multimail/post-receive.example"><code>post-receive</code></a> and <a href="https://github.com/git-multimail/git-multimail/blob/master/git-multimail/git_multimail.py"><code>git_multimail.py</code></a>, and update <code>.git/config</code> with</p>
+<pre><code>[multimailhook]
+    mailingList = &quot;foo@example.com,bar@example.com&quot;
+</code></pre></div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
   </body>

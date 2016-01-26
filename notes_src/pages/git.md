@@ -62,3 +62,13 @@ _Removal of submodule:_
 - http://git-scm.com/book/
 - http://www.youtube.com/watch?v=ZDR433b0HJY
 - [Using hooks](http://toroid.org/ams/git-website-howto)
+
+
+## Send mail on push
+
+Put the following 2 files in `.git/hooks/`; [`post-receive`](https://github.com/git-multimail/git-multimail/blob/master/git-multimail/post-receive.example) and [`git_multimail.py`](https://github.com/git-multimail/git-multimail/blob/master/git-multimail/git_multimail.py), and update `.git/config` with
+
+```
+[multimailhook]
+    mailingList = "foo@example.com,bar@example.com"
+```

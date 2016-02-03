@@ -19,108 +19,74 @@
   </head>
   <body>
     <div class="content"><h1 id="js">JS</h1>
+<ul>
+<li><a href="#http">HTTP</a></li>
+<li><a href="#arrop">ArrOp</a></li>
+<li><a href="#svg">SVG</a></li>
+</ul>
 <h2 id="http">HTTP</h2>
-<pre><code class="js">window.http = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+<pre><code class="js">window.http = (() =&gt; {
+  <span class="hljs-string">'use strict'</span>
 
-  <span class="hljs-keyword">var</span> logger = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, data)</span> {</span>
+  <span class="hljs-keyword">const</span> logger = (err, data) =&gt; {
     console.log(err, data)
+  }
+
+  <span class="hljs-keyword">const</span> handleResponse = (res, cb) =&gt; {
+    <span class="hljs-keyword">if</span> (res.status === <span class="hljs-number">200</span>) {
+      <span class="hljs-keyword">let</span> err = <span class="hljs-literal">null</span>
+      <span class="hljs-keyword">let</span> data = <span class="hljs-literal">null</span>
+      <span class="hljs-keyword">if</span> (res.response) {
+        <span class="hljs-keyword">try</span> {
+          data = <span class="hljs-built_in">JSON</span>.parse(res.response)
+        } <span class="hljs-keyword">catch</span> (e) {
+          err = `Cannot parse response: ${res.response} because ${e}`
+        }
+      }
+      cb(err, data)
+    } <span class="hljs-keyword">else</span> {
+      cb(res)
+    }
   }
 
   <span class="hljs-keyword">return</span> {
 
-    get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, cb)</span> {</span>
-
+    get: (url, cb) =&gt; {
       <span class="hljs-keyword">if</span> (!cb) cb = logger
-
-      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
-      request.open(<span class="hljs-string">'GET'</span>, url)
-
-      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
-          <span class="hljs-keyword">var</span> err = <span class="hljs-literal">null</span>
-          <span class="hljs-keyword">var</span> data = <span class="hljs-literal">null</span>
-          <span class="hljs-keyword">try</span> {
-            data = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.response)
-          } <span class="hljs-keyword">catch</span> (e) {
-            err = <span class="hljs-string">'Cannot parse response: '</span> + <span class="hljs-keyword">this</span>.response
-          }
-          cb(err, data)
-        } <span class="hljs-keyword">else</span> {
-          cb(<span class="hljs-keyword">this</span>)
-        }
-      }
-
-      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
-
-      request.send()
-
+      <span class="hljs-keyword">const</span> req = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      req.open(<span class="hljs-string">'GET'</span>, url)
+      req.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> handleResponse(<span class="hljs-keyword">this</span>, cb) }
+      req.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+      req.send()
     },
 
-    post: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, data, cb)</span> {</span>
-
+    post: (url, data, cb) =&gt; {
       <span class="hljs-keyword">if</span> (!cb) cb = logger
-
-      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
-      request.open(<span class="hljs-string">'POST'</span>, url)
-      request.setRequestHeader(<span class="hljs-string">'Content-type'</span>, <span class="hljs-string">'application/json; charset=utf-8'</span>)
-
-      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
-          <span class="hljs-keyword">var</span> resData = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.response)
-          cb(<span class="hljs-literal">null</span>, resData)
-        } <span class="hljs-keyword">else</span> {
-          cb(<span class="hljs-keyword">this</span>)
-        }
-      }
-
-      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
-
-      request.send(<span class="hljs-built_in">JSON</span>.stringify(data))
-
+      <span class="hljs-keyword">const</span> req = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      req.open(<span class="hljs-string">'POST'</span>, url)
+      req.setRequestHeader(<span class="hljs-string">'Content-type'</span>, <span class="hljs-string">'application/json; charset=utf-8'</span>)
+      req.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> handleResponse(<span class="hljs-keyword">this</span>, cb) }
+      req.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+      req.send(<span class="hljs-built_in">JSON</span>.stringify(data))
     },
 
-    put: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, data, cb)</span> {</span>
-
+    put: (url, data, cb) =&gt; {
       <span class="hljs-keyword">if</span> (!cb) cb = logger
-
-      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
-      request.open(<span class="hljs-string">'PUT'</span>, url)
-      request.setRequestHeader(<span class="hljs-string">'Content-type'</span>, <span class="hljs-string">'application/json; charset=utf-8'</span>)
-
-      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
-          <span class="hljs-keyword">var</span> resData = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.response)
-          cb(<span class="hljs-literal">null</span>, resData)
-        } <span class="hljs-keyword">else</span> {
-          cb(<span class="hljs-keyword">this</span>)
-        }
-      }
-
-      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
-
-      request.send(<span class="hljs-built_in">JSON</span>.stringify(data))
-
+      <span class="hljs-keyword">const</span> req = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      req.open(<span class="hljs-string">'PUT'</span>, url)
+      req.setRequestHeader(<span class="hljs-string">'Content-type'</span>, <span class="hljs-string">'application/json; charset=utf-8'</span>)
+      req.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> handleResponse(<span class="hljs-keyword">this</span>, cb) }
+      req.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+      req.send(<span class="hljs-built_in">JSON</span>.stringify(data))
     },
 
-    <span class="hljs-keyword">delete</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, cb)</span> {</span>
-
+    <span class="hljs-keyword">delete</span>: (url, cb) =&gt; {
       <span class="hljs-keyword">if</span> (!cb) cb = logger
-
-      <span class="hljs-keyword">var</span> request = <span class="hljs-keyword">new</span> XMLHttpRequest()
-      request.open(<span class="hljs-string">'DELETE'</span>, url)
-
-      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.status === <span class="hljs-number">200</span>) {
-          cb(<span class="hljs-literal">null</span>)
-        } <span class="hljs-keyword">else</span> {
-          cb(<span class="hljs-keyword">this</span>)
-        }
-      }
-
-      request.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
-
-      request.send()
-
+      <span class="hljs-keyword">const</span> req = <span class="hljs-keyword">new</span> XMLHttpRequest()
+      req.open(<span class="hljs-string">'DELETE'</span>, url)
+      req.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> handleResponse(<span class="hljs-keyword">this</span>, cb) }
+      req.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> cb(<span class="hljs-keyword">this</span>) }
+      req.send()
     }
 
   }
@@ -195,6 +161,378 @@ window.arrop = {
   }
 
 }
+</code></pre>
+<h2 id="svg">SVG</h2>
+<pre><code class="js"><span class="hljs-comment">// binify([1,2,3,5,5,5], 2) === [[1, 2], [3, 1], [5,3]]</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">binify</span><span class="hljs-params">(data, binSize)</span> {</span>
+<span class="hljs-pi">  'use strict'</span>
+
+  <span class="hljs-keyword">const</span> minValue = <span class="hljs-built_in">Math</span>.min.apply(<span class="hljs-literal">null</span>, data)
+  <span class="hljs-keyword">const</span> maxValue = <span class="hljs-built_in">Math</span>.max.apply(<span class="hljs-literal">null</span>, data)
+
+  <span class="hljs-keyword">let</span> output = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = minValue; i &lt;= maxValue; i += binSize) {
+    output.push([i, <span class="hljs-number">0</span>])
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; data.length; i++) {
+    <span class="hljs-keyword">let</span> x = minValue
+    <span class="hljs-keyword">while</span> (x &lt;= (data[i] - binSize)) {
+      x += binSize
+    }
+    output[(x - minValue) / binSize][<span class="hljs-number">1</span>] += <span class="hljs-number">1</span>
+  }
+
+  <span class="hljs-keyword">return</span> output
+
+}
+
+
+<span class="hljs-comment">// let s = new Scale([-10, 10], [0, 1])</span>
+<span class="hljs-comment">// s(5) === 0.75</span>
+<span class="hljs-comment">// s.inv(0.75) === 5</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Scale</span><span class="hljs-params">(domain, range)</span> {</span>
+<span class="hljs-pi">  'use strict'</span>
+
+  <span class="hljs-keyword">const</span> scaler = domainValue =&gt; {
+    <span class="hljs-keyword">return</span> (range[<span class="hljs-number">1</span>]-range[<span class="hljs-number">0</span>]) / (domain[<span class="hljs-number">1</span>]-domain[<span class="hljs-number">0</span>]) * (domainValue-domain[<span class="hljs-number">0</span>]) + range[<span class="hljs-number">0</span>]
+  }
+  scaler.inv = rangeValue =&gt; {
+    <span class="hljs-keyword">return</span> (domain[<span class="hljs-number">1</span>]-domain[<span class="hljs-number">0</span>]) / (range[<span class="hljs-number">1</span>]-range[<span class="hljs-number">0</span>]) * (rangeValue-range[<span class="hljs-number">0</span>]) + domain[<span class="hljs-number">0</span>]
+  }
+  <span class="hljs-keyword">return</span> scaler
+}
+
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lineGraph</span><span class="hljs-params">(el, data, opts)</span> {</span>
+<span class="hljs-pi">  'use strict'</span>
+
+  <span class="hljs-keyword">if</span> (!opts) opts = {}
+
+  <span class="hljs-keyword">const</span> elHeight = el.getBoundingClientRect().height
+  <span class="hljs-keyword">const</span> elWidth = el.getBoundingClientRect().width
+
+  <span class="hljs-keyword">const</span> xAxisLabelText = opts.xAxisLabel
+  <span class="hljs-keyword">const</span> yAxisLabelText = opts.yAxisLabel
+  <span class="hljs-keyword">const</span> isDate = opts.isDate
+
+  <span class="hljs-keyword">const</span> height = elHeight
+  <span class="hljs-keyword">const</span> width = elWidth
+  <span class="hljs-keyword">const</span> margin = { bottom: <span class="hljs-number">30</span>, left: <span class="hljs-number">40</span> }
+  <span class="hljs-keyword">if</span> (isDate) margin.bottom = <span class="hljs-number">60</span>
+
+  <span class="hljs-keyword">const</span> svgNS = <span class="hljs-string">'http://www.w3.org/2000/svg'</span>
+
+  <span class="hljs-keyword">const</span> xMin = <span class="hljs-built_in">Math</span>.min.apply(<span class="hljs-literal">null</span>, data.map(d =&gt; d[<span class="hljs-number">0</span>]))
+  <span class="hljs-keyword">const</span> xMax = <span class="hljs-built_in">Math</span>.max.apply(<span class="hljs-literal">null</span>, data.map(d =&gt; d[<span class="hljs-number">0</span>]))
+  <span class="hljs-keyword">const</span> yMin = <span class="hljs-built_in">Math</span>.min.apply(<span class="hljs-literal">null</span>, data.map(d =&gt; d[<span class="hljs-number">1</span>]))
+  <span class="hljs-keyword">const</span> yMax = <span class="hljs-built_in">Math</span>.max.apply(<span class="hljs-literal">null</span>, data.map(d =&gt; d[<span class="hljs-number">1</span>]))
+
+  <span class="hljs-keyword">const</span> x = <span class="hljs-keyword">new</span> Scale([xMin, xMax], [margin.left, width])
+  <span class="hljs-keyword">const</span> y = <span class="hljs-keyword">new</span> Scale([yMin, yMax], [height-margin.bottom, <span class="hljs-number">0</span>])
+
+  <span class="hljs-comment">// Ticks and Grid</span>
+  <span class="hljs-keyword">const</span> xTickWidth = <span class="hljs-number">50</span>
+  <span class="hljs-keyword">const</span> xTickCount = (width - margin.left) / xTickWidth
+  <span class="hljs-keyword">const</span> xFactor = (xMax - xMin) / xTickCount
+  console.log(xMin, xMax, xTickCount, xFactor)
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= xTickCount + <span class="hljs-number">1</span>; i++) {
+
+    <span class="hljs-keyword">const</span> j = xMin + i * xFactor
+
+    <span class="hljs-keyword">const</span> tick = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+    tick.classList.add(<span class="hljs-string">'tick'</span>)
+    tick.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'central'</span>)
+
+    <span class="hljs-keyword">if</span> (isDate) {
+      tick.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'end'</span>)
+      tick.setAttribute(<span class="hljs-string">'transform'</span>, <span class="hljs-string">'rotate(-90)'</span>)
+      tick.setAttribute(<span class="hljs-string">'x'</span>, -(height - margin.bottom + <span class="hljs-number">4</span>))
+      tick.setAttribute(<span class="hljs-string">'y'</span>, x(<span class="hljs-built_in">Math</span>.floor(j)))
+      tick.textContent = moment(<span class="hljs-built_in">Math</span>.floor(j) * <span class="hljs-number">1000</span>).format(<span class="hljs-string">'YY-MM-DD'</span>)
+    } <span class="hljs-keyword">else</span> {
+      tick.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+      tick.setAttribute(<span class="hljs-string">'x'</span>, x(<span class="hljs-built_in">Math</span>.floor(j)))
+      tick.setAttribute(<span class="hljs-string">'y'</span>, height - margin.bottom / <span class="hljs-number">2</span>)
+      tick.textContent = <span class="hljs-built_in">Math</span>.floor(j)
+    }
+
+    el.appendChild(tick)
+
+    <span class="hljs-keyword">const</span> gridLine = document.createElementNS(svgNS, <span class="hljs-string">'line'</span>)
+    gridLine.classList.add(<span class="hljs-string">'grid'</span>)
+    gridLine.setAttribute(<span class="hljs-string">'x1'</span>, x(<span class="hljs-built_in">Math</span>.floor(j)))
+    gridLine.setAttribute(<span class="hljs-string">'y1'</span>, height - margin.bottom)
+    gridLine.setAttribute(<span class="hljs-string">'x2'</span>, x(<span class="hljs-built_in">Math</span>.floor(j)))
+    gridLine.setAttribute(<span class="hljs-string">'y2'</span>, <span class="hljs-number">0</span>)
+    el.appendChild(gridLine)
+
+  }
+
+  <span class="hljs-keyword">const</span> yTickWidth = <span class="hljs-number">50</span>
+  <span class="hljs-keyword">const</span> yTickCount = (height - margin.bottom) / yTickWidth
+  <span class="hljs-keyword">const</span> yFactor = (yMax - yMin) / yTickCount
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= yTickCount; i++) {
+
+    <span class="hljs-keyword">const</span> j = yMin + i * yFactor
+
+    <span class="hljs-keyword">const</span> tick = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+    tick.classList.add(<span class="hljs-string">'tick'</span>)
+    tick.setAttribute(<span class="hljs-string">'x'</span>, margin.left - <span class="hljs-number">4</span>)
+    tick.setAttribute(<span class="hljs-string">'y'</span>, y(<span class="hljs-built_in">Math</span>.floor(j)))
+    tick.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'end'</span>)
+    tick.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'central'</span>)
+    tick.textContent = <span class="hljs-built_in">Math</span>.floor(j)
+    el.appendChild(tick)
+
+    <span class="hljs-keyword">const</span> gridLine = document.createElementNS(svgNS, <span class="hljs-string">'line'</span>)
+    gridLine.classList.add(<span class="hljs-string">'grid'</span>)
+    gridLine.setAttribute(<span class="hljs-string">'x1'</span>, margin.left)
+    gridLine.setAttribute(<span class="hljs-string">'y1'</span>, y(<span class="hljs-built_in">Math</span>.floor(j)))
+    gridLine.setAttribute(<span class="hljs-string">'x2'</span>, width)
+    gridLine.setAttribute(<span class="hljs-string">'y2'</span>, y(<span class="hljs-built_in">Math</span>.floor(j)))
+    el.appendChild(gridLine)
+
+  }
+
+  <span class="hljs-comment">// Line</span>
+  <span class="hljs-keyword">let</span> d = <span class="hljs-string">'M'</span> + x(data[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]) + <span class="hljs-string">','</span> + y(data[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>])
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; data.length; i++) {
+    d += <span class="hljs-string">'L'</span> + x(data[i][<span class="hljs-number">0</span>]) + <span class="hljs-string">','</span> + y(data[i][<span class="hljs-number">1</span>])
+  }
+  <span class="hljs-keyword">const</span> path = document.createElementNS(svgNS, <span class="hljs-string">'path'</span>)
+  path.setAttribute(<span class="hljs-string">'d'</span>, d)
+  el.appendChild(path)
+
+  <span class="hljs-comment">// Axes</span>
+  <span class="hljs-keyword">const</span> xAxis = document.createElementNS(svgNS, <span class="hljs-string">'line'</span>)
+  xAxis.classList.add(<span class="hljs-string">'axis'</span>)
+  xAxis.setAttribute(<span class="hljs-string">'x1'</span>, margin.left)
+  xAxis.setAttribute(<span class="hljs-string">'y1'</span>, height - margin.bottom)
+  xAxis.setAttribute(<span class="hljs-string">'x2'</span>, width)
+  xAxis.setAttribute(<span class="hljs-string">'y2'</span>, height - margin.bottom)
+  el.appendChild(xAxis)
+
+  <span class="hljs-keyword">const</span> yAxis = document.createElementNS(svgNS, <span class="hljs-string">'line'</span>)
+  yAxis.classList.add(<span class="hljs-string">'axis'</span>)
+  yAxis.setAttribute(<span class="hljs-string">'x1'</span>, margin.left)
+  yAxis.setAttribute(<span class="hljs-string">'y1'</span>, height - margin.bottom)
+  yAxis.setAttribute(<span class="hljs-string">'x2'</span>, margin.left)
+  yAxis.setAttribute(<span class="hljs-string">'y2'</span>, <span class="hljs-number">0</span>)
+  el.appendChild(yAxis)
+
+  <span class="hljs-comment">// Axis labels</span>
+  <span class="hljs-keyword">const</span> yAxisLabel = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+  yAxisLabel.setAttribute(<span class="hljs-string">'x'</span>, -(height-margin.bottom)/<span class="hljs-number">2</span>)
+  yAxisLabel.setAttribute(<span class="hljs-string">'y'</span>, <span class="hljs-number">16</span>)
+  yAxisLabel.classList.add(<span class="hljs-string">'axis-label'</span>)
+  yAxisLabel.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+  <span class="hljs-comment">// yAxisLabel.setAttribute('alignment-baseline', 'central')</span>
+  yAxisLabel.setAttribute(<span class="hljs-string">'transform'</span>, <span class="hljs-string">'rotate(-90)'</span>)
+  yAxisLabel.textContent = yAxisLabelText
+  el.appendChild(yAxisLabel)
+
+  <span class="hljs-keyword">const</span> xAxisLabel = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+  xAxisLabel.setAttribute(<span class="hljs-string">'x'</span>, (width - margin.left) / <span class="hljs-number">2</span>)
+  xAxisLabel.setAttribute(<span class="hljs-string">'y'</span>, height)
+  xAxisLabel.classList.add(<span class="hljs-string">'axis-label'</span>)
+  xAxisLabel.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+  xAxisLabel.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'central'</span>)
+  xAxisLabel.textContent = xAxisLabelText
+  el.appendChild(xAxisLabel)
+
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">histGraph</span><span class="hljs-params">(el, data, opts)</span> {</span>
+
+  <span class="hljs-keyword">if</span> (!opts) opts = {};
+  <span class="hljs-keyword">var</span> isDate = opts.isDate;
+  <span class="hljs-keyword">var</span> svgNS = <span class="hljs-string">"http://www.w3.org/2000/svg"</span>
+
+  <span class="hljs-keyword">var</span> elHeight = el.getBoundingClientRect().height;
+  <span class="hljs-keyword">var</span> elWidth = el.getBoundingClientRect().width;
+
+  <span class="hljs-comment">// var min = Math.min.apply(null, data.map(function(d) {return d.value}))</span>
+  <span class="hljs-keyword">var</span> max = <span class="hljs-built_in">Math</span>.max.apply(<span class="hljs-literal">null</span>, data.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> {</span><span class="hljs-keyword">return</span> d.value}))
+
+  <span class="hljs-keyword">var</span> binWidth = elWidth / data.length;
+  <span class="hljs-keyword">var</span> marginBottom = <span class="hljs-number">75</span>;
+  <span class="hljs-keyword">var</span> y = <span class="hljs-keyword">new</span> Scale([<span class="hljs-number">0</span>, max], [<span class="hljs-number">0</span>, elHeight - marginBottom - <span class="hljs-number">15</span>])
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; data.length; i++) {
+
+    <span class="hljs-keyword">var</span> padding = <span class="hljs-number">5</span>
+    <span class="hljs-keyword">var</span> rect = document.createElementNS(svgNS, <span class="hljs-string">'rect'</span>);
+    rect.setAttribute(<span class="hljs-string">'x'</span>, i * binWidth);
+    rect.setAttribute(<span class="hljs-string">'y'</span>, elHeight - marginBottom - y(data[i].value));
+    rect.setAttribute(<span class="hljs-string">'width'</span>, binWidth - padding);
+    rect.setAttribute(<span class="hljs-string">'height'</span>, y(data[i].value));
+    el.appendChild(rect);
+
+    <span class="hljs-keyword">var</span> yval = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+    yval.setAttribute(<span class="hljs-string">'x'</span>, i * binWidth + (binWidth - padding) / <span class="hljs-number">2</span>);
+    yval.setAttribute(<span class="hljs-string">'y'</span>, elHeight - marginBottom - y(data[i].value) - <span class="hljs-number">3</span>);
+    yval.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+    yval.textContent = data[i].value;
+    el.appendChild(yval);
+
+    <span class="hljs-keyword">if</span> (data[i].bottomLabel) {
+      <span class="hljs-keyword">var</span> bottomLabel = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+      bottomLabel.setAttribute(<span class="hljs-string">'x'</span>, i * binWidth);
+      bottomLabel.setAttribute(<span class="hljs-string">'y'</span>, elHeight);
+      bottomLabel.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'start'</span>);
+      bottomLabel.textContent = isDate ? moment(data[i].bottomLabel * <span class="hljs-number">1000</span>).format(<span class="hljs-string">'YY-MM-DD'</span>) : data[i].bottomLabel;
+      el.appendChild(bottomLabel);
+    }
+
+    <span class="hljs-keyword">if</span> (data[i].innerLabel) {
+      <span class="hljs-keyword">var</span> innerLabel = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+      innerLabel.setAttribute(<span class="hljs-string">'transform'</span>, <span class="hljs-string">"rotate(-90)"</span>);
+      innerLabel.setAttribute(<span class="hljs-string">"x"</span>, -elHeight + y(data[i].value) + marginBottom - <span class="hljs-number">7</span>)
+      innerLabel.setAttribute(<span class="hljs-string">"y"</span>, i * binWidth + (binWidth - padding) / <span class="hljs-number">2</span>)
+      innerLabel.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'end'</span>)
+      innerLabel.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'central'</span>)
+      innerLabel.classList.add(<span class="hljs-string">'innerLabel'</span>);
+      innerLabel.textContent = data[i].innerLabel;
+      el.appendChild(innerLabel);
+    }
+
+  }
+
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pieGraph</span><span class="hljs-params">(el, data)</span> {</span>
+
+  <span class="hljs-keyword">var</span> colorList = [<span class="hljs-string">'#faa'</span>, <span class="hljs-string">'#aaf'</span>, <span class="hljs-string">'#afa'</span>, <span class="hljs-string">'#ddd'</span>, <span class="hljs-string">'#aff'</span>, <span class="hljs-string">'#ffa'</span>, <span class="hljs-string">'#faf'</span>];
+  <span class="hljs-keyword">var</span> total = data.reduce(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(acc, el)</span> {</span> <span class="hljs-keyword">return</span> acc + el.value }, <span class="hljs-number">0</span>)
+
+  <span class="hljs-keyword">var</span> elHeight = el.getBoundingClientRect().height;
+  <span class="hljs-keyword">var</span> elWidth = el.getBoundingClientRect().width;
+
+  <span class="hljs-keyword">var</span> svgNS = <span class="hljs-string">"http://www.w3.org/2000/svg"</span>
+
+  <span class="hljs-keyword">var</span> radius = <span class="hljs-built_in">Math</span>.min(elWidth / <span class="hljs-number">2</span>, elHeight / <span class="hljs-number">2</span>) - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> xCenter = radius + <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> yCenter = radius + <span class="hljs-number">1</span>;
+
+  <span class="hljs-keyword">var</span> angle = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">var</span> prevAngle = <span class="hljs-number">0</span>
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; data.length; i++) {
+
+    prevAngle = angle
+    angle -= <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI * data[i].value / total
+
+    <span class="hljs-keyword">var</span> x1 = xCenter + radius*<span class="hljs-built_in">Math</span>.cos(prevAngle);
+    <span class="hljs-keyword">var</span> y1 = yCenter + radius*<span class="hljs-built_in">Math</span>.sin(prevAngle);
+    <span class="hljs-keyword">var</span> x2 = xCenter + radius*<span class="hljs-built_in">Math</span>.cos(angle);
+    <span class="hljs-keyword">var</span> y2 = yCenter + radius*<span class="hljs-built_in">Math</span>.sin(angle);
+
+    <span class="hljs-keyword">var</span> a = (angle - prevAngle) &gt; -<span class="hljs-built_in">Math</span>.PI ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>
+
+    console.log(angle, a)
+
+    <span class="hljs-keyword">var</span> cSector = document.createElementNS(svgNS, <span class="hljs-string">'path'</span>);
+    cSector.setAttribute(<span class="hljs-string">'d'</span>, <span class="hljs-string">'M'</span> + xCenter + <span class="hljs-string">','</span> + yCenter + <span class="hljs-string">'L'</span> + x1 + <span class="hljs-string">','</span> + y1 + <span class="hljs-string">'A'</span> + radius + <span class="hljs-string">','</span> + radius + <span class="hljs-string">' 0 '</span> + a + <span class="hljs-string">' 0 '</span> + x2 + <span class="hljs-string">','</span> + y2 + <span class="hljs-string">'z'</span>);
+    cSector.setAttribute(<span class="hljs-string">'fill'</span>, colorList[i]);
+    cSector.setAttribute(<span class="hljs-string">'stroke'</span>, <span class="hljs-string">'black'</span>);
+    el.appendChild(cSector);
+
+    <span class="hljs-keyword">var</span> cText = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>);
+    cText.setAttribute(<span class="hljs-string">'x'</span>, xCenter + radius*<span class="hljs-number">0.8</span>*<span class="hljs-built_in">Math</span>.cos(prevAngle - <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI * data[i].value / total / <span class="hljs-number">2</span>))
+    cText.setAttribute(<span class="hljs-string">'y'</span>, yCenter + radius*<span class="hljs-number">0.8</span>*<span class="hljs-built_in">Math</span>.sin(prevAngle - <span class="hljs-number">2</span> * <span class="hljs-built_in">Math</span>.PI * data[i].value / total / <span class="hljs-number">2</span>))
+    cText.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+    cText.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'central'</span>)
+    cText.textContent = <span class="hljs-built_in">Math</span>.round(data[i].value / total * <span class="hljs-number">100</span>) + <span class="hljs-string">"%"</span>
+    el.appendChild(cText)
+
+    <span class="hljs-keyword">var</span> legendBlob = document.createElementNS(svgNS, <span class="hljs-string">'circle'</span>)
+    legendBlob.setAttribute(<span class="hljs-string">'cx'</span>, <span class="hljs-number">25</span> + <span class="hljs-number">2</span> * radius)
+    legendBlob.setAttribute(<span class="hljs-string">'cy'</span>, <span class="hljs-number">10</span> + <span class="hljs-number">20</span> * i)
+    legendBlob.setAttribute(<span class="hljs-string">'r'</span>, <span class="hljs-number">6</span>)
+    legendBlob.setAttribute(<span class="hljs-string">'fill'</span>, colorList[i])
+    legendBlob.setAttribute(<span class="hljs-string">'stroke'</span>, <span class="hljs-string">'#000'</span>)
+    el.appendChild(legendBlob)
+
+    <span class="hljs-keyword">var</span> legendText = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+    legendText.setAttribute(<span class="hljs-string">'x'</span>, <span class="hljs-number">40</span> + <span class="hljs-number">2</span> * radius)
+    legendText.setAttribute(<span class="hljs-string">'y'</span>, <span class="hljs-number">10</span> + <span class="hljs-number">20</span> * i)
+    legendText.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'start'</span>)
+    legendText.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'central'</span>)
+    legendText.setAttribute(<span class="hljs-string">'font-size'</span>, <span class="hljs-string">'9px'</span>)
+    legendText.textContent = data[i].label
+    el.appendChild(legendText)
+
+  }
+
+}
+</code></pre>
+<p>Some CSS for the line graph:</p>
+<pre><code class="css"><span class="hljs-tag">path</span><span class="hljs-class">.line</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">stroke-width</span>:<span class="hljs-value"> <span class="hljs-number">2</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">fill</span>:<span class="hljs-value"> none</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-class">.axis</span> <span class="hljs-tag">path</span>,
+<span class="hljs-class">.axis</span> <span class="hljs-tag">line</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">fill</span>:<span class="hljs-value"> none</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#aaa</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke-width</span>:<span class="hljs-value"> <span class="hljs-number">1</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">shape-rendering</span>:<span class="hljs-value"> crispEdges</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-class">.hist</span> <span class="hljs-tag">rect</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">stroke-width</span>:<span class="hljs-value"> <span class="hljs-number">1</span>px</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#ccc</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">fill</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#ccfafa</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">shape-rendering</span>:<span class="hljs-value"> crispEdges</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-class">.hists</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">float</span>:<span class="hljs-value"> left</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">margin-right</span>:<span class="hljs-value"> <span class="hljs-number">20</span>px</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-class">.hists</span> <span class="hljs-class">.innerLabel</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">font-weight</span>:<span class="hljs-value"> bold</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-id">#svg</span> <span class="hljs-tag">path</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">fill</span>:<span class="hljs-value"> none</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke-width</span>:<span class="hljs-value"> <span class="hljs-number">2</span>px</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke</span>:<span class="hljs-value"> steelblue</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-id">#svg</span> <span class="hljs-class">.axis</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">fill</span>:<span class="hljs-value"> none</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#aaa</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke-width</span>:<span class="hljs-value"> <span class="hljs-number">1</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">shape-rendering</span>:<span class="hljs-value"> crispEdges</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-id">#svg</span> <span class="hljs-class">.grid</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">fill</span>:<span class="hljs-value"> none</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#eee</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">stroke-width</span>:<span class="hljs-value"> <span class="hljs-number">1</span></span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">shape-rendering</span>:<span class="hljs-value"> crispEdges</span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-id">#svg</span> <span class="hljs-class">.axis-label</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">12</span>px</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">font-family</span>:<span class="hljs-value"> Arial</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#333</span></span></span>;
+<span class="hljs-rule">}</span></span>
+
+<span class="hljs-id">#svg</span> <span class="hljs-class">.tick</span> <span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">12</span>px</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">font-family</span>:<span class="hljs-value"> Arial</span></span>;
+  <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#333</span></span></span>;
+<span class="hljs-rule">}</span></span>
 </code></pre>
 </div>
     <!-- <div class="footer-separator"></div> -->

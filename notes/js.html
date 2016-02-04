@@ -163,6 +163,32 @@ window.arrop = {
 }
 </code></pre>
 <h2 id="svg">SVG</h2>
+<p>Basic element creation:</p>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-title">svg</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"svg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">svg</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">var</span> svgNS = <span class="hljs-string">'http://www.w3.org/2000/svg'</span>
+
+  <span class="hljs-keyword">var</span> circle = document.createElementNS(svgNS, <span class="hljs-string">'circle'</span>)
+  circle.setAttribute(<span class="hljs-string">'cx'</span>, x);
+  circle.setAttribute(<span class="hljs-string">'cy'</span>, y);
+  circle.setAttribute(<span class="hljs-string">'r'</span>, r);
+  circle.setAttribute(<span class="hljs-string">'fill-opacity'</span>, <span class="hljs-string">'0'</span>);
+  circle.setAttribute(<span class="hljs-string">'stroke-width'</span>, <span class="hljs-number">3</span>);
+  circle.setAttribute(<span class="hljs-string">'stroke'</span>, <span class="hljs-string">'#000'</span>);
+  svg.appendChild(circle)
+
+  <span class="hljs-keyword">var</span> text = document.createElementNS(svgNS, <span class="hljs-string">'text'</span>)
+  text.setAttribute(<span class="hljs-string">'x'</span>, x);
+  text.setAttribute(<span class="hljs-string">'y'</span>, y);
+  text.setAttribute(<span class="hljs-string">'alignment-baseline'</span>, <span class="hljs-string">'middle'</span>)
+  text.setAttribute(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+  text.setAttribute(<span class="hljs-string">'font-family'</span>, <span class="hljs-string">'monospace'</span>)
+  text.textContent = <span class="hljs-string">'Hello World!'</span>
+  svg.appendChild(text)
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre>
+<hr>
 <pre><code class="js"><span class="hljs-comment">// binify([1,2,3,5,5,5], 2) === [[1, 2], [3, 1], [5,3]]</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">binify</span><span class="hljs-params">(data, binSize)</span> {</span>
 <span class="hljs-pi">  'use strict'</span>

@@ -1,6 +1,6 @@
-cd notes_src
+cd -P ..
 gulp
-cd ..
+cd -P ..
 git add . -A
 git commit -m $(date --utc +%FT%TZ)
 git push

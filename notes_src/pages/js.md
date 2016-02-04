@@ -148,6 +148,37 @@ window.arrop = {
 
 ## SVG
 
+Basic element creation:
+
+```html
+<svg id="svg"></svg>
+
+<script>
+  var svgNS = 'http://www.w3.org/2000/svg'
+
+  var circle = document.createElementNS(svgNS, 'circle')
+  circle.setAttribute('cx', x);
+  circle.setAttribute('cy', y);
+  circle.setAttribute('r', r);
+  circle.setAttribute('fill-opacity', '0');
+  circle.setAttribute('stroke-width', 3);
+  circle.setAttribute('stroke', '#000');
+  svg.appendChild(circle)
+
+  var text = document.createElementNS(svgNS, 'text')
+  text.setAttribute('x', x);
+  text.setAttribute('y', y);
+  text.setAttribute('alignment-baseline', 'middle')
+  text.setAttribute('text-anchor', 'middle')
+  text.setAttribute('font-family', 'monospace')
+  text.textContent = 'Hello World!'
+  svg.appendChild(text)
+</script>
+```
+
+----
+
+
 ```js
 // binify([1,2,3,5,5,5], 2) === [[1, 2], [3, 1], [5,3]]
 function binify(data, binSize) {

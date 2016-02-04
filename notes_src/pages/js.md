@@ -176,7 +176,7 @@ Basic element creation:
 </script>
 ```
 
-----
+Other stuff..
 
 
 ```js

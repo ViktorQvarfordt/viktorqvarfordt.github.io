@@ -21,3 +21,39 @@ https.createServer(options, app).listen(8080, function() {
  console.log('Listening on https://localhost:8080')
 })
 ```
+
+## Proxy (multiple servers with different domain on same host)
+
+```js
+const fs = require('fs')
+const https = require('https')
+const httpProxy = require('http-proxy')
+
+
+const servers = {
+  'laptop.viktorq.se': new httpProxy.createProxyServer({ target: 'http://localhost:3000' })
+}
+
+function errorHandler(err, req, res) {
+  if (err) console.log(err)
+  res.writeHead(500)
+  res.end('INTERNAL SERVER ERRROR')
+}
+
+https.createServer({
+
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+
+}, (req, res) => {
+
+  if (req.headers.host in servers) {
+    servers[req.headers.host].proxyRequest(req, res)
+    servers[req.headers.host].on('error', errorHandler)
+  } else {
+    res.writeHead(500)
+    res.end(`unknown domain '${req.headers.host}'`)
+  }
+
+}).listen(443, () => console.log('https...'))
+```

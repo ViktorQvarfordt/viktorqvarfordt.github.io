@@ -71,10 +71,20 @@ Extended with more features: [auto-tex-compile](https://github.com/ViktorQvarfor
 
 https://code.google.com/p/minted/
 
-```tex
-% Import package
-\usepackage{minted}
+Basic usage:
 
+```tex
+\usepackage{minted} % NB: Load minted after hyperref
+
+...
+
+\begin{minted}{python}
+def f(x):
+  return 2*x
+\end{minted}
+```
+
+```tex
 % Line numbers; gray and smaller
 \renewcommand{\theFancyVerbLine}{
   \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}

@@ -111,10 +111,17 @@ Hello World!
 <p>Extended with more features: <a href="https://github.com/ViktorQvarfordt/auto-tex-compile">auto-tex-compile</a></p>
 <h2 id="code-highlighting-with-minted">Code highlighting with <code>minted</code></h2>
 <p><a href="https://code.google.com/p/minted/">https://code.google.com/p/minted/</a></p>
-<pre><code class="tex"><span class="hljs-comment">% Import package</span>
-<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span>
+<p>Basic usage:</p>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span> <span class="hljs-comment">% NB: Load minted after hyperref</span>
 
-<span class="hljs-comment">% Line numbers; gray and smaller</span>
+...
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span><span class="hljs-special">{</span>python<span class="hljs-special">}</span>
+def f(x):
+  return 2*x
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span>
+</code></pre>
+<pre><code class="tex"><span class="hljs-comment">% Line numbers; gray and smaller</span>
 <span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\theFancyVerbLine</span><span class="hljs-special">}</span><span class="hljs-special">{</span>
   <span class="hljs-command">\sffamily</span><span class="hljs-command">\textcolor</span><span class="hljs-special">[</span>rgb<span class="hljs-special">]</span><span class="hljs-special">{</span>0.5,0.5,0.5<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\scriptsize</span><span class="hljs-command">\arabic</span><span class="hljs-special">{</span>FancyVerbLine<span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
 

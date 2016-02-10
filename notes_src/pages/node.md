@@ -1,5 +1,8 @@
 # Node.js
 
+[TOC]
+
+
 ## HTTPS
 
 **Set up HTTPS certificate:** (Press enter on all fields.)
@@ -21,6 +24,7 @@ https.createServer(options, app).listen(8080, function() {
  console.log('Listening on https://localhost:8080')
 })
 ```
+
 
 ## Proxy (multiple servers with different domain on same host)
 
@@ -56,4 +60,44 @@ https.createServer({
   }
 
 }).listen(443, () => console.log('https...'))
+```
+
+
+## `ErrorHandler`
+
+```js
+// Report errors by email and to error.log
+
+const credentials = JSON.parse(fs.readFileSync(`${process.env.HOME}/.secrets/credentials.json`))
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: credentials.gmailNotifier.user,
+    pass: credentials.gmailNotifier.pass
+  }
+})
+
+function log(msg) {
+  fs.appendFile(`${__dirname}/error.log`, `${(new Date()).toISOString()} ${msg}\n`)
+}
+
+function sendmail(from, subject, text) {
+  transporter.sendMail({
+    from: `${from} <${credentials.gmailNotifier.user}>`,
+    to: credentials.gmail.user,
+    subject: subject,
+    text: text,
+  }, err => {
+    if (err) log(`SENDMAIL ERROR: ${JSON.stringify(err, null, 2)}`)
+  })
+}
+
+function errorHandler(err, cb) {
+  if (!err) return
+  log(`ERROR: ${JSON.stringify(err, null, 2)}`)
+  sendmail('Fitbit sleep log', 'Error', JSON.stringify(err, null, 2))
+}
 ```

@@ -1,6 +1,12 @@
 # Shell stuff
 
-Pipe search results to from `find`:
+Standalone process:
+
+```
+nohup ... >/dev/null 2>&1 &
+```
+
+Pipe search results to from `find`
 
     $ find -name "regex" -exec rm -iv {} \;
 
@@ -12,7 +18,7 @@ List all manually installed packages:
     aptitude  --display-format '%p' search '?installed!?automatic' > ~/my_packages
 
 
-## rsync
+sync
 
     rsync -v --partial --progress --human-readable --rsh="ssh -p <port>"
 

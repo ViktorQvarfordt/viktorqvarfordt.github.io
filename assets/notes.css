@@ -133,6 +133,8 @@ code {
 }
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
   font-size: inherit;
+  background-color: inherit;
+  border: inherit;
 }
 pre code {
   padding: 0;

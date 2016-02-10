@@ -21,7 +21,7 @@
     <div class="content"><h1 id="node-js">Node.js</h1>
 <ul>
 <li><a href="#https">HTTPS</a></li>
-<li><a href="#proxy-multiple-servers-with-different-domain-on-same-host">Proxy (multiple servers with different domain on same host)</a></li>
+<li><a href="#https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</a></li>
 <li><a href="#-errorhandler"><code>ErrorHandler</code></a></li>
 </ul>
 <h2 id="https">HTTPS</h2>
@@ -38,38 +38,30 @@ https.createServer(options, app).listen(<span class="hljs-number">8080</span>, <
  console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>)
 })
 </code></pre>
-<h2 id="proxy-multiple-servers-with-different-domain-on-same-host">Proxy (multiple servers with different domain on same host)</h2>
+<h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</h2>
 <pre><code class="js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
 <span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 <span class="hljs-keyword">const</span> httpProxy = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http-proxy'</span>)
 
 
-<span class="hljs-keyword">const</span> servers = {
-  <span class="hljs-string">'laptop.viktorq.se'</span>: <span class="hljs-keyword">new</span> httpProxy.createProxyServer({ target: <span class="hljs-string">'http://localhost:3000'</span> })
+<span class="hljs-keyword">const</span> rules = {
+  <span class="hljs-string">'www.example.com'</span>: <span class="hljs-string">'http://localhost:3000'</span>,
+  <span class="hljs-string">'api.example.com'</span>: <span class="hljs-string">'http://localhost:3001'</span>
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">errorHandler</span><span class="hljs-params">(err, req, res)</span> {</span>
-  <span class="hljs-keyword">if</span> (err) console.log(err)
-  res.writeHead(<span class="hljs-number">500</span>)
-  res.end(<span class="hljs-string">'INTERNAL SERVER ERRROR'</span>)
-}
+<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({})
 
 https.createServer({
-
-  key: fs.readFileSync(<span class="hljs-string">'key.pem'</span>),
-  cert: fs.readFileSync(<span class="hljs-string">'cert.pem'</span>)
-
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
 }, (req, res) =&gt; {
-
-  <span class="hljs-keyword">if</span> (req.headers.host <span class="hljs-keyword">in</span> servers) {
-    servers[req.headers.host].proxyRequest(req, res)
-    servers[req.headers.host].on(<span class="hljs-string">'error'</span>, errorHandler)
+  <span class="hljs-keyword">if</span> (req.headers.host <span class="hljs-keyword">in</span> rules) {
+    proxy.web(req, res, { target: rules[req.headers.host] })
   } <span class="hljs-keyword">else</span> {
     res.writeHead(<span class="hljs-number">500</span>)
     res.end(`unknown domain <span class="hljs-string">'${req.headers.host}'</span>`)
   }
-
-}).listen(<span class="hljs-number">443</span>, () =&gt; console.log(<span class="hljs-string">'https...'</span>))
+}).listen(<span class="hljs-number">443</span>, () =&gt; console.log(<span class="hljs-string">'https://localhost'</span>))
 </code></pre>
 <h2 id="-errorhandler"><code>ErrorHandler</code></h2>
 <pre><code class="js"><span class="hljs-comment">// Report errors by email and to error.log</span>

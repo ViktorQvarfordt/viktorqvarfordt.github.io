@@ -26,7 +26,7 @@ https.createServer(options, app).listen(8080, function() {
 ```
 
 
-## Proxy (multiple servers with different domain on same host)
+## HTTPS Proxy (multiple servers with different domain on same host)
 
 ```js
 const fs = require('fs')
@@ -34,32 +34,24 @@ const https = require('https')
 const httpProxy = require('http-proxy')
 
 
-const servers = {
-  'laptop.viktorq.se': new httpProxy.createProxyServer({ target: 'http://localhost:3000' })
+const rules = {
+  'www.example.com': 'http://localhost:3000',
+  'api.example.com': 'http://localhost:3001'
 }
 
-function errorHandler(err, req, res) {
-  if (err) console.log(err)
-  res.writeHead(500)
-  res.end('INTERNAL SERVER ERRROR')
-}
+const proxy = httpProxy.createProxyServer({})
 
 https.createServer({
-
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
-
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
 }, (req, res) => {
-
-  if (req.headers.host in servers) {
-    servers[req.headers.host].proxyRequest(req, res)
-    servers[req.headers.host].on('error', errorHandler)
+  if (req.headers.host in rules) {
+    proxy.web(req, res, { target: rules[req.headers.host] })
   } else {
     res.writeHead(500)
     res.end(`unknown domain '${req.headers.host}'`)
   }
-
-}).listen(443, () => console.log('https...'))
+}).listen(443, () => console.log('https://localhost'))
 ```
 
 

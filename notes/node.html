@@ -20,14 +20,14 @@
   <body>
     <div class="content"><h1 id="node-js">Node.js</h1>
 <ul>
-<li><a href="#http-server-without-express">HTTP Server without express</a></li>
+<li><a href="#http-server-without-express">HTTP server without express</a></li>
 <li><a href="#https">HTTPS</a></li>
 <li><a href="#basic-auth">Basic Auth</a></li>
-<li><a href="#https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</a></li>
+<li><a href="#https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS proxy (multiple servers with different domain on same host)</a></li>
 <li><a href="#-errorhandler"><code>ErrorHandler</code></a></li>
 </ul>
-<h2 id="http-server-without-express">HTTP Server without express</h2>
-<p>Example with parsing post body and query string.</p>
+<h2 id="http-server-without-express">HTTP server without express</h2>
+<p>Example, http body parsing and query string parsing:</p>
 <pre><code class="js"><span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>);
 <span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
 <span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
@@ -54,7 +54,7 @@ http.createServer((req, res) =&gt; {
 }).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on http://127.0.0.1:8080'</span>))
 </code></pre>
 <h2 id="https">HTTPS</h2>
-<p><strong>Set up HTTPS certificate:</strong> (Press enter on all fields.)</p>
+<p><strong>Set up https certificate:</strong> (Press enter on all fields)</p>
 <pre><code>$ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
 </code></pre><p><strong>Setup server:</strong></p>
 <pre><code class="js"><span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
@@ -91,7 +91,7 @@ https.createServer({
   }
 }).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
 </code></pre>
-<h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</h2>
+<h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS proxy (multiple servers with different domain on same host)</h2>
 <pre><code class="js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
 <span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 <span class="hljs-keyword">const</span> httpProxy = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http-proxy'</span>)

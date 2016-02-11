@@ -3,9 +3,9 @@
 [TOC]
 
 
-## HTTP Server without express
+## HTTP server without express
 
-Example with parsing post body and query string.
+Example, http body parsing and query string parsing:
 
 ```js
 const url = require('url');
@@ -37,7 +37,7 @@ http.createServer((req, res) => {
 
 ## HTTPS
 
-**Set up HTTPS certificate:** (Press enter on all fields.)
+**Set up https certificate:** (Press enter on all fields)
 
 ```
 $ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
@@ -87,7 +87,7 @@ https.createServer({
 ```
 
 
-## HTTPS Proxy (multiple servers with different domain on same host)
+## HTTPS proxy (multiple servers with different domain on same host)
 
 ```js
 const fs = require('fs')

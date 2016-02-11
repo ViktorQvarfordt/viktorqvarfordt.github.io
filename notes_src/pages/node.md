@@ -179,7 +179,9 @@ const transporter = nodemailer.createTransport({
 })
 
 function log(msg) {
-  fs.appendFile(`${__dirname}/error.log`, `${(new Date()).toISOString()} ${msg}\n`)
+  const msg = `${(new Date()).toISOString()} ${msg}`
+  console.log(msg)
+  fs.appendFile(`${__dirname}/error.log`, `${msg}\n`)
 }
 
 function sendmail(from, subject, text) {

@@ -20,10 +20,39 @@
   <body>
     <div class="content"><h1 id="node-js">Node.js</h1>
 <ul>
+<li><a href="#http-server-without-express">HTTP Server without express</a></li>
 <li><a href="#https">HTTPS</a></li>
+<li><a href="#basic-auth">Basic Auth</a></li>
 <li><a href="#https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</a></li>
 <li><a href="#-errorhandler"><code>ErrorHandler</code></a></li>
 </ul>
+<h2 id="http-server-without-express">HTTP Server without express</h2>
+<p>Example with parsing post body and query string.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>);
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+<span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
+
+http.createServer((req, res) =&gt; {
+  <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/'</span>) {
+    res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/plain'</span>})
+    res.end(<span class="hljs-string">'Hello World'</span>)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (url.parse(req.url).pathname === <span class="hljs-string">'/search'</span>) {
+    <span class="hljs-keyword">const</span> query = querystring.parse(url.parse(req.url).query)
+    res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
+    res.end(`Received query string: ${<span class="hljs-built_in">JSON</span>.stringify(query, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}`)
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/data'</span> &amp;&amp; req.method === <span class="hljs-string">'POST'</span>) {
+    <span class="hljs-keyword">let</span> body = <span class="hljs-string">''</span>
+    req.on(<span class="hljs-string">'data'</span>, chunk =&gt; body += chunk)
+    req.on(<span class="hljs-string">'end'</span>, () =&gt; {
+      res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
+      res.end(`Received post body: ${body}`)
+    })
+  } <span class="hljs-keyword">else</span> {
+    res.writeHead(<span class="hljs-number">404</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
+    res.end(<span class="hljs-string">'404 Not Found'</span>)
+  }
+}).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on http://127.0.0.1:8080'</span>))
+</code></pre>
 <h2 id="https">HTTPS</h2>
 <p><strong>Set up HTTPS certificate:</strong> (Press enter on all fields.)</p>
 <pre><code>$ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
@@ -35,6 +64,31 @@ https.createServer({
   cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
 }, (req, res) {
   res.end(<span class="hljs-string">'Hello encrypted world!'</span>)
+}).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
+</code></pre>
+<h2 id="basic-auth">Basic Auth</h2>
+<p>Use basic auth with https, otherwise the username and password is unencrypted.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
+<span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
+
+https.createServer({
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+}, (req, res) =&gt; {
+  <span class="hljs-keyword">let</span> authorized = <span class="hljs-literal">false</span>
+  <span class="hljs-keyword">if</span> (req.headers.authorization) {
+    <span class="hljs-keyword">const</span> credentials = <span class="hljs-keyword">new</span> Buffer(req.headers.authorization.replace(<span class="hljs-string">'Basic '</span>, <span class="hljs-string">''</span>), <span class="hljs-string">'base64'</span>).toString().split(<span class="hljs-regexp">/:(.*)/</span>) <span class="hljs-comment">// Split at first :</span>
+    <span class="hljs-keyword">if</span> (credentials[<span class="hljs-number">0</span>] === <span class="hljs-string">'user'</span> &amp;&amp; credentials[<span class="hljs-number">1</span>] === <span class="hljs-string">'pass'</span>) {
+      authorized = <span class="hljs-literal">true</span>
+    }
+  }
+  <span class="hljs-keyword">if</span> (authorized) {
+    res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
+    res.end(<span class="hljs-string">'Successfully authenticated'</span>)
+  } <span class="hljs-keyword">else</span> {
+    res.writeHead(<span class="hljs-number">401</span>, {<span class="hljs-string">'WWW-Authenticate'</span>: <span class="hljs-string">'Basic realm="Authenticate"'</span>})
+    res.end()
+  }
 }).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
 </code></pre>
 <h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</h2>

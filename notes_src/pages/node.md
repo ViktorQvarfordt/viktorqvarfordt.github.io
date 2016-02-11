@@ -3,6 +3,38 @@
 [TOC]
 
 
+## HTTP Server without express
+
+Example with parsing post body and query string.
+
+```js
+const url = require('url');
+const http = require('http');
+const querystring = require('querystring');
+
+http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.writeHead(200, {'Content-Type': 'text/plain'})
+    res.end('Hello World')
+  } else if (url.parse(req.url).pathname === '/search') {
+    const query = querystring.parse(url.parse(req.url).query)
+    res.writeHead(200, {'Content-type': 'text/plain; charset=utf-8'})
+    res.end(`Received query string: ${JSON.stringify(query, null, 2)}`)
+  } else if (req.url === '/data' && req.method === 'POST') {
+    let body = ''
+    req.on('data', chunk => body += chunk)
+    req.on('end', () => {
+      res.writeHead(200, {'Content-type': 'text/plain; charset=utf-8'})
+      res.end(`Received post body: ${body}`)
+    })
+  } else {
+    res.writeHead(404, {'Content-type': 'text/plain; charset=utf-8'})
+    res.end('404 Not Found')
+  }
+}).listen(8080, () => console.log('Listening on http://127.0.0.1:8080'))
+```
+
+
 ## HTTPS
 
 **Set up HTTPS certificate:** (Press enter on all fields.)
@@ -21,6 +53,36 @@ https.createServer({
   cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
 }, (req, res) {
   res.end('Hello encrypted world!')
+}).listen(8080, () => console.log('Listening on https://localhost:8080'))
+```
+
+
+## Basic Auth
+
+Use basic auth with https, otherwise the username and password is unencrypted.
+
+```js
+const fs = require('fs')
+const https = require('https')
+
+https.createServer({
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+}, (req, res) => {
+  let authorized = false
+  if (req.headers.authorization) {
+    const credentials = new Buffer(req.headers.authorization.replace('Basic ', ''), 'base64').toString().split(/:(.*)/) // Split at first :
+    if (credentials[0] === 'user' && credentials[1] === 'pass') {
+      authorized = true
+    }
+  }
+  if (authorized) {
+    res.writeHead(200, {'Content-type': 'text/plain; charset=utf-8'})
+    res.end('Successfully authenticated')
+  } else {
+    res.writeHead(401, {'WWW-Authenticate': 'Basic realm="Authenticate"'})
+    res.end()
+  }
 }).listen(8080, () => console.log('Listening on https://localhost:8080'))
 ```
 

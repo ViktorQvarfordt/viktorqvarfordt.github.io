@@ -93,6 +93,45 @@ https.createServer({
 ```
 
 
+## Async flow control
+
+```js
+const flow = {
+  parallel: (funs, cb) => {
+    let totalResult = []
+    let counter = 0
+    let someError = false
+    for (let i = 0; i < funs.length; i++) {
+      funs[i]((err, result) => {
+        totalResult[i] = result
+        counter++
+        if (err) {
+          cb(err)
+          someError = true
+        }
+        if (!someError && counter === funs.length) {
+          cb(null, totalResult)
+        }
+      })
+    }
+  },
+  series: (funs, cb) => {
+    let totalResult = []
+    let i = 0
+    const next = () => {
+      funs[i]((err, result) => {
+        totalResult.push(result)
+        if (err) cb(err)
+        else if (i++ < totalResult) next()
+        else cb(null, totalResult)
+      })
+    }
+    next()
+  }
+}
+```
+
+
 ## HTTPS proxy (multiple servers with different domain on same host)
 
 ```js

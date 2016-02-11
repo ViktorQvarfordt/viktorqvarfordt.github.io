@@ -1,6 +1,6 @@
-cd -P ..
+cd /-/vc/viktorqvarfordt.github.io/notes_src
 gulp
-cd -P ..
+cd ..
 git add . -A
 git commit -m $(date --utc +%FT%TZ)
 git push

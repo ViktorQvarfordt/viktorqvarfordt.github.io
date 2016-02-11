@@ -14,15 +14,14 @@ $ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
 **Setup server:**
 
 ```js
-var options = {
-  key: fs.readFileSync(path.join(__dirname, 'key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'cert.pem'))
-}
+const https = require('https')
 
-// app is a requestListener, e.g. app = express()
-https.createServer(options, app).listen(8080, function() {
- console.log('Listening on https://localhost:8080')
-})
+https.createServer({
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+}, (req, res) {
+  res.end('Hello encrypted world!')
+}).listen(8080, () => console.log('Listening on https://localhost:8080'))
 ```
 
 

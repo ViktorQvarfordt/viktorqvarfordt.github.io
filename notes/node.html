@@ -28,15 +28,14 @@
 <p><strong>Set up HTTPS certificate:</strong> (Press enter on all fields.)</p>
 <pre><code>$ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
 </code></pre><p><strong>Setup server:</strong></p>
-<pre><code class="js"><span class="hljs-keyword">var</span> options = {
-  key: fs.readFileSync(path.join(__dirname, <span class="hljs-string">'key.pem'</span>)),
-  cert: fs.readFileSync(path.join(__dirname, <span class="hljs-string">'cert.pem'</span>))
-}
+<pre><code class="js"><span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 
-<span class="hljs-comment">// app is a requestListener, e.g. app = express()</span>
-https.createServer(options, app).listen(<span class="hljs-number">8080</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
- console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>)
-})
+https.createServer({
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+}, (req, res) {
+  res.end(<span class="hljs-string">'Hello encrypted world!'</span>)
+}).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
 </code></pre>
 <h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS Proxy (multiple servers with different domain on same host)</h2>
 <pre><code class="js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)

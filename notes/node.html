@@ -71,10 +71,7 @@ https.createServer({
 <pre><code class="js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
 <span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 
-https.createServer({
-  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
-  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
-}, (req, res) =&gt; {
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authenticate</span><span class="hljs-params">(req, res, cb)</span> {</span>
   <span class="hljs-keyword">let</span> authorized = <span class="hljs-literal">false</span>
   <span class="hljs-keyword">if</span> (req.headers.authorization) {
     <span class="hljs-keyword">const</span> credentials = <span class="hljs-keyword">new</span> Buffer(req.headers.authorization.replace(<span class="hljs-string">'Basic '</span>, <span class="hljs-string">''</span>), <span class="hljs-string">'base64'</span>).toString().split(<span class="hljs-regexp">/:(.*)/</span>) <span class="hljs-comment">// Split at first :</span>
@@ -83,12 +80,21 @@ https.createServer({
     }
   }
   <span class="hljs-keyword">if</span> (authorized) {
-    res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
-    res.end(<span class="hljs-string">'Successfully authenticated'</span>)
+    cb()
   } <span class="hljs-keyword">else</span> {
     res.writeHead(<span class="hljs-number">401</span>, {<span class="hljs-string">'WWW-Authenticate'</span>: <span class="hljs-string">'Basic realm="Authenticate"'</span>})
     res.end()
   }
+}
+
+https.createServer({
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+}, (req, res) =&gt; {
+  authenticate(req, res, () =&gt; {
+    res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
+    res.end(<span class="hljs-string">'Successfully authenticated'</span>)
+  })
 }).listen(<span class="hljs-number">8080</span>, () =&gt; console.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
 </code></pre>
 <h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS proxy (multiple servers with different domain on same host)</h2>

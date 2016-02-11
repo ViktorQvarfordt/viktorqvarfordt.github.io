@@ -65,10 +65,7 @@ Use basic auth with https, otherwise the username and password is unencrypted.
 const fs = require('fs')
 const https = require('https')
 
-https.createServer({
-  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
-  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
-}, (req, res) => {
+function authenticate(req, res, cb) {
   let authorized = false
   if (req.headers.authorization) {
     const credentials = new Buffer(req.headers.authorization.replace('Basic ', ''), 'base64').toString().split(/:(.*)/) // Split at first :
@@ -77,12 +74,21 @@ https.createServer({
     }
   }
   if (authorized) {
-    res.writeHead(200, {'Content-type': 'text/plain; charset=utf-8'})
-    res.end('Successfully authenticated')
+    cb()
   } else {
     res.writeHead(401, {'WWW-Authenticate': 'Basic realm="Authenticate"'})
     res.end()
   }
+}
+
+https.createServer({
+  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+}, (req, res) => {
+  authenticate(req, res, () => {
+    res.writeHead(200, {'Content-type': 'text/plain; charset=utf-8'})
+    res.end('Successfully authenticated')
+  })
 }).listen(8080, () => console.log('Listening on https://localhost:8080'))
 ```
 

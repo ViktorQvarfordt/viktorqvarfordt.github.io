@@ -25,6 +25,8 @@ External links:
   \renewcommand{\@evenfoot}{\@oddfoot}
 }
 \makeatother
+\pagestyle{plain}
+
 
 \begin{document}
 
@@ -446,6 +448,35 @@ $\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
 
 % hline in the footer, just like header.
 \renewcommand{\footrulewidth}{0.4pt}
+```
+
+
+
+### Enumerate interitemtext
+
+```tex
+\documentclass[a4paper]{article}
+
+\usepackage{lipsum}
+
+\newcommand{\interitemtext}[1]{
+  \item[] \hspace{-\labelwidth}\hspace{-\labelsep}#1
+}
+
+\begin{document}
+
+\lipsum[1]
+
+\begin{enumerate}
+  \item First item
+  \item Second item
+  \interitemtext{This is some inter-item text}
+  \item Third item
+\end{enumerate}
+
+\lipsum[2]
+
+\end{document}
 ```
 
 

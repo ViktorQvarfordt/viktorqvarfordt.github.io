@@ -51,6 +51,7 @@
 <li><a href="#margins">Margins</a></li>
 <li><a href="#european-style-paragraph-newline-no-indentation">European style paragraph newline (no indentation)</a></li>
 <li><a href="#fancy-headers-with-fancyhdr">Fancy headers with <code>fancyhdr</code></a></li>
+<li><a href="#enumerate-interitemtext">Enumerate interitemtext</a></li>
 <li><a href="#margin-notes">Margin notes</a></li>
 <li><a href="#table-of-contents-dots-for-sections">Table of contents dots for sections:</a></li>
 <li><a href="#-tables-http-en-wikibooks-org-wiki-latex-tables"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables">Tables</a></a><ul>
@@ -82,6 +83,8 @@
   <span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\@</span>evenfoot<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\@</span>oddfoot<span class="hljs-special">}</span>
 <span class="hljs-special">}</span>
 <span class="hljs-command">\makeatother</span>
+<span class="hljs-command">\pagestyle</span><span class="hljs-special">{</span>plain<span class="hljs-special">}</span>
+
 
 <span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 
@@ -367,6 +370,30 @@ def f(x):
 
 <span class="hljs-comment">% hline in the footer, just like header.</span>
 <span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\footrulewidth</span><span class="hljs-special">}</span><span class="hljs-special">{</span>0.4pt<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="enumerate-interitemtext">Enumerate interitemtext</h3>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>a4paper<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>lipsum<span class="hljs-special">}</span>
+
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\interitemtext</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span>
+  <span class="hljs-command">\item</span><span class="hljs-special">[</span><span class="hljs-special">]</span> <span class="hljs-command">\hspace</span><span class="hljs-special">{</span>-<span class="hljs-command">\labelwidth</span><span class="hljs-special">}</span><span class="hljs-command">\hspace</span><span class="hljs-special">{</span>-<span class="hljs-command">\labelsep</span><span class="hljs-special">}</span><span class="hljs-special">#</span>1
+<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+
+<span class="hljs-command">\lipsum</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>enumerate<span class="hljs-special">}</span>
+  <span class="hljs-command">\item</span> First item
+  <span class="hljs-command">\item</span> Second item
+  <span class="hljs-command">\interitemtext</span><span class="hljs-special">{</span>This is some inter-item text<span class="hljs-special">}</span>
+  <span class="hljs-command">\item</span> Third item
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>enumerate<span class="hljs-special">}</span>
+
+<span class="hljs-command">\lipsum</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span>
+
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
 </code></pre>
 <h3 id="margin-notes">Margin notes</h3>
 <p><code>\usepackage{marginnote}</code></p>

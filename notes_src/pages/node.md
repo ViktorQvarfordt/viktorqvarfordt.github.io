@@ -136,6 +136,7 @@ const flow = {
 
 ```js
 const fs = require('fs')
+const http = require('http')
 const https = require('https')
 const httpProxy = require('http-proxy')
 
@@ -145,7 +146,9 @@ const rules = {
   'api.example.com': 'http://localhost:3001'
 }
 
-const proxy = httpProxy.createProxyServer({})
+const proxy = httpProxy.createProxyServer({ secure: false })
+proxy.on('error', (err, req, res) => { console.log(err); res.end() })
+
 
 https.createServer({
   key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
@@ -157,7 +160,13 @@ https.createServer({
     res.writeHead(500)
     res.end(`unknown domain '${req.headers.host}'`)
   }
-}).listen(443, () => console.log('https://localhost'))
+}).listen(443, () => console.log('Proxy server listening on https://127.0.0.1'))
+
+
+http.createServer((req, res) => {
+  res.writeHead(301, { 'Location': `https://${req.headers.host}${req.url}` })
+  res.end()
+}).listen(80, () => console.log('HTTP -> HTTPS redirect server listening on http://127.0.0.1'))
 ```
 
 

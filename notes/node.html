@@ -135,6 +135,7 @@ https.createServer({
 </code></pre>
 <h2 id="https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS proxy (multiple servers with different domain on same host)</h2>
 <pre><code class="js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>)
 <span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 <span class="hljs-keyword">const</span> httpProxy = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http-proxy'</span>)
 
@@ -144,7 +145,9 @@ https.createServer({
   <span class="hljs-string">'api.example.com'</span>: <span class="hljs-string">'http://localhost:3001'</span>
 }
 
-<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({})
+<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({ secure: <span class="hljs-literal">false</span> })
+proxy.on(<span class="hljs-string">'error'</span>, (err, req, res) =&gt; { console.log(err); res.end() })
+
 
 https.createServer({
   key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
@@ -156,7 +159,13 @@ https.createServer({
     res.writeHead(<span class="hljs-number">500</span>)
     res.end(`unknown domain <span class="hljs-string">'${req.headers.host}'</span>`)
   }
-}).listen(<span class="hljs-number">443</span>, () =&gt; console.log(<span class="hljs-string">'https://localhost'</span>))
+}).listen(<span class="hljs-number">443</span>, () =&gt; console.log(<span class="hljs-string">'Proxy server listening on https://127.0.0.1'</span>))
+
+
+http.createServer((req, res) =&gt; {
+  res.writeHead(<span class="hljs-number">301</span>, { <span class="hljs-string">'Location'</span>: `https:<span class="hljs-comment">//${req.headers.host}${req.url}` })</span>
+  res.end()
+}).listen(<span class="hljs-number">80</span>, () =&gt; console.log(<span class="hljs-string">'HTTP -&gt; HTTPS redirect server listening on http://127.0.0.1'</span>))
 </code></pre>
 <h2 id="-errorhandler"><code>ErrorHandler</code></h2>
 <pre><code class="js"><span class="hljs-comment">// Report errors by email and to error.log</span>

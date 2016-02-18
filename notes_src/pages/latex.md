@@ -50,7 +50,7 @@ Hello World!
 
 This can be use with the following Sublime Text 3 plugin that automatically extracts and opens embedded files for editing.
 
-```py
+```python
 import sublime, sublime_plugin
 import os, subprocess
 

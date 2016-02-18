@@ -1,0 +1,598 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  </head>
+  <body>
+    <div class="content"><h1 id="-latex">$\LaTeX$</h1>
+<ul>
+<li><a href="#template-with-source-embedded-to-pdf">Template with source embedded to pdf</a></li>
+<li><a href="#automagically-compile-document">Automagically compile document</a></li>
+<li><a href="#code-highlighting-with-minted">Code highlighting with <code>minted</code></a></li>
+<li><a href="#embed-file-as-pdf-attachment">Embed file as PDF attachment</a></li>
+<li><a href="#minimal-pdf-document">Minimal pdf document</a><ul>
+<li><a href="#-standalone-package"><code>standalone</code> package</a></li>
+<li><a href="#-pdfcrop-command"><code>pdfcrop</code> command</a></li>
+</ul>
+</li>
+<li><a href="#images-figures-and-floats">Images, figures and floats</a><ul>
+<li><a href="#full-page-image">Full-page image</a></li>
+<li><a href="#-centering-figure-that-is-wider-than-textwidth-http-tex-stackexchange-com-questions-16582-center-figure-that-is-wider-than-textwidth"><a href="http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth">Centering figure that is wider than <code>\textwidth</code></a></a></li>
+</ul>
+</li>
+<li><a href="#bibliography">Bibliography</a><ul>
+<li><a href="#basic">Basic</a></li>
+<li><a href="#biblatex">Biblatex</a></li>
+</ul>
+</li>
+<li><a href="#mathematics">Mathematics</a><ul>
+<li><a href="#theorems-lemmatas-definitions-etc">Theorems, lemmatas, definitions, etc.</a></li>
+<li><a href="#equation-numbering-based-on-section-number">Equation numbering based on section number</a></li>
+<li><a href="#macros">Macros</a></li>
+<li><a href="#comma-separated-arguments">Comma separated arguments</a></li>
+<li><a href="#other">Other</a></li>
+</ul>
+</li>
+<li><a href="#misc">Misc</a><ul>
+<li><a href="#margins">Margins</a></li>
+<li><a href="#european-style-paragraph-newline-no-indentation">European style paragraph newline (no indentation)</a></li>
+<li><a href="#fancy-headers-with-fancyhdr">Fancy headers with <code>fancyhdr</code></a></li>
+<li><a href="#enumerate-interitemtext">Enumerate interitemtext</a></li>
+<li><a href="#margin-notes">Margin notes</a></li>
+<li><a href="#table-of-contents-dots-for-sections">Table of contents dots for sections:</a></li>
+<li><a href="#-tables-http-en-wikibooks-org-wiki-latex-tables"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables">Tables</a></a><ul>
+<li><a href="#-booktabs-http-en-wikibooks-org-wiki-latex-tables-using_booktabs"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables#Using_booktabs">Booktabs</a></a></li>
+</ul>
+</li>
+<li><a href="#force-hfill">Force <code>\hfill</code></a></li>
+</ul>
+</li>
+<li><a href="#titlepage-template">Titlepage template</a></li>
+</ul>
+<p>External links:</p>
+<ul>
+<li><a href="http://en.wikibooks.org/wiki/LaTeX">Wikibooks LaTeX</a></li>
+<li><a href="http://tobi.oetiker.ch/lshort/lshort.pdf">The Not So Short Introduction to LaTeX</a></li>
+</ul>
+<h2 id="template-with-source-embedded-to-pdf">Template with source embedded to pdf</h2>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>a4paper,10pt<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>utf8<span class="hljs-special">]</span><span class="hljs-special">{</span>inputenc<span class="hljs-special">}</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>T1<span class="hljs-special">]</span><span class="hljs-special">{</span>fontenc<span class="hljs-special">}</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>embedfile,lastpage,geometry,amsmath,amssymb<span class="hljs-special">}</span>
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>hidelinks<span class="hljs-special">]</span><span class="hljs-special">{</span>hyperref<span class="hljs-special">}</span>
+
+<span class="hljs-special">{</span> <span class="hljs-comment">% Show page number as thispage/lastpage</span>
+  <span class="hljs-command">\makeatletter</span>
+  <span class="hljs-command">\def</span><span class="hljs-command">\ps</span>@plain<span class="hljs-special">{</span> <span class="hljs-comment">% Redefine plain to also override titlepage pagestyle.</span>
+    <span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\@</span>oddfoot<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\hfill</span><span class="hljs-command">\thepage</span>/<span class="hljs-command">\pageref*</span><span class="hljs-special">{</span>LastPage<span class="hljs-special">}</span><span class="hljs-command">\hfill</span><span class="hljs-special">}</span>
+    <span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\@</span>evenfoot<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\@</span>oddfoot<span class="hljs-special">}</span>
+  <span class="hljs-special">}</span>
+  <span class="hljs-command">\makeatother</span>
+<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+
+<span class="hljs-special">{</span> <span class="hljs-comment">% Embed latex source in pdf</span>
+  <span class="hljs-command">\embedfile</span><span class="hljs-special">{</span>index.tex<span class="hljs-special">}</span>
+  <span class="hljs-command">\renewcommand</span><span class="hljs-command">\thefootnote</span><span class="hljs-special">{</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\footnotetext</span><span class="hljs-special">{</span>This document contains its <span class="hljs-command">\LaTeX</span><span class="hljs-special">{</span><span class="hljs-special">}</span> source embedded as PDF attachment.<span class="hljs-special">}</span>
+<span class="hljs-special">}</span>
+
+<span class="hljs-command">\title</span><span class="hljs-special">{</span>Title<span class="hljs-special">}</span>
+<span class="hljs-command">\author</span><span class="hljs-special">{</span>Viktor Qvarfordt<span class="hljs-special">}</span>
+<span class="hljs-command">\maketitle</span>
+
+<span class="hljs-comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+
+<span class="hljs-command">\section</span><span class="hljs-special">{</span>Introduction<span class="hljs-special">}</span>
+
+Hello World!
+
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<p>This can be use with the following Sublime Text 3 plugin that automatically extracts and opens embedded files for editing.</p>
+<pre><code class="python"><span class="hljs-keyword">import</span> sublime, sublime_plugin
+<span class="hljs-keyword">import</span> os, subprocess
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MagicLatexPdf</span><span class="hljs-params">(sublime_plugin.EventListener)</span>:</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">on_load</span><span class="hljs-params">(self, view)</span>:</span>
+    mimetype = subprocess.check_output([<span class="hljs-string">'mimetype'</span>, <span class="hljs-string">'-b'</span>, view.file_name()]).decode(<span class="hljs-string">'utf-8'</span>).strip()
+    <span class="hljs-keyword">if</span> mimetype == <span class="hljs-string">'application/pdf'</span>:
+      file_name = view.file_name()
+      tmp_dir = <span class="hljs-string">'/tmp/magic-sublime-latex'</span> + file_name.replace(<span class="hljs-string">'/'</span>, <span class="hljs-string">'!'</span>)
+      <span class="hljs-keyword">try</span>:
+        os.mkdir(tmp_dir)
+      <span class="hljs-keyword">except</span> FileExistsError:
+        panel = view.window().create_output_panel(<span class="hljs-string">'log'</span>)
+        panel.run_command(<span class="hljs-string">'set_panel_text'</span>, { <span class="hljs-string">'text'</span>: <span class="hljs-string">'PDF attachments already extracted, opening existing magic folder\n'</span> + file_name })
+        view.window().run_command(<span class="hljs-string">'show_panel'</span>, {<span class="hljs-string">'panel'</span>: <span class="hljs-string">'output.log'</span>})
+      <span class="hljs-keyword">else</span>:
+        subprocess.call([<span class="hljs-string">'pdfdetach'</span>, file_name, <span class="hljs-string">'-saveall'</span>, <span class="hljs-string">'-o'</span>, tmp_dir])
+      d = view.window().project_data()
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> d:
+        d = { <span class="hljs-string">'folders'</span>: [ { <span class="hljs-string">'path'</span>: tmp_dir } ] }
+      d[<span class="hljs-string">'folders'</span>].append({ <span class="hljs-string">'path'</span>: tmp_dir })
+      view.window().set_project_data(d)
+      <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> os.listdir(tmp_dir):
+        <span class="hljs-keyword">if</span> file.endswith(<span class="hljs-string">'.tex'</span>):
+          new_view = view.window().open_file(tmp_dir + <span class="hljs-string">'/'</span> + file)
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(file_name):
+        new_view = view.window().open_file(tmp_dir + <span class="hljs-string">'/'</span> + file_name.split(<span class="hljs-string">'/'</span>)[-<span class="hljs-number">1</span>].replace(<span class="hljs-string">'.pdf'</span>, <span class="hljs-string">'.tex'</span>))
+      view.close()
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CompileLatexOnSave</span><span class="hljs-params">(sublime_plugin.EventListener)</span>:</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">on_post_save</span><span class="hljs-params">(self, view)</span>:</span>
+    f = view.file_name()
+    panel = view.window().create_output_panel(<span class="hljs-string">'log'</span>)
+    panel.set_syntax_file(<span class="hljs-string">'Packages/LaTeX/LaTeX Log.tmLanguage'</span>)
+    <span class="hljs-keyword">if</span> f.startswith(<span class="hljs-string">'/tmp/magic-sublime-latex'</span>) <span class="hljs-keyword">and</span> f.endswith(<span class="hljs-string">'.tex'</span>):
+      p = subprocess.Popen(
+        [<span class="hljs-string">'pdflatex'</span>, <span class="hljs-string">'-halt-on-error'</span>, <span class="hljs-string">'-interaction=nonstopmode'</span>, <span class="hljs-string">'--shell-escape'</span>, f],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        cwd=<span class="hljs-string">'/'</span>.join(f.split(<span class="hljs-string">'/'</span>)[<span class="hljs-number">0</span>:-<span class="hljs-number">1</span>]),
+        bufsize=<span class="hljs-number">1</span>,
+        universal_newlines=<span class="hljs-keyword">True</span>)
+      <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> p.stdout:
+        panel.run_command(<span class="hljs-string">'set_panel_text'</span>, { <span class="hljs-string">'text'</span>: line })
+      p.wait()
+      <span class="hljs-keyword">if</span> p.returncode == <span class="hljs-number">0</span>:
+        os.rename(f[:-<span class="hljs-number">3</span>] + <span class="hljs-string">'pdf'</span>, <span class="hljs-string">'/'</span>.join(f.replace(<span class="hljs-string">'/tmp/magic-sublime-latex'</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-string">'!'</span>, <span class="hljs-string">'/'</span>).split(<span class="hljs-string">'/'</span>)[<span class="hljs-number">0</span>:-<span class="hljs-number">1</span>]))
+      <span class="hljs-keyword">else</span>:
+        view.window().run_command(<span class="hljs-string">'show_panel'</span>, {<span class="hljs-string">'panel'</span>: <span class="hljs-string">'output.log'</span>})
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SetPanelText</span><span class="hljs-params">(sublime_plugin.TextCommand)</span>:</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run</span><span class="hljs-params">(self, edit, text)</span>:</span>
+    self.view.insert(edit, self.view.size(), text)
+    self.view.show(self.view.size())
+</code></pre>
+<h2 id="automagically-compile-document">Automagically compile document</h2>
+<p>Basic version:</p>
+<pre><code class="bash"><span class="hljs-keyword">while</span> inotifywait -qq <span class="hljs-operator">-e</span> modify *.tex; <span class="hljs-keyword">do</span>
+  clear &amp;&amp; pdflatex -interaction=nonstopmode *.tex | grep <span class="hljs-string">"^\!\|^l."</span>
+<span class="hljs-keyword">done</span>
+</code></pre>
+<p>Extended with more features: <a href="https://github.com/ViktorQvarfordt/auto-tex-compile">auto-tex-compile</a></p>
+<h2 id="code-highlighting-with-minted">Code highlighting with <code>minted</code></h2>
+<p><a href="https://code.google.com/p/minted/">https://code.google.com/p/minted/</a></p>
+<p>Basic usage:</p>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span> <span class="hljs-comment">% NB: Load minted after hyperref</span>
+
+...
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span><span class="hljs-special">{</span>python<span class="hljs-special">}</span>
+def f(x):
+  return 2*x
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>minted<span class="hljs-special">}</span>
+</code></pre>
+<pre><code class="tex"><span class="hljs-comment">% Line numbers; gray and smaller</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\theFancyVerbLine</span><span class="hljs-special">}</span><span class="hljs-special">{</span>
+  <span class="hljs-command">\sffamily</span><span class="hljs-command">\textcolor</span><span class="hljs-special">[</span>rgb<span class="hljs-special">]</span><span class="hljs-special">{</span>0.5,0.5,0.5<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\scriptsize</span><span class="hljs-command">\arabic</span><span class="hljs-special">{</span>FancyVerbLine<span class="hljs-special">}</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-comment">% Provides `matlabcode` command.</span>
+<span class="hljs-command">\newminted</span><span class="hljs-special">{</span>matlab<span class="hljs-special">}</span><span class="hljs-special">{</span>linenos,numbersep=5pt,frame=lines,framesep=2mm<span class="hljs-special">}</span>
+
+<span class="hljs-comment">% Provides `matlabfile` command.</span>
+<span class="hljs-command">\newmintedfile</span><span class="hljs-special">{</span>matlab<span class="hljs-special">}</span><span class="hljs-special">{</span>linenos,numbersep=5pt<span class="hljs-special">}</span>
+
+<span class="hljs-comment">% Colored background</span>
+<span class="hljs-command">\definecolor</span><span class="hljs-special">{</span>bg<span class="hljs-special">}</span><span class="hljs-special">{</span>rgb<span class="hljs-special">}</span><span class="hljs-special">{</span>0.95,0.95,0.95<span class="hljs-special">}</span>
+<span class="hljs-command">\newminted</span><span class="hljs-special">{</span>matlab<span class="hljs-special">}</span><span class="hljs-special">{</span>bgcolor=bg<span class="hljs-special">}</span>
+</code></pre>
+<h2 id="embed-file-as-pdf-attachment">Embed file as PDF attachment</h2>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>embedfile<span class="hljs-special">}</span>
+<span class="hljs-command">\embedfile</span><span class="hljs-special">{</span>index.tex<span class="hljs-special">}</span>
+</code></pre>
+<h2 id="minimal-pdf-document">Minimal pdf document</h2>
+<p>Create a pdf with no margins and page breaks. PDF document dimensions adapted to content size.</p>
+<h3 id="-standalone-package"><code>standalone</code> package</h3>
+<p>The <code>varwidth</code> parameter makes line-break behave normally.</p>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>varwidth<span class="hljs-special">]</span><span class="hljs-special">{</span>standalone<span class="hljs-special">}</span>
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+  Hello minimal world!
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="-pdfcrop-command"><code>pdfcrop</code> command</h3>
+<p>This is a command (included in the texlive latex distribution for linux) that crops margins from pdf documents. The command does not remove page breaks. Page numbers have to be explicitly suppressed.</p>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>a4paper<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+<span class="hljs-command">\thispagestyle</span><span class="hljs-special">{</span>none<span class="hljs-special">}</span>
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+  Hello cropped world!
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<p>After compiling the document, simply run the command <code>pdfcrop</code> on the resulting pdf.</p>
+<h2 id="images-figures-and-floats">Images, figures and floats</h2>
+<p><code>\usepackage{graphicx}</code></p>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+  <span class="hljs-command">\centering</span>
+  <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=0.8<span class="hljs-command">\linewidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span>filename<span class="hljs-special">}</span>
+  <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text.<span class="hljs-special">}</span>
+  <span class="hljs-command">\label</span><span class="hljs-special">{</span>fig:foo<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+</code></pre>
+<p><a href="http://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions#Figures">Figure positioning.</a>
+<a href="https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions#Keeping_floats_in_their_place">Keeping_floats_in_their_place</a></p>
+<h3 id="full-page-image">Full-page image</h3>
+<pre><code class="tex"><span class="hljs-command">\clearpage</span>
+<span class="hljs-command">\newgeometry</span><span class="hljs-special">{</span>margin=0pt<span class="hljs-special">}</span>
+
+<span class="hljs-command">\newlength</span><span class="hljs-command">\figheight</span>
+<span class="hljs-command">\setlength</span><span class="hljs-command">\figheight</span><span class="hljs-command">\paperheight</span>
+<span class="hljs-command">\addtolength</span><span class="hljs-command">\figheight</span><span class="hljs-special">{</span>-4cm<span class="hljs-special">}</span>
+
+<span class="hljs-command">\newlength</span><span class="hljs-command">\figwidth</span>
+<span class="hljs-command">\setlength</span><span class="hljs-command">\figwidth</span><span class="hljs-command">\paperwidth</span>
+<span class="hljs-command">\addtolength</span><span class="hljs-command">\figwidth</span><span class="hljs-special">{</span>-4cm<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+  <span class="hljs-command">\centerfloat</span>
+  <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-command">\figwidth</span>,height=<span class="hljs-command">\figheight</span>,keepaspectratio<span class="hljs-special">]</span><span class="hljs-special">{</span>flow_diagram_1_1<span class="hljs-special">}</span>
+  <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text<span class="hljs-special">}</span>
+  <span class="hljs-command">\label</span><span class="hljs-special">{</span>fig:myfig<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+
+<span class="hljs-command">\restoregeometry</span>
+<span class="hljs-command">\clearpage</span>
+</code></pre>
+<h3 id="-centering-figure-that-is-wider-than-textwidth-http-tex-stackexchange-com-questions-16582-center-figure-that-is-wider-than-textwidth"><a href="http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth">Centering figure that is wider than <code>\textwidth</code></a></h3>
+<p>Example:</p>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span>
+  <span class="hljs-command">\centering</span>
+  <span class="hljs-command">\makebox</span><span class="hljs-special">[</span>1pt<span class="hljs-special">]</span><span class="hljs-special">[</span>c<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-command">\paperwidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span>imgpath<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text<span class="hljs-special">}</span>
+  <span class="hljs-command">\label</span><span class="hljs-special">{</span>fig:myfig<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+</code></pre>
+<p>Alternatively, using <code>\centerfloat</code> from the memoir-class:</p>
+<pre><code class="tex"><span class="hljs-command">\makeatletter</span>
+<span class="hljs-command">\newcommand*</span><span class="hljs-special">{</span><span class="hljs-command">\centerfloat</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
+  <span class="hljs-command">\parindent</span> <span class="hljs-command">\z</span>@
+  <span class="hljs-command">\leftskip</span> <span class="hljs-command">\z</span>@ <span class="hljs-command">\@</span>plus 1fil <span class="hljs-command">\@</span>minus <span class="hljs-command">\textwidth</span>
+  <span class="hljs-command">\rightskip</span><span class="hljs-command">\leftskip</span>
+  <span class="hljs-command">\parfillskip</span> <span class="hljs-command">\z</span>@skip<span class="hljs-special">}</span>
+<span class="hljs-command">\makeatother</span>
+
+<span class="hljs-comment">% Use just as \centering</span>
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">[</span>!htbp<span class="hljs-special">]</span>
+  <span class="hljs-command">\centerfloat</span>
+  <span class="hljs-command">\includegraphics</span><span class="hljs-special">[</span>width=<span class="hljs-command">\paperwidth</span><span class="hljs-special">]</span><span class="hljs-special">{</span>imgpath<span class="hljs-special">}</span>
+  <span class="hljs-command">\caption</span><span class="hljs-special">{</span>Descriptive text<span class="hljs-special">}</span>
+  <span class="hljs-command">\label</span><span class="hljs-special">{</span>fig:myfig<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span>
+</code></pre>
+<p>Yet another alternative:</p>
+<pre><code class="tex"><span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\forcecenter</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-comment">%</span>
+  <span class="hljs-command">\makebox</span><span class="hljs-special">[</span>0pt<span class="hljs-special">]</span><span class="hljs-special">[</span>c<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-comment">%</span>
+<span class="hljs-special">}</span>
+</code></pre>
+<h2 id="bibliography">Bibliography</h2>
+<h3 id="basic">Basic</h3>
+<pre><code class="tex">...
+<span class="hljs-command">\newpage</span>
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>thebibliography<span class="hljs-special">}</span><span class="hljs-special">{</span>99<span class="hljs-special">}</span>
+  <span class="hljs-command">\bibitem</span><span class="hljs-special">{</span>biblabel1<span class="hljs-special">}</span> <span class="hljs-command">\url</span><span class="hljs-special">{</span>http://www.example.com/<span class="hljs-special">}</span>, 2012-12-09
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>thebibliography<span class="hljs-special">}</span>
+
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="biblatex">Biblatex</h3>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+
+<span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>backend=biber<span class="hljs-special">]</span><span class="hljs-special">{</span>biblatex<span class="hljs-special">}</span>
+<span class="hljs-command">\addbibresource</span><span class="hljs-special">{</span>refs.bib<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+
+<span class="hljs-command">\cite</span><span class="hljs-special">{</span>&lt;some-ref&gt;<span class="hljs-special">}</span>
+<span class="hljs-comment">% \nocite{*} % to print all references from databse</span>
+
+<span class="hljs-command">\printbibliography</span>
+
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<pre><code>$ pdflatex document.tex &amp;&amp; biber document.bcf &amp;&amp; pdflatex document.tex
+</code></pre><p>Where <code>refs.bib</code> may look like <a href="http://ctan.space-pro.be/tex-archive/macros/latex/contrib/biblatex/doc/examples/biblatex-examples.bib">this</a>.</p>
+<p>More info:</p>
+<ul>
+<li><a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf">http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf</a></li>
+<li><a href="http://www.ctan.org/tex-archive/macros/latex/exptl/biblatex/doc/examples">http://www.ctan.org/tex-archive/macros/latex/exptl/biblatex/doc/examples</a></li>
+<li><a href="http://tex.stackexchange.com/questions/13509/biblatex-for-idiots">http://tex.stackexchange.com/questions/13509/biblatex-for-idiots</a></li>
+<li><a href="http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex">http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex</a></li>
+</ul>
+<h2 id="mathematics">Mathematics</h2>
+<h3 id="theorems-lemmatas-definitions-etc">Theorems, lemmatas, definitions, etc.</h3>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>amsthm<span class="hljs-special">}</span>
+
+<span class="hljs-command">\theoremstyle</span><span class="hljs-special">{</span>plain<span class="hljs-special">}</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>theorem<span class="hljs-special">}</span><span class="hljs-special">{</span>Theorem<span class="hljs-special">}</span><span class="hljs-special">[</span>section<span class="hljs-special">]</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>proposition<span class="hljs-special">}</span><span class="hljs-special">[</span>theorem<span class="hljs-special">]</span><span class="hljs-special">{</span>Proposition<span class="hljs-special">}</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>lemma<span class="hljs-special">}</span><span class="hljs-special">[</span>theorem<span class="hljs-special">]</span><span class="hljs-special">{</span>Lemma<span class="hljs-special">}</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>corollary<span class="hljs-special">}</span><span class="hljs-special">[</span>theorem<span class="hljs-special">]</span><span class="hljs-special">{</span>Corollary<span class="hljs-special">}</span>
+
+<span class="hljs-command">\theoremstyle</span><span class="hljs-special">{</span>definition<span class="hljs-special">}</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>definition<span class="hljs-special">}</span><span class="hljs-special">{</span>Definition<span class="hljs-special">}</span><span class="hljs-special">[</span>section<span class="hljs-special">]</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>example<span class="hljs-special">}</span><span class="hljs-special">{</span>Example<span class="hljs-special">}</span><span class="hljs-special">[</span>section<span class="hljs-special">]</span>
+
+<span class="hljs-command">\theoremstyle</span><span class="hljs-special">{</span>remark<span class="hljs-special">}</span>
+<span class="hljs-command">\newtheorem</span><span class="hljs-special">{</span>remark<span class="hljs-special">}</span><span class="hljs-special">{</span>Remark<span class="hljs-special">}</span><span class="hljs-special">[</span>section<span class="hljs-special">]</span>
+</code></pre>
+<h3 id="equation-numbering-based-on-section-number">Equation numbering based on section number</h3>
+<pre><code class="tex"><span class="hljs-command">\numberwithin</span><span class="hljs-special">{</span>equation<span class="hljs-special">}</span><span class="hljs-special">{</span>section<span class="hljs-special">}</span>
+<span class="hljs-command">\numberwithin</span><span class="hljs-special">{</span>table<span class="hljs-special">}</span><span class="hljs-special">{</span>section<span class="hljs-special">}</span>
+<span class="hljs-command">\numberwithin</span><span class="hljs-special">{</span>figure<span class="hljs-special">}</span><span class="hljs-special">{</span>section<span class="hljs-special">}</span>
+
+<span class="hljs-comment">%% Hide section numbers</span>
+<span class="hljs-command">\setcounter</span><span class="hljs-special">{</span>secnumdepth<span class="hljs-special">}</span><span class="hljs-special">{</span>0<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="macros">Macros</h3>
+<pre><code class="tex"><span class="hljs-comment">%% QED square-symbol properly floating to the right.</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\qed</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\hspace*</span><span class="hljs-special">{</span>0pt<span class="hljs-special">}</span><span class="hljs-command">\hfill</span><span class="hljs-command">\ensuremath</span><span class="hljs-special">{</span><span class="hljs-command">\square</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-comment">%% Symbols</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\N</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\mathbb</span><span class="hljs-special">{</span>N<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Z</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\mathbb</span><span class="hljs-special">{</span>Z<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\R</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\mathbb</span><span class="hljs-special">{</span>R<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\C</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\mathbb</span><span class="hljs-special">{</span>C<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-comment">%% Differential operators</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\D</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span>d<span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span>d<span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\pD</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span><span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Dn</span><span class="hljs-special">}</span><span class="hljs-special">[</span>3<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span>d^<span class="hljs-special">#</span>3<span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span>d<span class="hljs-special">#</span>2^<span class="hljs-special">#</span>3<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\pDn</span><span class="hljs-special">}</span><span class="hljs-special">[</span>3<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span>^<span class="hljs-special">#</span>3<span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span><span class="hljs-special">#</span>2^<span class="hljs-special">#</span>3<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Dop</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span>d<span class="hljs-special">}</span><span class="hljs-special">{</span>d<span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\pDop</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Dopn</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span>d^<span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">{</span>d<span class="hljs-special">#</span>1^<span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\pDopn</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\frac</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span>^<span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\partial</span><span class="hljs-special">#</span>1^<span class="hljs-special">#</span>2<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-comment">%% Notation</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\norm</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\left</span><span class="hljs-command">\lVert</span><span class="hljs-special">#</span>1<span class="hljs-command">\right</span><span class="hljs-command">\rVert</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\abs</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\left</span><span class="hljs-command">\lvert</span><span class="hljs-special">#</span>1<span class="hljs-command">\right</span><span class="hljs-command">\rvert</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\ip</span><span class="hljs-special">}</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\ensuremath</span><span class="hljs-special">{</span><span class="hljs-command">\langle</span> <span class="hljs-special">#</span>1, <span class="hljs-special">#</span>2 <span class="hljs-command">\rangle</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-comment">%% Operators</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Dom</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Dom<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\Ker</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\operatorname</span><span class="hljs-special">{</span>Ker<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-comment">%% Vectors</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\vec</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\boldsymbol</span><span class="hljs-special">{</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-comment">%\renewcommand{\vec}[1]{\mathbf{#1}}</span>
+</code></pre>
+<h3 id="comma-separated-arguments">Comma separated arguments</h3>
+<pre><code class="tex"><span class="hljs-comment">% Inner product: \ip{u,v}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ip</span><span class="hljs-special">#</span>1<span class="hljs-special">{</span><span class="hljs-command">\ipinner</span>(<span class="hljs-special">#</span>1)<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ipinner</span>(<span class="hljs-special">#</span>1,<span class="hljs-special">#</span>2)<span class="hljs-special">{</span><span class="hljs-command">\ensuremath</span><span class="hljs-special">{</span><span class="hljs-command">\langle</span> <span class="hljs-special">#</span>1, <span class="hljs-special">#</span>2 <span class="hljs-command">\rangle</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+</code></pre>
+<p>Allow both normal and comma separated style:</p>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>amsmath<span class="hljs-special">}</span>
+
+<span class="hljs-comment">% Inner product.</span>
+<span class="hljs-command">\makeatletter</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ip</span><span class="hljs-special">#</span>1<span class="hljs-special">{</span><span class="hljs-command">\expandafter</span><span class="hljs-command">\iphelp</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\iphelp</span><span class="hljs-special">#</span>1<span class="hljs-special">{</span><span class="hljs-command">\@</span>ifnextchar,<span class="hljs-special">{</span><span class="hljs-command">\ipinner</span><span class="hljs-special">#</span>1<span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\ipinner</span><span class="hljs-special">#</span>1,<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\ipinner</span><span class="hljs-special">#</span>1,<span class="hljs-special">#</span>2<span class="hljs-special">{</span><span class="hljs-command">\langle</span> <span class="hljs-special">#</span>1, <span class="hljs-special">#</span>2 <span class="hljs-command">\rangle</span><span class="hljs-special">}</span>
+<span class="hljs-command">\makeatletter</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+
+<span class="hljs-formula">$<span class="hljs-command">\ip</span><span class="hljs-special">{</span>u<span class="hljs-special">}</span><span class="hljs-special">{</span>v<span class="hljs-special">}</span> <span class="hljs-command">\ip</span><span class="hljs-special">{</span>u,v<span class="hljs-special">}</span> <span class="hljs-command">\ip</span> u,v <span class="hljs-command">\ip</span> uv$</span>
+
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="other">Other</h3>
+<ul>
+<li><a href="http://tex.stackexchange.com/a/17553">Plus-minus symbol with parenthesis around the minus sign</a></li>
+<li><a href="http://tex.stackexchange.com/a/47563">Equation system</a></li>
+</ul>
+<h2 id="misc">Misc</h2>
+<h3 id="margins">Margins</h3>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">[</span>top=1cm, bottom=2cm, left=3cm, right=4cm<span class="hljs-special">]</span><span class="hljs-special">{</span>geometry<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="european-style-paragraph-newline-no-indentation">European style paragraph newline (no indentation)</h3>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>parskip<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="fancy-headers-with-fancyhdr">Fancy headers with <code>fancyhdr</code></h3>
+<p><a href="http://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_styles">More info</a></p>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>fancyhdr<span class="hljs-special">}</span>
+
+<span class="hljs-command">\lhead</span><span class="hljs-special">{</span><span class="hljs-command">\textsc</span><span class="hljs-special">{</span>Title<span class="hljs-special">}</span>
+<span class="hljs-command">\chead</span><span class="hljs-special">{</span><span class="hljs-special">}</span>
+<span class="hljs-command">\rhead</span><span class="hljs-special">{</span><span class="hljs-command">\thepage</span><span class="hljs-special">}</span>
+
+<span class="hljs-command">\lfoot</span><span class="hljs-special">{</span><span class="hljs-special">}</span>
+<span class="hljs-command">\cfoot</span><span class="hljs-special">{</span><span class="hljs-special">}</span>
+<span class="hljs-command">\rfoot</span><span class="hljs-special">{</span><span class="hljs-command">\textsl</span><span class="hljs-special">{</span>Author<span class="hljs-special">}</span><span class="hljs-special">}</span>
+
+<span class="hljs-command">\pagestyle</span><span class="hljs-special">{</span>fancy<span class="hljs-special">}</span>
+
+<span class="hljs-comment">% hline in the footer, just like header.</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\footrulewidth</span><span class="hljs-special">}</span><span class="hljs-special">{</span>0.4pt<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="enumerate-interitemtext">Enumerate interitemtext</h3>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>a4paper<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+
+<span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>lipsum<span class="hljs-special">}</span>
+
+<span class="hljs-command">\newcommand</span><span class="hljs-special">{</span><span class="hljs-command">\interitemtext</span><span class="hljs-special">}</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span><span class="hljs-special">{</span>
+  <span class="hljs-command">\item</span><span class="hljs-special">[</span><span class="hljs-special">]</span> <span class="hljs-command">\hspace</span><span class="hljs-special">{</span>-<span class="hljs-command">\labelwidth</span><span class="hljs-special">}</span><span class="hljs-command">\hspace</span><span class="hljs-special">{</span>-<span class="hljs-command">\labelsep</span><span class="hljs-special">}</span><span class="hljs-special">#</span>1
+<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+
+<span class="hljs-command">\lipsum</span><span class="hljs-special">[</span>1<span class="hljs-special">]</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>enumerate<span class="hljs-special">}</span>
+  <span class="hljs-command">\item</span> First item
+  <span class="hljs-command">\item</span> Second item
+  <span class="hljs-command">\interitemtext</span><span class="hljs-special">{</span>This is some inter-item text<span class="hljs-special">}</span>
+  <span class="hljs-command">\item</span> Third item
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>enumerate<span class="hljs-special">}</span>
+
+<span class="hljs-command">\lipsum</span><span class="hljs-special">[</span>2<span class="hljs-special">]</span>
+
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="margin-notes">Margin notes</h3>
+<p><code>\usepackage{marginnote}</code></p>
+<h3 id="table-of-contents-dots-for-sections">Table of contents dots for sections:</h3>
+<pre><code class="tex"><span class="hljs-command">\usepackage</span><span class="hljs-special">{</span>tocloft<span class="hljs-special">}</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\cftsecleader</span><span class="hljs-special">}</span><span class="hljs-special">{</span><span class="hljs-command">\cftdotfill</span><span class="hljs-special">{</span><span class="hljs-command">\cftdotsep</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+</code></pre>
+<h3 id="-tables-http-en-wikibooks-org-wiki-latex-tables"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables">Tables</a></h3>
+<p>Table spacing:</p>
+<pre><code class="tex"><span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\arraystretch</span><span class="hljs-special">}</span><span class="hljs-special">{</span>1.4<span class="hljs-special">}</span>
+<span class="hljs-command">\renewcommand</span><span class="hljs-special">{</span><span class="hljs-command">\tabcolsep</span><span class="hljs-special">}</span><span class="hljs-special">{</span>0.2cm<span class="hljs-special">}</span>
+</code></pre>
+<h4 id="-booktabs-http-en-wikibooks-org-wiki-latex-tables-using_booktabs"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables#Using_booktabs">Booktabs</a></h4>
+<p>Superfacny tables with aligned numbers using <a href="http://ctan.uib.no/macros/latex/contrib/siunitx/siunitx.pdf"><code>siunitx</code></a>:</p>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>table<span class="hljs-special">}</span>
+  <span class="hljs-command">\centering</span>
+  <span class="hljs-command">\sisetup</span><span class="hljs-special">{</span>
+    table-figures-integer = 3,
+    table-figures-decimal = 0,
+    table-sign-mantissa  <span class="hljs-comment">% Include space for minus-sign.</span>
+  <span class="hljs-special">}</span>
+  <span class="hljs-command">\begin</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">{</span>@<span class="hljs-special">{</span><span class="hljs-special">}</span>
+                  S
+                  S
+                  S<span class="hljs-special">[</span>table-figures-integer=2,table-figures-decimal=2<span class="hljs-special">]</span> <span class="hljs-comment">% Config row separately.</span>
+                  @<span class="hljs-special">{</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+    <span class="hljs-command">\toprule</span>
+    <span class="hljs-comment">%% Wrap header fields in curly braces so that siunitx</span>
+    <span class="hljs-comment">%% doesn't treat them as numbers.</span>
+    <span class="hljs-special">{</span>first field<span class="hljs-special">}</span>, <span class="hljs-special">{</span>second field<span class="hljs-special">}</span>, <span class="hljs-special">{</span>third field<span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\midrule</span>
+    <span class="hljs-comment">%% numbers here, remember \\ also on the last line.</span>
+    <span class="hljs-command">\bottomrule</span>
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span>
+  <span class="hljs-command">\caption</span><span class="hljs-special">{</span>The caption<span class="hljs-special">}</span>
+  <span class="hljs-command">\label</span><span class="hljs-special">{</span>tab:mytable<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>table<span class="hljs-special">}</span>
+</code></pre>
+<h3 id="force-hfill">Force <code>\hfill</code></h3>
+<p><code>lefttext \hfill righttext</code> might fail to right-align <code>righttext</code> if <code>lefttext</code> takes up the entire text width. Solve this by using <code>lefttext \hspace*{0pt}\hfill righttext</code>.</p>
+<h2 id="titlepage-template">Titlepage template</h2>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+  <span class="hljs-command">\thispagestyle</span><span class="hljs-special">{</span>empty<span class="hljs-special">}</span>
+  <span class="hljs-comment">% \null\vskip{-2em}</span>
+  <span class="hljs-command">\noindent</span> <span class="hljs-command">\large</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Stockholm University <span class="hljs-command">\hfill</span> Fysikum<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\vskip</span> 7em
+  <span class="hljs-command">\centering</span>
+  <span class="hljs-command">\vskip</span> 2em
+  <span class="hljs-command">\Huge</span><span class="hljs-special">{</span><span class="hljs-special">{</span>Laboratory session 3<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+  <span class="hljs-command">\vskip</span> 0.2em
+  <span class="hljs-command">\Huge</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Interference and Diffraction<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+  <span class="hljs-command">\vskip</span> 1.5em
+  <span class="hljs-command">\Large</span><span class="hljs-special">{</span><span class="hljs-command">\textsc</span><span class="hljs-special">{</span>Waves and Optics, FK4009, 10.5 hp<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+  <span class="hljs-command">\vfill</span>
+  <span class="hljs-command">\LARGE</span><span class="hljs-special">{</span><span class="hljs-command">\textsl</span><span class="hljs-special">{</span>Viktor Qvarfordt<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\vfill</span>
+  <span class="hljs-command">\large</span>
+  <span class="hljs-comment">%% Ugly trick to center the table perfectly regardless of the width of the columns.</span>
+  <span class="hljs-command">\makebox</span><span class="hljs-special">[</span><span class="hljs-command">\textwidth</span><span class="hljs-special">]</span><span class="hljs-special">[</span>c<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\begin</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">{</span>rl<span class="hljs-special">}</span>
+    <span class="hljs-command">\makebox</span><span class="hljs-special">[</span><span class="hljs-command">\textwidth</span><span class="hljs-special">]</span><span class="hljs-special">[</span>r<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Laboration performed<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-special">&amp;</span> <span class="hljs-command">\makebox</span><span class="hljs-special">[</span><span class="hljs-command">\textwidth</span><span class="hljs-special">]</span><span class="hljs-special">[</span>l<span class="hljs-special">]</span><span class="hljs-special">{</span>April 18, 2013<span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Report handed in<span class="hljs-special">}</span>     <span class="hljs-special">&amp;</span> April 26, 2013 <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Grade aim<span class="hljs-special">}</span>            <span class="hljs-special">&amp;</span> VG <span class="hljs-command">\\</span>
+    <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Lab. partners<span class="hljs-special">}</span>        <span class="hljs-special">&amp;</span> Alice <span class="hljs-command">\\</span>
+                                  <span class="hljs-special">&amp;</span> Bob <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Lab. assistants<span class="hljs-special">}</span>      <span class="hljs-special">&amp;</span> Carol <span class="hljs-command">\\</span>
+                                  <span class="hljs-special">&amp;</span> David <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Submitted to<span class="hljs-special">}</span>         <span class="hljs-special">&amp;</span> Eva <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Course examinator<span class="hljs-special">}</span>    <span class="hljs-special">&amp;</span> Francis
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+</code></pre>
+<pre><code class="tex"><span class="hljs-command">\documentclass</span><span class="hljs-special">[</span>..., titlepage, ...<span class="hljs-special">]</span><span class="hljs-special">{</span>article<span class="hljs-special">}</span>
+
+<span class="hljs-comment">% ...</span>
+
+<span class="hljs-command">\def</span><span class="hljs-command">\title</span><span class="hljs-special">{</span>Title<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\course</span><span class="hljs-special">{</span>Course<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\author</span><span class="hljs-special">{</span>Author<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\examiner</span><span class="hljs-special">{</span>Examiner<span class="hljs-special">}</span>
+<span class="hljs-command">\def</span><span class="hljs-command">\school</span><span class="hljs-special">{</span>School<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>document<span class="hljs-special">}</span>
+
+<span class="hljs-command">\begin</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+  <span class="hljs-command">\thispagestyle</span><span class="hljs-special">{</span>empty<span class="hljs-special">}</span>
+  <span class="hljs-command">\null</span>
+  <span class="hljs-command">\vskip</span> -2em<span class="hljs-comment">%</span>
+  <span class="hljs-command">\noindent</span> <span class="hljs-command">\large</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span><span class="hljs-command">\school</span> <span class="hljs-command">\hfill</span> <span class="hljs-command">\today</span><span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\vskip</span> 10em
+  <span class="hljs-command">\begin</span><span class="hljs-special">{</span>center<span class="hljs-special">}</span>
+    <span class="hljs-command">\vskip</span> 2em
+    <span class="hljs-command">\Huge</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span><span class="hljs-command">\title</span><span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\vskip</span> 2em
+    <span class="hljs-command">\Large</span><span class="hljs-special">{</span><span class="hljs-command">\course</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\vskip</span> 10em
+    <span class="hljs-command">\begin</span><span class="hljs-special">{</span>large<span class="hljs-special">}</span>
+      <span class="hljs-command">\begin</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">{</span>ll<span class="hljs-special">}</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Authors<span class="hljs-special">}</span> <span class="hljs-special">&amp;</span> <span class="hljs-command">\author</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Examiner<span class="hljs-special">}</span> <span class="hljs-special">&amp;</span> <span class="hljs-command">\examiner</span> <span class="hljs-command">\rule</span><span class="hljs-special">{</span>0pt<span class="hljs-special">}</span><span class="hljs-special">{</span>1.5em<span class="hljs-special">}</span>
+      <span class="hljs-command">\end</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span>
+    <span class="hljs-command">\end</span><span class="hljs-special">{</span>large<span class="hljs-special">}</span>
+    <span class="hljs-command">\vfill</span>
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>center<span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+
+<span class="hljs-comment">% ...</span>
+</code></pre>
+<pre><code class="tex"><span class="hljs-command">\begin</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+  <span class="hljs-command">\thispagestyle</span><span class="hljs-special">{</span>empty<span class="hljs-special">}</span>
+  <span class="hljs-comment">% \null\vskip{-2em}</span>
+  <span class="hljs-command">\noindent</span> <span class="hljs-command">\large</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Stockholm University <span class="hljs-command">\hfill</span> Fysikum<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\vskip</span> 7em
+  <span class="hljs-command">\centering</span>
+  <span class="hljs-command">\vskip</span> 2em
+  <span class="hljs-command">\Huge</span><span class="hljs-special">{</span><span class="hljs-special">{</span>Laboration 1<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+  <span class="hljs-command">\Huge</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Geometrical Optics<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+  <span class="hljs-command">\vskip</span> 2em
+  <span class="hljs-command">\Large</span><span class="hljs-special">{</span><span class="hljs-command">\textsc</span><span class="hljs-special">{</span>Waves and Optics, FK4009, 10.5 hp<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+  <span class="hljs-command">\vfill</span>
+  <span class="hljs-command">\LARGE</span><span class="hljs-special">{</span><span class="hljs-command">\textsl</span><span class="hljs-special">{</span>Viktor Qvarfordt<span class="hljs-special">}</span><span class="hljs-special">}</span>
+  <span class="hljs-command">\vfill</span>
+  <span class="hljs-command">\large</span>
+  <span class="hljs-comment">%% Ugly trick to center the table perfectly regardless of the width of the columns.</span>
+  <span class="hljs-command">\makebox</span><span class="hljs-special">[</span><span class="hljs-command">\textwidth</span><span class="hljs-special">]</span><span class="hljs-special">[</span>c<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\begin</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">{</span>rl<span class="hljs-special">}</span>
+    <span class="hljs-command">\makebox</span><span class="hljs-special">[</span><span class="hljs-command">\textwidth</span><span class="hljs-special">]</span><span class="hljs-special">[</span>r<span class="hljs-special">]</span><span class="hljs-special">{</span><span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Laboration performed<span class="hljs-special">}</span><span class="hljs-special">}</span> <span class="hljs-special">&amp;</span> <span class="hljs-command">\makebox</span><span class="hljs-special">[</span><span class="hljs-command">\textwidth</span><span class="hljs-special">]</span><span class="hljs-special">[</span>l<span class="hljs-special">]</span><span class="hljs-special">{</span>April 3, 2013<span class="hljs-special">}</span> <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Report handed in<span class="hljs-special">}</span>     <span class="hljs-special">&amp;</span> April 11, 2013 <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Grade aim<span class="hljs-special">}</span>            <span class="hljs-special">&amp;</span> .. <span class="hljs-command">\\</span>
+    <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Lab. partners<span class="hljs-special">}</span>        <span class="hljs-special">&amp;</span> .. <span class="hljs-command">\\</span>
+                                  <span class="hljs-special">&amp;</span> .. <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Lab. assistants<span class="hljs-special">}</span>      <span class="hljs-special">&amp;</span> .. <span class="hljs-command">\\</span>
+                                  <span class="hljs-special">&amp;</span> .. <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Submitted to<span class="hljs-special">}</span>         <span class="hljs-special">&amp;</span> .. <span class="hljs-command">\\</span>
+    <span class="hljs-command">\textbf</span><span class="hljs-special">{</span>Course examinator<span class="hljs-special">}</span>    <span class="hljs-special">&amp;</span> ..
+  <span class="hljs-command">\end</span><span class="hljs-special">{</span>tabular<span class="hljs-special">}</span><span class="hljs-special">}</span>
+<span class="hljs-command">\end</span><span class="hljs-special">{</span>titlepage<span class="hljs-special">}</span>
+</code></pre>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

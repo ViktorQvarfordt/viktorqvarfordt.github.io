@@ -8,45 +8,106 @@ External links:
 - [The Not So Short Introduction to LaTeX](http://tobi.oetiker.ch/lshort/lshort.pdf)
 
 
-## Basic template
+## Template with source embedded to pdf
 
 ```tex
 \documentclass[a4paper,10pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{geometry,amsmath,amssymb,lastpage,embedfile}
+\usepackage{embedfile,lastpage,geometry,amsmath,amssymb}
 \usepackage[hidelinks]{hyperref}
 
-% Show page number as thispage / lastpage
-\makeatletter
-\def\ps@plain{ % Redefine plain to also override titlepage pagestyle.
-  \renewcommand{\@oddfoot}{\hfill\thepage/\pageref*{LastPage}\hfill}
-  \renewcommand{\@evenfoot}{\@oddfoot}
+{ % Show page number as thispage/lastpage
+  \makeatletter
+  \def\ps@plain{ % Redefine plain to also override titlepage pagestyle.
+    \renewcommand{\@oddfoot}{\hfill\thepage/\pageref*{LastPage}\hfill}
+    \renewcommand{\@evenfoot}{\@oddfoot}
+  }
+  \makeatother
 }
-\makeatother
-\pagestyle{plain}
-
 
 \begin{document}
 
-% Embed latex source in pdf
-\embedfile{index.tex}
-\begingroup
-\renewcommand\thefootnote{}
-\footnotetext{This document contains its \LaTeX{} source embedded as PDF attachment.}
-\endgroup
+{ % Embed latex source in pdf
+  \embedfile{index.tex}
+  \renewcommand\thefootnote{}
+  \footnotetext{This document contains its \LaTeX{} source embedded as PDF attachment.}
+}
 
-\title{...}
-\author{...}
+\title{Title}
+\author{Viktor Qvarfordt}
 \maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
 
 Hello World!
 
 \end{document}
+```
 
+This can be use with the following Sublime Text 3 plugin that automatically extracts and opens embedded files for editing.
+
+```py
+import sublime, sublime_plugin
+import os, subprocess
+
+
+class MagicLatexPdf(sublime_plugin.EventListener):
+  def on_load(self, view):
+    mimetype = subprocess.check_output(['mimetype', '-b', view.file_name()]).decode('utf-8').strip()
+    if mimetype == 'application/pdf':
+      file_name = view.file_name()
+      tmp_dir = '/tmp/magic-sublime-latex' + file_name.replace('/', '!')
+      try:
+        os.mkdir(tmp_dir)
+      except FileExistsError:
+        panel = view.window().create_output_panel('log')
+        panel.run_command('set_panel_text', { 'text': 'PDF attachments already extracted, opening existing magic folder\n' + file_name })
+        view.window().run_command('show_panel', {'panel': 'output.log'})
+      else:
+        subprocess.call(['pdfdetach', file_name, '-saveall', '-o', tmp_dir])
+      d = view.window().project_data()
+      if not d:
+        d = { 'folders': [ { 'path': tmp_dir } ] }
+      d['folders'].append({ 'path': tmp_dir })
+      view.window().set_project_data(d)
+      for file in os.listdir(tmp_dir):
+        if file.endswith('.tex'):
+          new_view = view.window().open_file(tmp_dir + '/' + file)
+      if not os.path.isfile(file_name):
+        new_view = view.window().open_file(tmp_dir + '/' + file_name.split('/')[-1].replace('.pdf', '.tex'))
+      view.close()
+
+
+class CompileLatexOnSave(sublime_plugin.EventListener):
+  def on_post_save(self, view):
+    f = view.file_name()
+    panel = view.window().create_output_panel('log')
+    panel.set_syntax_file('Packages/LaTeX/LaTeX Log.tmLanguage')
+    if f.startswith('/tmp/magic-sublime-latex') and f.endswith('.tex'):
+      p = subprocess.Popen(
+        ['pdflatex', '-halt-on-error', '-interaction=nonstopmode', '--shell-escape', f],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        cwd='/'.join(f.split('/')[0:-1]),
+        bufsize=1,
+        universal_newlines=True)
+      for line in p.stdout:
+        panel.run_command('set_panel_text', { 'text': line })
+      p.wait()
+      if p.returncode == 0:
+        os.rename(f[:-3] + 'pdf', '/'.join(f.replace('/tmp/magic-sublime-latex', '').replace('!', '/').split('/')[0:-1]))
+      else:
+        view.window().run_command('show_panel', {'panel': 'output.log'})
+
+
+class SetPanelText(sublime_plugin.TextCommand):
+  def run(self, edit, text):
+    self.view.insert(edit, self.view.size(), text)
+    self.view.show(self.view.size())
 ```
 
 

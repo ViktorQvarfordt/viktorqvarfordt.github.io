@@ -170,6 +170,46 @@ http.createServer((req, res) => {
 ```
 
 
+
+## Simple DB
+
+```js
+const fs = require('fs')
+const http = require('http')
+
+const dbPath = `${__dirname}/db.json`
+
+http.createServer((req, res) => {
+  console.log(`${req.method} ${req.url}`)
+  if (req.method === 'GET' && req.url === '/db') {
+    fs.readFile(dbPath, 'utf8', (err, data) => {
+      if (err) {
+        res.writeHead(500)
+        res.end()
+      } else {
+        res.writeHead(200, { 'Content-type': 'application/json; charset=utf8' })
+        res.end(data)
+      }
+    })
+  } else if (req.method === 'POST' && req.url === '/db') {
+    res.end()
+    fs.writeFile(dbPath, err => {
+      if (err) {
+        res.writeHead(500)
+        res.end()
+      } else {
+        res.end()
+      }
+    })
+  } else {
+    res.writeHead(404, { 'Content-type': 'text/plain' })
+    res.end(`404 ${req.url}`)
+  }
+}).listen(8080, () => console.log('Running...'))
+```
+
+
+
 ## `ErrorHandler`
 
 ```js

@@ -25,52 +25,52 @@
 <li><a href="#mathjax-on-any-website">MathJax on any website</a></li>
 </ul>
 <h2 id="google-search-tweaks">Google search tweaks</h2>
-<pre><code class="js">// ==UserScript==
-// @name        Google search tweaks
-// @description Blocks ads and sponsored links. Adds shortcuts for selecting search results.
-// @author      Viktor Qvarfordt
-// @match       https://www.google.se/search*
-// @version     2016-02-06
-// @grant       none
-// ==/UserScript==
+<pre><code class="js"><span class="hljs-comment">// ==UserScript==</span>
+<span class="hljs-comment">// @name        Google search tweaks</span>
+<span class="hljs-comment">// @description Blocks ads and sponsored links. Adds shortcuts for selecting search results.</span>
+<span class="hljs-comment">// @author      Viktor Qvarfordt</span>
+<span class="hljs-comment">// @match       https://www.google.se/search*</span>
+<span class="hljs-comment">// @version     2016-02-06</span>
+<span class="hljs-comment">// @grant       none</span>
+<span class="hljs-comment">// ==/UserScript==</span>
+<span class="hljs-meta">
+'use strict'</span>
 
-'use strict'
-
-function addGlobalStyle(css) {
-  const head = document.getElementsByTagName('head')[0]
-  if (!head) { return; }
-  const style = document.createElement('style')
-  style.type = 'text/css'
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addGlobalStyle</span>(<span class="hljs-params">css</span>) </span>{
+  <span class="hljs-keyword">const</span> head = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'head'</span>)[<span class="hljs-number">0</span>]
+  <span class="hljs-keyword">if</span> (!head) { <span class="hljs-keyword">return</span>; }
+  <span class="hljs-keyword">const</span> style = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'style'</span>)
+  style.type = <span class="hljs-string">'text/css'</span>
   style.innerHTML = css
   head.appendChild(style)
 }
 
-// Attempt to hide ads.
-addGlobalStyle(`
+<span class="hljs-comment">// Attempt to hide ads.</span>
+addGlobalStyle(<span class="hljs-string">`
   iframe[name='google_ads_frame'],
   a[href^='http://pagead2.googlesyndication.com'] {
     display: none ! important;
-  }`)
+  }`</span>)
 
-// Remove ad search results.
+<span class="hljs-comment">// Remove ad search results.</span>
 tvcap.remove()
 
-// Shortcuts for selecting search results.
-const gs = document.getElementsByClassName('g')
-for (let i = 0; i &lt; gs.length &amp;&amp; i &lt; 9; i++) {
-  gs[i].style.position = 'relative'
-  gs[i].innerHTML = `&lt;span style="position: absolute; left: -20px; top: 4px;"&gt;${i+1}&lt;/span&gt;${gs[i].innerHTML}`
-  document.addEventListener('keydown', e =&gt; {
-      if (e.keyCode === String(i+1).charCodeAt(0) || (e.keyCode === 13 &amp;&amp; i === 0)) {
-        const link = gs[i].querySelector('.r a')
-        link.style['font-weight'] = 'bold'
-        window.location = link.href
+<span class="hljs-comment">// Shortcuts for selecting search results.</span>
+<span class="hljs-keyword">const</span> gs = <span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'g'</span>)
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; gs.length &amp;&amp; i &lt; <span class="hljs-number">9</span>; i++) {
+  gs[i].style.position = <span class="hljs-string">'relative'</span>
+  gs[i].innerHTML = <span class="hljs-string">`&lt;span style="position: absolute; left: -20px; top: 4px;"&gt;<span class="hljs-subst">${i+1}</span>&lt;/span&gt;<span class="hljs-subst">${gs[i].innerHTML}</span>`</span>
+  <span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">'keydown'</span>, e =&gt; {
+      <span class="hljs-keyword">if</span> (e.keyCode === <span class="hljs-built_in">String</span>(i+<span class="hljs-number">1</span>).charCodeAt(<span class="hljs-number">0</span>) || (e.keyCode === <span class="hljs-number">13</span> &amp;&amp; i === <span class="hljs-number">0</span>)) {
+        <span class="hljs-keyword">const</span> link = gs[i].querySelector(<span class="hljs-string">'.r a'</span>)
+        link.style[<span class="hljs-string">'font-weight'</span>] = <span class="hljs-string">'bold'</span>
+        <span class="hljs-built_in">window</span>.location = link.href
       }
   })
 }
 
-// ...but not from the search bar.
-window['lst-ib'].addEventListener('keydown', e =&gt; e.stopPropagation())
+<span class="hljs-comment">// ...but not from the search bar.</span>
+<span class="hljs-built_in">window</span>[<span class="hljs-string">'lst-ib'</span>].addEventListener(<span class="hljs-string">'keydown'</span>, e =&gt; e.stopPropagation())
 </code></pre>
 <h2 id="mathjax-on-any-website">MathJax on any website</h2>
 <pre><code class="js"><span class="hljs-comment">// ==UserScript==</span>
@@ -80,8 +80,8 @@ window['lst-ib'].addEventListener('keydown', e =&gt; e.stopPropagation())
 <span class="hljs-comment">// @grant       none</span>
 <span class="hljs-comment">// ==/UserScript==</span>
 
-<span class="hljs-keyword">if</span> (window.MathJax === <span class="hljs-literal">undefined</span>) {
-  <span class="hljs-keyword">var</span> script = document.createElement(<span class="hljs-string">"script"</span>);
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.MathJax === <span class="hljs-literal">undefined</span>) {
+  <span class="hljs-keyword">var</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"script"</span>);
   script.type = <span class="hljs-string">"text/javascript"</span>;
   script.src = <span class="hljs-string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span>;
   script.text = <span class="hljs-string">'MathJax.Hub.Config({'</span>
@@ -99,7 +99,7 @@ window['lst-ib'].addEventListener('keydown', e =&gt; e.stopPropagation())
               + <span class="hljs-string">'  window.setTimeout(doMathJax, 1000);'</span>
               + <span class="hljs-string">'  window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);'</span>
               + <span class="hljs-string">'})();'</span>;
-  document.getElementsByTagName(<span class="hljs-string">"head"</span>)[<span class="hljs-number">0</span>].appendChild(script);
+  <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">"head"</span>)[<span class="hljs-number">0</span>].appendChild(script);
 } <span class="hljs-keyword">else</span> {
   MathJax.Hub.Queue([<span class="hljs-string">"Typeset"</span>, MathJax.Hub]);
 }

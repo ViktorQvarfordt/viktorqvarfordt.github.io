@@ -4,7 +4,7 @@
     "gulp-tap": "^0.1.1",
     "handlebars": "^2.0.0-alpha.2",
     "rimraf": "^2.2.6",
-    "highlight.js": "^8.0.0",
+    "highlight.js": "^9.3.0",
     "markdown-toc": "^0.7.2",
     "marked": "^0.3.3",
     "expand-tilde": "^1.2.1"

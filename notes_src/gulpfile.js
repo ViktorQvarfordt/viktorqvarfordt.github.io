@@ -1,4 +1,5 @@
 var fs = require('fs');
+var expandTilde = require('expand-tilde');
 var gulp = require('gulp');
 var Handlebars = require('handlebars');
 var tap = require('gulp-tap');
@@ -47,6 +48,14 @@ gulp.task('default', function() {
         toc = e.toString();
       }
       file.contents = new Buffer(file.contents.toString().replace('[TOC]', toc));
+    }))
+    .pipe(tap(function(file) {
+      var m;
+      s = file.contents.toString()
+      while (m = s.match('<<include +([^>>]+)>>')) {
+        s = s.replace(m[0], fs.readFileSync(expandTilde(m[1])).toString());
+      }
+      file.contents = new Buffer(s);
     }))
     .pipe(tap(function(file) {
       file.contents = new Buffer(marked(file.contents.toString()));

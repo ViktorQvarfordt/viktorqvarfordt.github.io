@@ -2,7 +2,7 @@
 
 `pdftk` does merging, splitting, meta data manipulations and other fancy things.
 
-## pdf → svg
+## pdf→svg
 
 ```
 pdfcrop --hires input.pdf output.pdf && pdf2svg output.pdf output.svg

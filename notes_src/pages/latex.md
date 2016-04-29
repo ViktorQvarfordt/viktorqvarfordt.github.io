@@ -177,7 +177,6 @@ def f(x):
 
 
 
-
 ## Minimal pdf document
 
 Create a pdf with no margins and page breaks. PDF document dimensions adapted to content size.
@@ -193,6 +192,10 @@ The `varwidth` parameter makes line-break behave normally.
   Hello minimal world!
 \end{document}
 ```
+
+
+### [PDF→SVG](/notes/pdf)
+
 
 
 ### `pdfcrop` command

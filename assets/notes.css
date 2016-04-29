@@ -35,7 +35,7 @@ body {
   /*font-family: 'Open Sans';*/
   font-family: 'Inconsolata';
   font-size: 16px;
-  color: #333;
+  color: #000;
 }
 
 
@@ -47,7 +47,8 @@ h3 { font-size: 26px; }
 a { color:#0088cc; text-decoration:none; }
 a:hover, a:focus { color:#005580; text-decoration:underline; }
 
-.MathJax { color: #444; } /* The font is so thick that it needs to be brighter to fit in. */
+/* The font is so thick that it needs to be brighter to fit in. */
+/*.MathJax { color: #444; }*/
 
 .content {
   margin: 40px auto 0 auto;

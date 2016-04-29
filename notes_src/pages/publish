@@ -1,6 +1,6 @@
-cd /-/vc/viktorqvarfordt.github.io/notes_src
+cd ~/vc/viktorqvarfordt.github.io/notes_src
 gulp
-cd ..
+cd ~/vc/viktorqvarfordt.github.io
 git add . -A
 git commit -m "Update notes"
 git push

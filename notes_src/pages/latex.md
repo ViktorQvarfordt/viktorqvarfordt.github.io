@@ -8,10 +8,106 @@ External links:
 - [The Not So Short Introduction to LaTeX](http://tobi.oetiker.ch/lshort/lshort.pdf)
 
 
+
+
+
+## Macros etc.
+
+
+### Theorems, lemmatas, definitions, etc.
+
+```tex
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+```
+
+
+### Commands
+
+```tex
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\ip}[2]{\ensuremath{\langle #1, #2 \rangle}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Dom}{Dom}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\bra{\langle}{\rvert}
+\DeclarePairedDelimiter\ket{\lvert}{\rangle}
+\DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1 \delimsize\vert #2}
+\newcommand\ketbra[2]{\ket{#1}\bra{#2}}
+```
+
+
+
+### Equation numbering based on section number
+
+```tex
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+\numberwithin{figure}{section}
+
+%% Hide section numbers
+\setcounter{secnumdepth}{0}
+```
+
+
+### Comma separated arguments
+
+```tex
+% Inner product: \ip{u,v}
+\def\ip#1{\ipinner(#1)}
+\def\ipinner(#1,#2){\ensuremath{\langle #1, #2 \rangle}}
+```
+
+Allow both normal and comma separated style:
+
+```tex
+\documentclass{article}
+
+\usepackage{amsmath}
+
+% Inner product.
+\makeatletter
+\def\ip#1{\expandafter\iphelp#1}
+\def\iphelp#1{\@ifnextchar,{\ipinner#1}{\ipinner#1,}}
+\def\ipinner#1,#2{\langle #1, #2 \rangle}
+\makeatletter
+
+\begin{document}
+
+$\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
+
+\end{document}
+```
+
+
+
+
 ## Template with source embedded to pdf
 
 ```tex
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -39,8 +135,6 @@ External links:
 \author{Viktor Qvarfordt}
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Introduction}
 
 Hello World!
@@ -51,65 +145,8 @@ Hello World!
 This can be use with the following Sublime Text 3 plugin that automatically extracts and opens embedded files for editing.
 
 ```python
-import sublime, sublime_plugin
-import os, subprocess
-
-
-class MagicLatexPdf(sublime_plugin.EventListener):
-  def on_load(self, view):
-    mimetype = subprocess.check_output(['mimetype', '-b', view.file_name()]).decode('utf-8').strip()
-    if mimetype == 'application/pdf':
-      file_name = view.file_name()
-      tmp_dir = '/tmp/magic-sublime-latex' + file_name.replace('/', '!')
-      try:
-        os.mkdir(tmp_dir)
-      except FileExistsError:
-        panel = view.window().create_output_panel('log')
-        panel.run_command('set_panel_text', { 'text': 'PDF attachments already extracted, opening existing magic folder\n' + file_name })
-        view.window().run_command('show_panel', {'panel': 'output.log'})
-      else:
-        subprocess.call(['pdfdetach', file_name, '-saveall', '-o', tmp_dir])
-      d = view.window().project_data()
-      if not d:
-        d = { 'folders': [ { 'path': tmp_dir } ] }
-      d['folders'].append({ 'path': tmp_dir })
-      view.window().set_project_data(d)
-      for file in os.listdir(tmp_dir):
-        if file.endswith('.tex'):
-          new_view = view.window().open_file(tmp_dir + '/' + file)
-      if not os.path.isfile(file_name):
-        new_view = view.window().open_file(tmp_dir + '/' + file_name.split('/')[-1].replace('.pdf', '.tex'))
-      view.close()
-
-
-class CompileLatexOnSave(sublime_plugin.EventListener):
-  def on_post_save(self, view):
-    f = view.file_name()
-    panel = view.window().create_output_panel('log')
-    panel.set_syntax_file('Packages/LaTeX/LaTeX Log.tmLanguage')
-    if f.startswith('/tmp/magic-sublime-latex') and f.endswith('.tex'):
-      p = subprocess.Popen(
-        ['pdflatex', '-halt-on-error', '-interaction=nonstopmode', '--shell-escape', f],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        cwd='/'.join(f.split('/')[0:-1]),
-        bufsize=1,
-        universal_newlines=True)
-      for line in p.stdout:
-        panel.run_command('set_panel_text', { 'text': line })
-      p.wait()
-      if p.returncode == 0:
-        os.rename(f[:-3] + 'pdf', '/'.join(f.replace('/tmp/magic-sublime-latex', '').replace('!', '/').split('/')[0:-1]))
-      else:
-        view.window().run_command('show_panel', {'panel': 'output.log'})
-
-
-class SetPanelText(sublime_plugin.TextCommand):
-  def run(self, edit, text):
-    self.view.insert(edit, self.view.size(), text)
-    self.view.show(self.view.size())
+<<include ~/.config/sublime-text-3/Packages/User/magic_latex_pdf.py>>
 ```
-
 
 
 
@@ -357,126 +394,14 @@ More info:
 
 
 
-## Mathematics
 
 
-### Theorems, lemmatas, definitions, etc.
-
-```tex
-\usepackage{amsthm}
-
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}{Example}[section]
-
-\theoremstyle{remark}
-\newtheorem{remark}{Remark}[section]
-```
-
-
-### Equation numbering based on section number
-
-```tex
-\numberwithin{equation}{section}
-\numberwithin{table}{section}
-\numberwithin{figure}{section}
-
-%% Hide section numbers
-\setcounter{secnumdepth}{0}
-```
-
-
-### Macros
-
-```tex
-%% QED square-symbol properly floating to the right.
-\newcommand{\qed}{\hspace*{0pt}\hfill\ensuremath{\square}}
-
-%% Symbols
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-
-%% Differential operators
-\newcommand{\D}[2]{\frac{d#1}{d#2}}
-\newcommand{\pD}[2]{\frac{\partial#1}{\partial#2}}
-
-\newcommand{\Dn}[3]{\frac{d^#3#1}{d#2^#3}}
-\newcommand{\pDn}[3]{\frac{\partial^#3#1}{\partial#2^#3}}
-
-\newcommand{\Dop}[1]{\frac{d}{d#1}}
-\newcommand{\pDop}[1]{\frac{\partial}{\partial#1}}
-
-\newcommand{\Dopn}[2]{\frac{d^#2}{d#1^#2}}
-\newcommand{\pDopn}[2]{\frac{\partial^#2}{\partial#1^#2}}
-
-%% Notation
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
-\newcommand{\ip}[2]{\ensuremath{\langle #1, #2 \rangle}}
-
-%% Operators
-\newcommand{\Dom}{\operatorname{Dom}}
-\newcommand{\Ker}{\operatorname{Ker}}
-
-%% Vectors
-\renewcommand{\vec}[1]{\boldsymbol{#1}}
-%\renewcommand{\vec}[1]{\mathbf{#1}}
-```
-
-
-### Comma separated arguments
-
-```tex
-% Inner product: \ip{u,v}
-\def\ip#1{\ipinner(#1)}
-\def\ipinner(#1,#2){\ensuremath{\langle #1, #2 \rangle}}
-```
-
-Allow both normal and comma separated style:
-
-```tex
-\documentclass{article}
-
-\usepackage{amsmath}
-
-% Inner product.
-\makeatletter
-\def\ip#1{\expandafter\iphelp#1}
-\def\iphelp#1{\@ifnextchar,{\ipinner#1}{\ipinner#1,}}
-\def\ipinner#1,#2{\langle #1, #2 \rangle}
-\makeatletter
-
-\begin{document}
-
-$\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
-
-\end{document}
-```
-
+## Misc
 
 ### Other
 
 - [Plus-minus symbol with parenthesis around the minus sign](http://tex.stackexchange.com/a/17553)
 - [Equation system](http://tex.stackexchange.com/a/47563)
-
-
-
-
-
-
-
-
-
-
-## Misc
 
 
 ### Margins
@@ -547,7 +472,12 @@ $\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
 
 ### Margin notes
 
-`\usepackage{marginnote}`
+```tex
+\usepackage[left=3.175cm, marginparwidth=2.825cm, marginparsep=3mm]{geometry}
+\usepackage{marginnote}
+\reversemarginpar
+```
+
 
 
 ### Table of contents dots for sections:
@@ -603,7 +533,10 @@ Superfacny tables with aligned numbers using [`siunitx`](http://ctan.uib.no/macr
 `lefttext \hfill righttext` might fail to right-align `righttext` if `lefttext` takes up the entire text width. Solve this by using `lefttext \hspace*{0pt}\hfill righttext`.
 
 
-
+```tex
+%% QED square-symbol properly floating to the right.
+\newcommand{\qed}{\hspace*{0pt}\hfill\ensuremath{\square}}
+```
 
 
 

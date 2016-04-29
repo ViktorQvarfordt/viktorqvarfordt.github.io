@@ -1,8 +1,9 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/notes.css">
     <link rel="stylesheet" href="/assets/hljs-github.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         messageStyle: "none",
@@ -20,7 +21,7 @@
   <body>
     <div class="content"><h1 id="manipulating-pdf-files">Manipulating pdf files</h1>
 <p><code>pdftk</code> does merging, splitting, meta data manipulations and other fancy things.</p>
-<h2 id="pdf-svg">pdf → svg</h2>
+<h2 id="pdf-svg">pdf→svg</h2>
 <pre><code>pdfcrop --hires input.pdf output.pdf &amp;&amp; pdf2svg output.pdf output.svg
 </code></pre><p>See also <a href="latex/minimal">this page</a> for notes on making minimal pdf documents with latex (no margins, page numbers etc).</p>
 <h2 id="extract-images-from-pdf">Extract images from pdf</h2>

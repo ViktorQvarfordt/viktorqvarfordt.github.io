@@ -1,5 +1,5 @@
 /* @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic); */
-
+/*
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -24,7 +24,7 @@
   font-weight: 700;
   src: local('Open Sans Italic'), local('OpenSans-Italic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBobN6UDyHWBl620a-IRfuBk.woff) format('woff');
 }
-
+*/
 
 /*html { position: relative; min-height: 100%; font-size:100%; }*/
 /*
@@ -32,7 +32,9 @@ body { margin: 0 auto 8rem auto; padding:0 1em; max-width:40em;
        font-family:'Open Sans'; color:#333; }
 */
 body {
-  font-family: 'Open Sans';
+  /*font-family: 'Open Sans';*/
+  font-family: 'Inconsolata';
+  font-size: 16px;
   color: #333;
 }
 
@@ -123,11 +125,12 @@ a:hover, a:focus { color:#005580; text-decoration:underline; }
 
 /* - STYLING CODE - */
 
-@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic);
+/*@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic);*/
 
 code {
   color: inherit;
-  font-family: 'Ubuntu Mono', monospace;
+  /* font-family: 'Ubuntu Mono', monospace; */
+   font-family: 'Inconsolata', monospace;
   font-size: 14px;
   padding: 2px 3px;
 }

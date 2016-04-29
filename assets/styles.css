@@ -1,0 +1,20 @@
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+a { color: #05a; text-decoration: none; }
+a:hover, a:focus { text-decoration: underline; }
+body {
+  width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 24px;
+  font-family: 'Inconsolata', 'Monospace';
+  background-color: #fff;
+  color: #000;
+  margin-bottom: 50px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+.hidden-link {
+  color: inherit;
+  text-decoration: none;
+}

@@ -32,7 +32,15 @@ $ find -name &quot;regex&quot; -print0 | xargs -0 rm -iv
 <pre><code>rsync -v --partial --progress --human-readable --rsh=&quot;ssh -p &lt;port&gt;&quot;
 
 rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST
-</code></pre></div>
+</code></pre><h2 id="colors">Colors</h2>
+<pre><code>purple \033[95m
+blue   \033[94m
+green  \033[92m
+yellow \033[93m
+red    \033[91m
+end    \033[0m
+</code></pre><p><a href="https://gist.github.com/vratiu/9780109">https://gist.github.com/vratiu/9780109</a></p>
+</div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
   </body>

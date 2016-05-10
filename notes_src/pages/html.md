@@ -23,11 +23,18 @@ Force LaTeX font and use $ for equations.
       processEscapes: true
     },
     'HTML-CSS': {
-      availableFonts: ['TeX']
+      availableFonts: ['TeX'],
+      linebreaks: { automatic: true, width: "container" }
     }
   });
 </script>
 ```
 
+Re-render
 
-
+```js
+(function reRender() {
+  window.setTimeout(reRender, 1000)
+  window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub])
+})()
+```

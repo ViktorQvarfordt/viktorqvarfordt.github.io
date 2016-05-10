@@ -37,10 +37,17 @@
       processEscapes: <span class="hljs-literal">true</span>
     },
     <span class="hljs-string">'HTML-CSS'</span>: {
-      availableFonts: [<span class="hljs-string">'TeX'</span>]
+      availableFonts: [<span class="hljs-string">'TeX'</span>],
+      linebreaks: { automatic: <span class="hljs-literal">true</span>, width: <span class="hljs-string">"container"</span> }
     }
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>Re-render</p>
+<pre><code class="js">(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reRender</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">window</span>.setTimeout(reRender, <span class="hljs-number">1000</span>)
+  <span class="hljs-built_in">window</span>.MathJax.Hub.Queue([<span class="hljs-string">"Typeset"</span>, <span class="hljs-built_in">window</span>.MathJax.Hub])
+})()
 </code></pre>
 </div>
     <!-- <div class="footer-separator"></div> -->

@@ -178,6 +178,9 @@ Hello World!
 <pre><code class="python"><span class="hljs-keyword">import</span> sublime, sublime_plugin
 <span class="hljs-keyword">import</span> os, subprocess, re
 
+<span class="hljs-comment"># BUGS</span>
+<span class="hljs-comment"># - This plug-in does not get loaded immediately, i.e. on_load is not executed if sublime is not already opened.</span>
+<span class="hljs-comment">#   https://forum.sublimetext.com/t/how-to-wait-until-view-is-loaded-event-handler/14257/4</span>
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MagicLatexPdf</span><span class="hljs-params">(sublime_plugin.EventListener)</span>:</span>
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">on_load</span><span class="hljs-params">(self, view)</span>:</span>

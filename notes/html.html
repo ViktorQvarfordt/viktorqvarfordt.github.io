@@ -27,6 +27,21 @@
 <ul>
 <li>Miscellaneous useful information <a href="http://www.html5rocks.com/en/mobile/">http://www.html5rocks.com/en/mobile/</a></li>
 </ul>
+<h2 id="mathjax">MathJax</h2>
+<p>Force LaTeX font and use $ for equations.</p>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span>&gt;</span><span class="actionscript">
+  MathJax.Hub.Config({
+    messageStyle: <span class="hljs-string">'none'</span>,
+    tex2jax: {
+      inlineMath: [[<span class="hljs-string">'$'</span>, <span class="hljs-string">'$'</span>], [<span class="hljs-string">'\\('</span>, <span class="hljs-string">'\\)'</span>]],
+      processEscapes: <span class="hljs-literal">true</span>
+    },
+    <span class="hljs-string">'HTML-CSS'</span>: {
+      availableFonts: [<span class="hljs-string">'TeX'</span>]
+    }
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->

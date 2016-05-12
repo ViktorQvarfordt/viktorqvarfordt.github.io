@@ -28,8 +28,8 @@
 ket[str_] := <span class="hljs-keyword">Transpose</span>[bra[str]];
 </code></pre>
 <p><strong>Usage example:</strong></p>
-<pre><code class="mathematica">bra[<span class="hljs-string">"010"</span>] <span class="hljs-comment">(* row vector: {{1, 0, 0, 0, 0, 0, 0, 0}} *)</span>
-ket[<span class="hljs-string">"010"</span>] <span class="hljs-comment">(* col vector: {{1}, {0}, {0}, {0}, {0}, {0}, {0}, {0}} *)</span>
+<pre><code class="mathematica">bra[<span class="hljs-string">"010"</span>] <span class="hljs-comment">(* row vector: {{0, 0, 1, 0, 0, 0, 0, 0}} *)</span>
+ket[<span class="hljs-string">"010"</span>] <span class="hljs-comment">(* col vector: {{0}, {0}, {1}, {0}, {0}, {0}, {0}, {0}} *)</span>
 bra[<span class="hljs-string">"000"</span>].ket[<span class="hljs-string">"001"</span>] <span class="hljs-comment">(* 0 *)</span>
 bra[<span class="hljs-string">"000"</span>].ket[<span class="hljs-string">"000"</span>] <span class="hljs-comment">(* 1 *)</span>
 ket[<span class="hljs-string">"000"</span>].bra[<span class="hljs-string">"000"</span>] <span class="hljs-comment">(* the correct matrix *)</span>

@@ -19,8 +19,8 @@ ket[str_] := Transpose[bra[str]];
 **Usage example:**
 
 ```mathematica
-bra["010"] (* row vector: {{1, 0, 0, 0, 0, 0, 0, 0}} *)
-ket["010"] (* col vector: {{1}, {0}, {0}, {0}, {0}, {0}, {0}, {0}} *)
+bra["010"] (* row vector: {{0, 0, 1, 0, 0, 0, 0, 0}} *)
+ket["010"] (* col vector: {{0}, {0}, {1}, {0}, {0}, {0}, {0}, {0}} *)
 bra["000"].ket["001"] (* 0 *)
 bra["000"].ket["000"] (* 1 *)
 ket["000"].bra["000"] (* the correct matrix *)

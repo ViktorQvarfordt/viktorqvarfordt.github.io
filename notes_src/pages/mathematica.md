@@ -19,6 +19,8 @@ ket[str_] := Transpose[bra[str]];
 Usage example:
 
 ```mathematica
+bra["010"] (* row vector: {{1, 0, 0, 0, 0, 0, 0, 0}} *)
+ket["010"] (* col vector: {{1}, {0}, {0}, {0}, {0}, {0}, {0}, {0}} *)
 bra["000"].ket["001"] (* 0 *)
 bra["000"].ket["000"] (* 1 *)
 ket["000"].bra["000"] (* the correct matrix *)
@@ -26,6 +28,8 @@ ConjugateTranspose[ket["010"]] == bra["010"] (* True *)
 ```
 
 ### Partial transpose
+
+The partial trace $\mathrm{tr}_\alpha(\rho)$ where $\alpha=$ can be computed with
 
 ```mathematica
 pTr[mat_, k_] := Module[{n, indices, bbra, kket},
@@ -35,14 +39,23 @@ pTr[mat_, k_] := Module[{n, indices, bbra, kket},
     inner = {};
     jj = 0;
     For[j = 1, j <= n, j++,
-      inner = Append[inner, If[j == k, IdentityMatrix[2], jj++; bra[i[[jj]]]]]];
-    Apply[KroneckerProduct, inner]
-  ];
-  Total[Table[bbra[i].mat.ConjugateTranspose[bbra[i]], {i, indices}]]
-];
+     inner = Append[inner,
+       If[MemberQ[k, j] \[Or] j == k, jj++; bra[i[[jj]]], IdentityMatrix[2]]]];
+    Apply[KroneckerProduct, inner]];
+  Total[Table[bbra[i].mat.ConjugateTranspose[bbra[i]], {i, indices}]]];
 ```
 
-Usage example:
+*Usage:*
+
+```mathematica
+pTr(\[Rho], 2)     (* trace out subsystem 2 *)
+pTr(\[Rho], {2})   (* trace out subsystem 2 *)
+pTr(\[Rho], {1,2}) (* trace out subsystem 1 and 2)
+```
+
+*Example:*
+
+Consider three qubits. The state space is the hilbert space $\mathcal{H}_1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$. A state can be written $\ket{\psi} = \alpha_0\ket{000} + \alpha_1\ket{001} + \cdots + \alpha_7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho_1 = \mathrm{tr}_{23}(\rho)$ is
 
 ```mathematica
 $Assumptions = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};
@@ -51,5 +64,5 @@ $Assumptions = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};
          \[Beta]/Sqrt[6] (ket["010"] + ket["100"]);
 \[Rho] = \[Psi].ConjugateTranspose[\[Psi]] // FullSimplify;
 \[Rho] // MatrixForm
-pTr[\[Rho], 1] // FullSimplify // Expand // MatrixForm
+\[Rho]1 = pTr[\[Rho], {2,3}] // FullSimplify // Expand // MatrixForm
 ```

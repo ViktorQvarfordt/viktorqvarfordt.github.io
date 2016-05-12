@@ -16,7 +16,7 @@ bra[str_] := {Flatten[Apply[TensorProduct, Map[If[#1 == "0", {1, 0}, {0, 1}] &, 
 ket[str_] := Transpose[bra[str]];
 ```
 
-Usage example:
+**Usage example:**
 
 ```mathematica
 bra["010"] (* row vector: {{1, 0, 0, 0, 0, 0, 0, 0}} *)
@@ -29,7 +29,7 @@ ConjugateTranspose[ket["010"]] == bra["010"] (* True *)
 
 ### Partial transpose
 
-The partial trace $\mathrm{tr}_\alpha(\rho)$ where $\alpha=$ can be computed with
+The partial trace $\mathrm{tr}_\alpha(\rho)$ can be computed with
 
 ```mathematica
 pTr[mat_, k_] := Module[{n, indices, bbra, kket},
@@ -45,7 +45,7 @@ pTr[mat_, k_] := Module[{n, indices, bbra, kket},
   Total[Table[bbra[i].mat.ConjugateTranspose[bbra[i]], {i, indices}]]];
 ```
 
-*Usage:*
+**Usage:**
 
 ```mathematica
 pTr(\[Rho], 2)     (* trace out subsystem 2 *)
@@ -53,7 +53,7 @@ pTr(\[Rho], {2})   (* trace out subsystem 2 *)
 pTr(\[Rho], {1,2}) (* trace out subsystem 1 and 2)
 ```
 
-*Example:*
+**Example:**
 
 Consider three qubits. The state space is the hilbert space $\mathcal{H}_1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$. A state can be written $\ket{\psi} = \alpha_0\ket{000} + \alpha_1\ket{001} + \cdots + \alpha_7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho_1 = \mathrm{tr}_{23}(\rho)$ is
 

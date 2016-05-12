@@ -55,7 +55,7 @@ pTr(\[Rho], {1,2}) (* trace out subsystem 1 and 2)
 
 **Example:**
 
-Consider three qubits. The state space is the hilbert space $\mathcal{H}_1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$. A state can be written $\ket{\psi} = \alpha_0\ket{000} + \alpha_1\ket{001} + \cdots + \alpha_7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho_1 = \mathrm{tr}_{23}(\rho)$ is
+Consider three qubits. The state space is the hilbert space $\mathcal{H}1\otimes\mathcal{H}2\otimes\mathcal{H}3$. A state can be written $\ket{\psi} = c0\ket{000} + c1\ket{001} + \cdots + c7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho1 = \mathrm{tr}{23}(\rho)$ is
 
 ```mathematica
 $Assumptions = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};

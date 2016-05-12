@@ -55,7 +55,7 @@ pTr(\[Rho], {2})   <span class="hljs-comment">(* trace out subsystem 2 *)</span>
 pTr(\[Rho], {1,2}) <span class="hljs-comment">(* trace out subsystem 1 and 2)</span>
 </code></pre>
 <p><strong>Example:</strong></p>
-<p>Consider three qubits. The state space is the hilbert space $\mathcal{H}<em>1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$. A state can be written $\ket{\psi} = \alpha_0\ket{000} + \alpha_1\ket{001} + \cdots + \alpha_7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho_1 = \mathrm{tr}</em>{23}(\rho)$ is</p>
+<p>Consider three qubits. The state space is the hilbert space $\mathcal{H}1\otimes\mathcal{H}2\otimes\mathcal{H}3$. A state can be written $\ket{\psi} = c0\ket{000} + c1\ket{001} + \cdots + c7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho1 = \mathrm{tr}{23}(\rho)$ is</p>
 <pre><code class="mathematica"><span class="hljs-keyword">$Assumptions</span> = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};
 \[Psi] = <span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">2</span>/<span class="hljs-number">3</span>] (\[Alpha] ket[<span class="hljs-string">"000"</span>] - \[<span class="hljs-keyword">Beta</span>] ket[<span class="hljs-string">"111"</span>]) -
          \[Alpha]/<span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">6</span>] (ket[<span class="hljs-string">"011"</span>] + ket[<span class="hljs-string">"101"</span>]) +

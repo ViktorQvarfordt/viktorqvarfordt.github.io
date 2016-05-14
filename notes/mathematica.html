@@ -24,7 +24,8 @@
 </code></pre><h2 id="no-notebook">No notebook</h2>
 <pre><code class="sh">$ math -noprompt -run &lt; code.txt
 $ math -noprompt -run <span class="hljs-string">"&lt;&lt;test.txt; Exit[];"</span>
-$ math -noprompt -run <span class="hljs-string">"Print[Integrate[Cos[x], x]]; Exit[];"</span>
+$ math -noprompt -run <span class="hljs-string">"Print[TeXForm[Integrate[Cos[x], x]]]; Exit[];"</span>
+$ <span class="hljs-built_in">echo</span> <span class="hljs-_">-e</span> <span class="hljs-string">"TeXForm[Integrate[Cos[x], x]]\nExit[]"</span> | math -noprompt -run
 $ math -script code.txt
 </code></pre>
 <ul>

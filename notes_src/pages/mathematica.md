@@ -10,7 +10,8 @@ Clear["Global`*"]
 ```sh
 $ math -noprompt -run < code.txt
 $ math -noprompt -run "<<test.txt; Exit[];"
-$ math -noprompt -run "Print[Integrate[Cos[x], x]]; Exit[];"
+$ math -noprompt -run "Print[TeXForm[Integrate[Cos[x], x]]]; Exit[];"
+$ echo -e "TeXForm[Integrate[Cos[x], x]]\nExit[]" | math -noprompt -run
 $ math -script code.txt
 ```
 

@@ -1,24 +1,25 @@
 # Shell stuff
 
-Standalone process:
+
+## Standalone process
 
 ```
 nohup ... >/dev/null 2>&1 &
 ```
 
-Pipe search results to from `find`
+## Pipe search results to from `find`
 
     $ find -name "regex" -exec rm -iv {} \;
 
     $ find -name "regex" -print0 | xargs -0 rm -iv
 
 
-List all manually installed packages:
+## List all manually installed packages:
 
     aptitude  --display-format '%p' search '?installed!?automatic' > ~/my_packages
 
 
-sync
+## sync
 
     rsync -v --partial --progress --human-readable --rsh="ssh -p <port>"
 
@@ -37,3 +38,10 @@ end    \033[0m
 ```
 
 https://gist.github.com/vratiu/9780109
+
+
+## Kill
+
+```sh
+kill -9 $(p noprompt | cut -f1 -d" ")
+```

@@ -4,7 +4,20 @@
 Clear["Global`*"]
 ```
 
-Separate contexts/scopes for notebooks: http://stackoverflow.com/a/4897013
+
+## No notebook
+
+```sh
+$ math -noprompt -run < code.txt
+$ math -noprompt -run "<<test.txt; Exit[];"
+$ math -noprompt -run "Print[Integrate[Cos[x], x]]; Exit[];"
+$ math -script code.txt
+```
+
+- `-run` treats `code.txt` as a notebook while `-script` treats `code.txt` like "ordinary code".
+- `-script` requires `Print[..]` for output while `-run` does not if reading from file (not stdinput).
+- `-script` does not support `TeXForm` and `MatrixForm`.
+
 
 
 ## Quantum information
@@ -66,3 +79,14 @@ $Assumptions = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};
 \[Rho] // MatrixForm
 \[Rho]1 = pTr[\[Rho], {2,3}] // FullSimplify // Expand // MatrixForm
 ```
+
+
+## Misc.
+
+Parse LaTeX:
+
+```mathematica
+ToExpression["\\sqrt{x y}", TeXForm]
+```
+
+Separate contexts/scopes for notebooks: http://stackoverflow.com/a/4897013

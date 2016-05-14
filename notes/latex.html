@@ -195,6 +195,7 @@ Hello World!
         panel.run_command(<span class="hljs-string">'set_panel_text'</span>, { <span class="hljs-string">'text'</span>: <span class="hljs-string">'PDF attachments already extracted, opening existing magic folder\n'</span> + file_name })
         view.window().run_command(<span class="hljs-string">'show_panel'</span>, {<span class="hljs-string">'panel'</span>: <span class="hljs-string">'output.log'</span>})
       <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># <span class="hljs-doctag">TODO:</span> Handle errors</span>
         subprocess.call([<span class="hljs-string">'pdfdetach'</span>, file_name, <span class="hljs-string">'-saveall'</span>, <span class="hljs-string">'-o'</span>, tmp_dir])
       d = view.window().project_data()
       <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> d:
@@ -215,11 +216,18 @@ Hello World!
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CompileLatexOnSave</span><span class="hljs-params">(sublime_plugin.EventListener)</span>:</span>
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">on_post_save</span><span class="hljs-params">(self, view)</span>:</span>
+    <span class="hljs-comment"># if xetex</span>
     <span class="hljs-keyword">if</span> view.file_name().startswith(<span class="hljs-string">'/tmp/magic-sublime-latex'</span>):
       tmp_path = re.search(<span class="hljs-string">'(/tmp/magic-sublime-latex[^/]*)'</span>, view.file_name()).group(<span class="hljs-number">1</span>)
       pdf_path = tmp_path.replace(<span class="hljs-string">'/tmp/magic-sublime-latex'</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-string">'!'</span>, <span class="hljs-string">'/'</span>)
+      print(view.substr(sublime.Region(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>)))
+      <span class="hljs-keyword">if</span> view.substr(sublime.Region(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>)) == <span class="hljs-string">'% xelatex'</span>:
+        tex_engine = <span class="hljs-string">'xelatex'</span>
+        print(<span class="hljs-string">'test2'</span>)
+      <span class="hljs-keyword">else</span>:
+        tex_engine = <span class="hljs-string">'pdflatex'</span>
       p = subprocess.Popen(
-        [<span class="hljs-string">'pdflatex'</span>, <span class="hljs-string">'-halt-on-error'</span>, <span class="hljs-string">'-interaction=nonstopmode'</span>, <span class="hljs-string">'--shell-escape'</span>, tmp_path + <span class="hljs-string">'/index.tex'</span>],
+        [tex_engine, <span class="hljs-string">'-halt-on-error'</span>, <span class="hljs-string">'-interaction=nonstopmode'</span>, <span class="hljs-string">'-shell-escape'</span>, tmp_path + <span class="hljs-string">'/index.tex'</span>],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         cwd=tmp_path,
@@ -594,16 +602,20 @@ def f(x):
 </code></pre>
 <p>, err_log, re.MULTILINE).group(1)
         err_line = view.substr(view.line(view.text_point(err_row - 1, 0)))
-        err_col = re.search(‘(‘ + re.escape(err_text) + ‘)’, err_line).end()
+        match = re.search(‘(‘ + re.escape(err_text) + ‘)’, err_line)
+        if match:
+          err_col = match.end()
+        else:
+          err_col = 0
         err_pos =  sublime.Region(view.text_point(err_row - 1, err_col))
         view.sel().add(err_pos)
         view.show_at_center(err_pos)</p>
 <p>class SetPanelText(sublime_plugin.TextCommand):
   def run(self, edit, text):
     text = text.strip()
-    self.view.insert(edit, self.view.size(), text)</p>
-<pre><code># err_pos = re.search(&#39;^!&#39;, text, re.MULTILINE).start()
-# self.view.show(err_pos) # Scroll to error line
+    self.view.insert(edit, self.view.size(), text)
+    err_pos = re.search(‘^!’, text, re.MULTILINE).start()</p>
+<pre><code># self.view.show(err_pos) # Scroll to error line
 self.view.show(len(text), False) # Scroll to bottom
 self.view.sel().clear()
 self.view.sel().add(self.view.line(err_pos).a)

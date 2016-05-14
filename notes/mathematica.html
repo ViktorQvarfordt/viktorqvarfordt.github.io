@@ -21,7 +21,17 @@
   <body>
     <div class="content"><h1 id="mathematica">Mathematica</h1>
 <pre><code>Clear[&quot;Global`*&quot;]
-</code></pre><p>Separate contexts/scopes for notebooks: <a href="http://stackoverflow.com/a/4897013">http://stackoverflow.com/a/4897013</a></p>
+</code></pre><h2 id="no-notebook">No notebook</h2>
+<pre><code class="sh">$ math -noprompt -run &lt; code.txt
+$ math -noprompt -run <span class="hljs-string">"&lt;&lt;test.txt; Exit[];"</span>
+$ math -noprompt -run <span class="hljs-string">"Print[Integrate[Cos[x], x]]; Exit[];"</span>
+$ math -script code.txt
+</code></pre>
+<ul>
+<li><code>-run</code> treats <code>code.txt</code> as a notebook while <code>-script</code> treats <code>code.txt</code> like “ordinary code”.</li>
+<li><code>-script</code> requires <code>Print[..]</code> for output while <code>-run</code> does not if reading from file (not stdinput).</li>
+<li><code>-script</code> does not support <code>TeXForm</code> and <code>MatrixForm</code>.</li>
+</ul>
 <h2 id="quantum-information">Quantum information</h2>
 <h3 id="bras-and-kets">Bras and kets</h3>
 <pre><code class="mathematica">bra[str_] := {Flatten[Apply[TensorProduct, Map[If[#1 == "0", {1, 0}, {0, 1}] &amp;, <span class="hljs-keyword">Characters</span>[str]]]]};
@@ -64,6 +74,11 @@ pTr(\[Rho], {1,2}) <span class="hljs-comment">(* trace out subsystem 1 and 2)</s
 \[Rho] // <span class="hljs-keyword">MatrixForm</span>
 \[Rho]<span class="hljs-number">1</span> = pTr[\[Rho], {2,3}] // <span class="hljs-keyword">FullSimplify</span> // <span class="hljs-keyword">Expand</span> // <span class="hljs-keyword">MatrixForm</span>
 </code></pre>
+<h2 id="misc">Misc.</h2>
+<p>Parse LaTeX:</p>
+<pre><code class="mathematica"><span class="hljs-keyword">ToExpression</span>[<span class="hljs-string">"\\sqrt{x y}"</span>, <span class="hljs-keyword">TeXForm</span>]
+</code></pre>
+<p>Separate contexts/scopes for notebooks: <a href="http://stackoverflow.com/a/4897013">http://stackoverflow.com/a/4897013</a></p>
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->

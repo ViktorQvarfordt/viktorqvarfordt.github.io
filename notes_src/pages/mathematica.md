@@ -45,11 +45,9 @@ ConjugateTranspose[ket["010"]] == bra["010"] (* True *)
 
 The partial trace $\mathrm{tr}\_\alpha(\rho)$ can be computed with
 
-<div>
 \begin{equation}
-  \operatorname{tr}_1(A_{12}) = \sum_i \langle_1 i \rvert A_{12} \lvert i \rangle_1 = \sum_i (\langle_1 \otimes I) \rvert A_{12} (\lvert i \rangle \otimes I)
+  \operatorname{tr}\_1(A\_{12}) = \sum\_i \langle\_1 i \rvert A\_{12} \lvert i \rangle\_1 = \sum\_i (\langle\_1 \otimes I) \rvert A\_{12} (\lvert i \rangle \otimes I)
 \end{equation}
-</div>
 
 ```mathematica
 pTr[mat_, k_] := Module[{n, indices, bbra, kket},
@@ -77,7 +75,7 @@ pTr(\[Rho], {1,2}) (* trace out subsystem 1 and 2)
 
 **Example:**
 
-Consider three qubits. The state space is the hilbert space $\mathcal{H}\_1\otimes\mathcal{H}\_2\otimes\mathcal{H}\_3$. A state can be written $\lvert\psi\rangle = c\_0\lvert 000\rangle + c\_1\lvert 001\rlangle + \cdots + c\_7\lvert 111\rangle$. The corresponding (pure) density matrix is then $\rho = \lvert\psi\rangle \lvert\psi\rangle$. The corresponding reduced density operator $\rho\_1 = \operatorname{tr}\_{23}(\rho)$ is
+Consider three qubits. The state space is the hilbert space $\mathcal{H}\_1\otimes\mathcal{H}\_2\otimes\mathcal{H}\_3$. A state can be written $\lvert\psi\rangle = c\_0\lvert 000\rangle + c\_1\lvert 001\rangle + \cdots + c\_7\lvert 111\rangle$. The corresponding (pure) density matrix is then $\rho = \lvert\psi\rangle \langle\psi\rvert$. The corresponding reduced density operator $\rho\_1 = \operatorname{tr}\_{23}(\rho)$ is
 
 ```mathematica
 $Assumptions = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};

@@ -41,13 +41,15 @@ ket["000"].bra["000"] (* the correct matrix *)
 ConjugateTranspose[ket["010"]] == bra["010"] (* True *)
 ```
 
-### Partial transpose
+### Partial trace
 
-The partial trace $\mathrm{tr}_\alpha(\rho)$ can be computed with
+The partial trace $\mathrm{tr}\_\alpha(\rho)$ can be computed with
 
+<div>
 \begin{equation}
   \operatorname{tr}_1(A_{12}) = \sum_i \langle_1 i \rvert A_{12} \lvert i \rangle_1 = \sum_i (\langle_1 \otimes I) \rvert A_{12} (\lvert i \rangle \otimes I)
 \end{equation}
+</div>
 
 ```mathematica
 pTr[mat_, k_] := Module[{n, indices, bbra, kket},
@@ -75,7 +77,7 @@ pTr(\[Rho], {1,2}) (* trace out subsystem 1 and 2)
 
 **Example:**
 
-Consider three qubits. The state space is the hilbert space $\mathcal{H}1\otimes\mathcal{H}2\otimes\mathcal{H}3$. A state can be written $\ket{\psi} = c0\ket{000} + c1\ket{001} + \cdots + c7\ket{111}$. The corresponding (pure) density matrix is then $\rho = \ket{\psi}\bra{\psi}$. The corresponding reduced density operator $\rho1 = \mathrm{tr}{23}(\rho)$ is
+Consider three qubits. The state space is the hilbert space $\mathcal{H}\_1\otimes\mathcal{H}\_2\otimes\mathcal{H}\_3$. A state can be written $\lvert\psi\rangle = c\_0\lvert 000\rangle + c\_1\lvert 001\rlangle + \cdots + c\_7\lvert 111\rangle$. The corresponding (pure) density matrix is then $\rho = \lvert\psi\rangle \lvert\psi\rangle$. The corresponding reduced density operator $\rho\_1 = \operatorname{tr}\_{23}(\rho)$ is
 
 ```mathematica
 $Assumptions = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};

@@ -48,17 +48,22 @@ ket[<span class="hljs-string">"000"</span>].bra[<span class="hljs-string">"000"<
 </code></pre>
 <h3 id="partial-transpose">Partial transpose</h3>
 <p>The partial trace $\mathrm{tr}_\alpha(\rho)$ can be computed with</p>
+<p>\begin{equation}
+  \operatorname{tr}<em>1(A</em>{12}) = \sum<em>i \langle_1 i \rvert A</em>{12} \lvert i \rangle<em>1 = \sum_i (\langle_1 \otimes I) \rvert A</em>{12} (\lvert i \rangle \otimes I)
+\end{equation}</p>
 <pre><code class="mathematica">pTr[mat_, k_] := <span class="hljs-keyword">Module</span>[{n, indices, bbra, kket},
   n = <span class="hljs-keyword">Log</span>[<span class="hljs-number">2</span>, <span class="hljs-keyword">Dimensions</span>[mat][[<span class="hljs-number">1</span>]]];
   indices = <span class="hljs-keyword">Characters</span>[<span class="hljs-keyword">Table</span>[<span class="hljs-keyword">IntegerString</span>[j, <span class="hljs-number">2</span>, n - <span class="hljs-number">1</span>], {j, 0, 2^(n - 1) - 1}]];
-  bbra[i_] := <span class="hljs-keyword">Module</span>[{inner, j, jj},
-    inner = {};
+  <span class="hljs-comment">(* bbra = |i&gt;⊗I *)</span>
+  bbra[i_] := <span class="hljs-keyword">Module</span>[{jj},
     jj = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">For</span>[j = <span class="hljs-number">1</span>, j &lt;= n, j++,
-     inner = <span class="hljs-keyword">Append</span>[inner,
-       <span class="hljs-keyword">If</span>[<span class="hljs-keyword">MemberQ</span>[k, j] \[<span class="hljs-keyword">Or</span>] j == k, jj++; bra[i[[jj]]], <span class="hljs-keyword">IdentityMatrix</span>[<span class="hljs-number">2</span>]]]];
-    <span class="hljs-keyword">Apply</span>[<span class="hljs-keyword">KroneckerProduct</span>, inner]];
-  <span class="hljs-keyword">Total</span>[<span class="hljs-keyword">Table</span>[bbra[i].mat.<span class="hljs-keyword">ConjugateTranspose</span>[bbra[i]], {i, indices}]]];
+    <span class="hljs-keyword">Apply</span>[<span class="hljs-keyword">KroneckerProduct</span>, <span class="hljs-keyword">Table</span>[
+      <span class="hljs-keyword">If</span>[
+        <span class="hljs-keyword">MemberQ</span>[k, j] \[<span class="hljs-keyword">Or</span>] j == k,
+        jj++; bra[i[[jj]]],
+        <span class="hljs-keyword">IdentityMatrix</span>[<span class="hljs-number">2</span>]
+      ], {j, 1, n}]]];
+  <span class="hljs-keyword">Sum</span>[bbra[i] . mat . <span class="hljs-keyword">ConjugateTranspose</span>[bbra[i]], {i, indices}]];
 </code></pre>
 <p><strong>Usage:</strong></p>
 <pre><code class="mathematica">pTr(\[Rho], <span class="hljs-number">2</span>)     <span class="hljs-comment">(* trace out subsystem 2 *)</span>

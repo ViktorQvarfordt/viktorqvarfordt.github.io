@@ -614,11 +614,13 @@ def f(x):
   def run(self, edit, text):
     text = text.strip()
     self.view.insert(edit, self.view.size(), text)
-    err_pos = re.search(‘^!’, text, re.MULTILINE).start()</p>
-<pre><code># self.view.show(err_pos) # Scroll to error line
-self.view.show(len(text), False) # Scroll to bottom
-self.view.sel().clear()
-self.view.sel().add(self.view.line(err_pos).a)
+    self.view.show(len(text), False) # Scroll to bottom
+    self.view.sel().clear()
+    match = re.search(‘^!’, text, re.MULTILINE)
+    if match:
+      err_pos = match.start()</p>
+<pre><code>  # self.view.show(err_pos) # Scroll to error line
+  self.view.sel().add(self.view.line(err_pos).a)
 </code></pre><pre><code>
 
 

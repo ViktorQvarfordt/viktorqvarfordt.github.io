@@ -45,18 +45,24 @@ ConjugateTranspose[ket["010"]] == bra["010"] (* True *)
 
 The partial trace $\mathrm{tr}_\alpha(\rho)$ can be computed with
 
+\begin{equation}
+  \operatorname{tr}_1(A_{12}) = \sum_i \langle_1 i \rvert A_{12} \lvert i \rangle_1 = \sum_i (\langle_1 \otimes I) \rvert A_{12} (\lvert i \rangle \otimes I)
+\end{equation}
+
 ```mathematica
 pTr[mat_, k_] := Module[{n, indices, bbra, kket},
   n = Log[2, Dimensions[mat][[1]]];
   indices = Characters[Table[IntegerString[j, 2, n - 1], {j, 0, 2^(n - 1) - 1}]];
-  bbra[i_] := Module[{inner, j, jj},
-    inner = {};
+  (* bbra = |i>⊗I *)
+  bbra[i_] := Module[{jj},
     jj = 0;
-    For[j = 1, j <= n, j++,
-     inner = Append[inner,
-       If[MemberQ[k, j] \[Or] j == k, jj++; bra[i[[jj]]], IdentityMatrix[2]]]];
-    Apply[KroneckerProduct, inner]];
-  Total[Table[bbra[i].mat.ConjugateTranspose[bbra[i]], {i, indices}]]];
+    Apply[KroneckerProduct, Table[
+      If[
+        MemberQ[k, j] \[Or] j == k,
+        jj++; bra[i[[jj]]],
+        IdentityMatrix[2]
+      ], {j, 1, n}]]];
+  Sum[bbra[i] . mat . ConjugateTranspose[bbra[i]], {i, indices}]];
 ```
 
 **Usage:**

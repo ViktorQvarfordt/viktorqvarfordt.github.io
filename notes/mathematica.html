@@ -49,8 +49,9 @@ ket[<span class="hljs-string">"000"</span>].bra[<span class="hljs-string">"000"<
 <h3 id="partial-trace">Partial trace</h3>
 <p>The partial trace $\mathrm{tr}_\alpha(\rho)$ can be computed with</p>
 <p>\begin{equation}
-  \operatorname{tr}_1(A_{12}) = \sum_i \langle_1 i \rvert A_{12} \lvert i \rangle_1 = \sum_i (\langle_1 \otimes I) \rvert A_{12} (\lvert i \rangle \otimes I)
+  \operatorname{tr}_1(A_{12}) = \sum_i \langle i \rvert_1 A_{12} \lvert i \rangle_1 = \sum_i (\langle i \rvert \otimes I) \rvert A_{12} (\lvert i \rangle \otimes I)
 \end{equation}</p>
+<p>which can be implemented as</p>
 <pre><code class="mathematica">pTr[mat_, k_] := <span class="hljs-keyword">Module</span>[{n, indices, bbra, kket},
   n = <span class="hljs-keyword">Log</span>[<span class="hljs-number">2</span>, <span class="hljs-keyword">Dimensions</span>[mat][[<span class="hljs-number">1</span>]]];
   indices = <span class="hljs-keyword">Characters</span>[<span class="hljs-keyword">Table</span>[<span class="hljs-keyword">IntegerString</span>[j, <span class="hljs-number">2</span>, n - <span class="hljs-number">1</span>], {j, 0, 2^(n - 1) - 1}]];
@@ -59,26 +60,26 @@ ket[<span class="hljs-string">"000"</span>].bra[<span class="hljs-string">"000"<
     jj = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">Apply</span>[<span class="hljs-keyword">KroneckerProduct</span>, <span class="hljs-keyword">Table</span>[
       <span class="hljs-keyword">If</span>[
-        <span class="hljs-keyword">MemberQ</span>[k, j] \[<span class="hljs-keyword">Or</span>] j == k,
+        <span class="hljs-keyword">MemberQ</span>[k, j] ∨ j == k,
         jj++; bra[i[[jj]]],
         <span class="hljs-keyword">IdentityMatrix</span>[<span class="hljs-number">2</span>]
       ], {j, 1, n}]]];
   <span class="hljs-keyword">Sum</span>[bbra[i] . mat . <span class="hljs-keyword">ConjugateTranspose</span>[bbra[i]], {i, indices}]];
 </code></pre>
 <p><strong>Usage:</strong></p>
-<pre><code class="mathematica">pTr(\[Rho], <span class="hljs-number">2</span>)     <span class="hljs-comment">(* trace out subsystem 2 *)</span>
-pTr(\[Rho], {2})   <span class="hljs-comment">(* trace out subsystem 2 *)</span>
-pTr(\[Rho], {1,2}) <span class="hljs-comment">(* trace out subsystem 1 and 2)</span>
+<pre><code class="mathematica">pTr(ρ, <span class="hljs-number">2</span>)     <span class="hljs-comment">(* trace out subsystem 2 *)</span>
+pTr(ρ, {2})   <span class="hljs-comment">(* trace out subsystem 2 *)</span>
+pTr(ρ, {1,2}) <span class="hljs-comment">(* trace out subsystem 1 and 2)</span>
 </code></pre>
 <p><strong>Example:</strong></p>
 <p>Consider three qubits. The state space is the hilbert space $\mathcal{H}_1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$. A state can be written $\lvert\psi\rangle = c_0\lvert 000\rangle + c_1\lvert 001\rangle + \cdots + c_7\lvert 111\rangle$. The corresponding (pure) density matrix is then $\rho = \lvert\psi\rangle \langle\psi\rvert$. The corresponding reduced density operator $\rho_1 = \operatorname{tr}_{23}(\rho)$ is</p>
-<pre><code class="mathematica"><span class="hljs-keyword">$Assumptions</span> = {\[Alpha] \[Element] Reals, \[Beta] \[Element] Reals};
-\[Psi] = <span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">2</span>/<span class="hljs-number">3</span>] (\[Alpha] ket[<span class="hljs-string">"000"</span>] - \[<span class="hljs-keyword">Beta</span>] ket[<span class="hljs-string">"111"</span>]) -
-         \[Alpha]/<span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">6</span>] (ket[<span class="hljs-string">"011"</span>] + ket[<span class="hljs-string">"101"</span>]) +
-         \[<span class="hljs-keyword">Beta</span>]/<span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">6</span>] (ket[<span class="hljs-string">"010"</span>] + ket[<span class="hljs-string">"100"</span>]);
-\[Rho] = \[Psi].<span class="hljs-keyword">ConjugateTranspose</span>[\[Psi]] // <span class="hljs-keyword">FullSimplify</span>;
-\[Rho] // <span class="hljs-keyword">MatrixForm</span>
-\[Rho]<span class="hljs-number">1</span> = pTr[\[Rho], {2,3}] // <span class="hljs-keyword">FullSimplify</span> // <span class="hljs-keyword">Expand</span> // <span class="hljs-keyword">MatrixForm</span>
+<pre><code class="mathematica"><span class="hljs-keyword">$Assumptions</span> = {α ∈ Reals, β ∈ Reals};
+ψ = <span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">2</span>/<span class="hljs-number">3</span>] (α ket[<span class="hljs-string">"000"</span>] - β ket[<span class="hljs-string">"111"</span>]) -
+         α/<span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">6</span>] (ket[<span class="hljs-string">"011"</span>] + ket[<span class="hljs-string">"101"</span>]) +
+         β/<span class="hljs-keyword">Sqrt</span>[<span class="hljs-number">6</span>] (ket[<span class="hljs-string">"010"</span>] + ket[<span class="hljs-string">"100"</span>]);
+ρ = ψ.<span class="hljs-keyword">ConjugateTranspose</span>[ψ] // <span class="hljs-keyword">FullSimplify</span>;
+ρ // <span class="hljs-keyword">MatrixForm</span>
+ρ<span class="hljs-number">1</span> = pTr[ρ, {2,3}] // <span class="hljs-keyword">FullSimplify</span> // <span class="hljs-keyword">Expand</span> // <span class="hljs-keyword">MatrixForm</span>
 </code></pre>
 <h2 id="misc">Misc.</h2>
 <p>Parse LaTeX:</p>

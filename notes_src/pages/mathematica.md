@@ -2,6 +2,7 @@
 
 ```
 Clear["Global`*"]
+$PrePrint = If[MatrixQ[#], MatrixForm[#], #] &;
 ```
 
 
@@ -52,9 +53,9 @@ The partial trace $\mathrm{tr}\_\alpha(\rho)$ can be computed with
 which can be implemented as
 
 ```mathematica
-pTr[mat_, k_] := Module[{n, indices, bbra, kket},
-  n = Log[2, Dimensions[mat][[1]]];
-  indices = Characters[Table[IntegerString[j, 2, n - 1], {j, 0, 2^(n - 1) - 1}]];
+pTr[A_, k_] := Module[{n, indices, bbra, kket},
+  n = Log[2, Dimensions[A][[1]]];
+  indices = Characters[Table[IntegerString[j, 2, n-1], {j, 0, 2^(n-1) - 1}]];
   (* bbra = |i>⊗I *)
   bbra[i_] := Module[{jj},
     jj = 0;
@@ -64,7 +65,7 @@ pTr[mat_, k_] := Module[{n, indices, bbra, kket},
         jj++; bra[i[[jj]]],
         IdentityMatrix[2]
       ], {j, 1, n}]]];
-  Sum[bbra[i] . mat . ConjugateTranspose[bbra[i]], {i, indices}]];
+  FullSimplify[Sum[bbra[i] . A . ConjugateTranspose[bbra[i]], {i, indices}]]];
 ```
 
 **Usage:**

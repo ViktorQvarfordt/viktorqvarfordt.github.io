@@ -241,7 +241,53 @@ Hello World!
           <span class="hljs-comment"># Jump cursor to error line</span>
           view.sel().clear()
           err_row = int(re.search(<span class="hljs-string">'^l\.(\d+)'</span>, err_log, re.MULTILINE).group(<span class="hljs-number">1</span>))
-          err_text = re.search(<span class="hljs-string">'^l\.\d+ \.?\.?\.?(.*)</span>
+          err_text = re.search(<span class="hljs-string">'^l\.\d+ \.?\.?\.?(.*)$'</span>, err_log, re.MULTILINE).group(<span class="hljs-number">1</span>)
+          err_line = view.substr(view.line(view.text_point(err_row - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)))
+          match = re.search(<span class="hljs-string">'('</span> + re.escape(err_text) + <span class="hljs-string">')'</span>, err_line)
+          <span class="hljs-keyword">if</span> match:
+            err_col = match.end()
+          <span class="hljs-keyword">else</span>:
+            err_col = <span class="hljs-number">0</span>
+          err_pos =  sublime.Region(view.text_point(err_row - <span class="hljs-number">1</span>, err_col))
+          view.sel().add(err_pos)
+          view.show_at_center(err_pos)
+          <span class="hljs-comment"># view.window().focus_view(view)</span>
+
+      <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">popenAsync</span><span class="hljs-params">(onExit, popenArg, **popenKwargs)</span>:</span>
+        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">runInThread</span><span class="hljs-params">()</span>:</span>
+          proc = subprocess.Popen(popenArg, **popenKwargs)
+          proc.wait()
+          onExit(proc)
+        thread = threading.Thread(target=runInThread)
+        thread.start()
+
+      popenAsync(cb,
+        [
+          tex_engine,
+          <span class="hljs-string">'-halt-on-error'</span>,
+          <span class="hljs-string">'-interaction=nonstopmode'</span>,
+          <span class="hljs-string">'-shell-escape'</span>,
+          <span class="hljs-comment"># '-file-line-error',</span>
+          tmp_path + <span class="hljs-string">'/index.tex'</span>
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        cwd=tmp_path,
+        bufsize=<span class="hljs-number">1</span>,
+        universal_newlines=<span class="hljs-keyword">True</span>)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SetPanelText</span><span class="hljs-params">(sublime_plugin.TextCommand)</span>:</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run</span><span class="hljs-params">(self, edit, text)</span>:</span>
+    text = text.strip()
+    self.view.insert(edit, self.view.size(), text)
+    self.view.sel().clear()
+    match = re.search(<span class="hljs-string">'^!'</span>, text, re.MULTILINE)
+    <span class="hljs-keyword">if</span> match:
+      err_pos = match.start()
+      self.view.set_viewport_position(self.view.text_to_layout(err_pos))
+      <span class="hljs-comment"># self.view.show_at_center(err_pos)</span>
+      <span class="hljs-comment"># self.view.sel().add(self.view.line(err_pos).a)</span>
 </code></pre>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>
@@ -250,407 +296,6 @@ Hello World!
 <span class="hljs-keyword">done</span>
 </code></pre>
 <p>Extended with more features: <a href="https://github.com/ViktorQvarfordt/auto-tex-compile">auto-tex-compile</a></p>
-<h2 id="code-highlighting-with-minted">Code highlighting with <code>minted</code></h2>
-<p><a href="https://code.google.com/p/minted/">https://code.google.com/p/minted/</a></p>
-<p>Basic usage:</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{minted}</span></span> <span class="hljs-comment">% NB: Load minted after hyperref</span>
-
-...
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{minted}</span><span class="hljs-string">{python}</span></span>
-def f(x):
-  return 2*x
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{minted}</span></span>
-</code></pre>
-<pre><code class="tex"><span class="hljs-comment">% Line numbers; gray and smaller</span>
-<span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\theFancyVerbLine}</span><span class="hljs-string">{
-  \sffamily\textcolor[rgb]{0.5,0.5,0.5}</span><span class="hljs-string">{\scriptsize\arabic{FancyVerbLine}</span></span>}}
-
-<span class="hljs-comment">% Provides `matlabcode` command.</span>
-<span class="hljs-tag">\<span class="hljs-name">newminted</span><span class="hljs-string">{matlab}</span><span class="hljs-string">{linenos,numbersep=5pt,frame=lines,framesep=2mm}</span></span>
-
-<span class="hljs-comment">% Provides `matlabfile` command.</span>
-<span class="hljs-tag">\<span class="hljs-name">newmintedfile</span><span class="hljs-string">{matlab}</span><span class="hljs-string">{linenos,numbersep=5pt}</span></span>
-
-<span class="hljs-comment">% Colored background</span>
-<span class="hljs-tag">\<span class="hljs-name">definecolor</span><span class="hljs-string">{bg}</span><span class="hljs-string">{rgb}</span><span class="hljs-string">{0.95,0.95,0.95}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">newminted</span><span class="hljs-string">{matlab}</span><span class="hljs-string">{bgcolor=bg}</span></span>
-</code></pre>
-<h2 id="embed-file-as-pdf-attachment">Embed file as PDF attachment</h2>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{embedfile}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">embedfile</span><span class="hljs-string">{index.tex}</span></span>
-</code></pre>
-<h2 id="minimal-pdf-document">Minimal pdf document</h2>
-<p>Create a pdf with no margins and page breaks. PDF document dimensions adapted to content size.</p>
-<h3 id="-standalone-package"><code>standalone</code> package</h3>
-<p>The <code>varwidth</code> parameter makes line-break behave normally.</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">[varwidth]</span><span class="hljs-string">{standalone}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
-  Hello minimal world!
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
-</code></pre>
-<h3 id="-pdf-svg-notes-pdf"><a href="/notes/pdf">PDF→SVG</a></h3>
-<h3 id="-pdfcrop-command"><code>pdfcrop</code> command</h3>
-<p>This is a command (included in the texlive latex distribution for linux) that crops margins from pdf documents. The command does not remove page breaks. Page numbers have to be explicitly suppressed.</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">[a4paper]</span><span class="hljs-string">{article}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">thispagestyle</span><span class="hljs-string">{none}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
-  Hello cropped world!
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
-</code></pre>
-<p>After compiling the document, simply run the command <code>pdfcrop</code> on the resulting pdf.</p>
-<h2 id="images-figures-and-floats">Images, figures and floats</h2>
-<p><code>\usepackage{graphicx}</code></p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{figure}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">centering</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">includegraphics</span><span class="hljs-string">[width=0.8\linewidth]</span><span class="hljs-string">{filename}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">caption</span><span class="hljs-string">{Descriptive text.}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">label</span><span class="hljs-string">{fig:foo}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{figure}</span></span>
-</code></pre>
-<p><a href="http://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions#Figures">Figure positioning.</a>
-<a href="https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions#Keeping_floats_in_their_place">Keeping_floats_in_their_place</a></p>
-<h3 id="full-page-image">Full-page image</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">clearpage</span></span>
-<span class="hljs-tag">\<span class="hljs-name">newgeometry</span><span class="hljs-string">{margin=0pt}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">newlength</span></span><span class="hljs-tag">\<span class="hljs-name">figheight</span></span>
-<span class="hljs-tag">\<span class="hljs-name">setlength</span></span><span class="hljs-tag">\<span class="hljs-name">figheight</span></span><span class="hljs-tag">\<span class="hljs-name">paperheight</span></span>
-<span class="hljs-tag">\<span class="hljs-name">addtolength</span></span><span class="hljs-tag">\<span class="hljs-name">figheight</span><span class="hljs-string">{-4cm}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">newlength</span></span><span class="hljs-tag">\<span class="hljs-name">figwidth</span></span>
-<span class="hljs-tag">\<span class="hljs-name">setlength</span></span><span class="hljs-tag">\<span class="hljs-name">figwidth</span></span><span class="hljs-tag">\<span class="hljs-name">paperwidth</span></span>
-<span class="hljs-tag">\<span class="hljs-name">addtolength</span></span><span class="hljs-tag">\<span class="hljs-name">figwidth</span><span class="hljs-string">{-4cm}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{figure}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">centerfloat</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">includegraphics</span><span class="hljs-string">[width=\figwidth,height=\figheight,keepaspectratio]</span><span class="hljs-string">{flow_diagram_1_1}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">caption</span><span class="hljs-string">{Descriptive text}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">label</span><span class="hljs-string">{fig:myfig}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{figure}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">restoregeometry</span></span>
-<span class="hljs-tag">\<span class="hljs-name">clearpage</span></span>
-</code></pre>
-<h3 id="-centering-figure-that-is-wider-than-textwidth-http-tex-stackexchange-com-questions-16582-center-figure-that-is-wider-than-textwidth"><a href="http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth">Centering figure that is wider than <code>\textwidth</code></a></h3>
-<p>Example:</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{figure}</span><span class="hljs-string">[!htbp]</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">centering</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[1pt]</span><span class="hljs-string">[c]</span><span class="hljs-string">{\includegraphics[width=\paperwidth]{imgpath}</span></span>}
-  <span class="hljs-tag">\<span class="hljs-name">caption</span><span class="hljs-string">{Descriptive text}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">label</span><span class="hljs-string">{fig:myfig}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{figure}</span></span>
-</code></pre>
-<p>Alternatively, using <code>\centerfloat</code> from the memoir-class:</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">makeatletter</span></span>
-<span class="hljs-tag">\<span class="hljs-name">newcommand*</span><span class="hljs-string">{\centerfloat}</span><span class="hljs-string">{%
-  \parindent \z@
-  \leftskip \z@ \@plus 1fil \@minus \textwidth
-  \rightskip\leftskip
-  \parfillskip \z@skip}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">makeatother</span></span>
-
-<span class="hljs-comment">% Use just as \centering</span>
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{figure}</span><span class="hljs-string">[!htbp]</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">centerfloat</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">includegraphics</span><span class="hljs-string">[width=\paperwidth]</span><span class="hljs-string">{imgpath}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">caption</span><span class="hljs-string">{Descriptive text}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">label</span><span class="hljs-string">{fig:myfig}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{figure}</span></span>
-</code></pre>
-<p>Yet another alternative:</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">newcommand</span><span class="hljs-string">{\forcecenter}</span><span class="hljs-string">[1]</span><span class="hljs-string">{%
-  \makebox[0pt][c]{#1}</span></span><span class="hljs-comment">%</span>
-}
-</code></pre>
-<h2 id="bibliography">Bibliography</h2>
-<h3 id="basic">Basic</h3>
-<pre><code class="tex">...
-<span class="hljs-tag">\<span class="hljs-name">newpage</span></span>
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{thebibliography}</span><span class="hljs-string">{99}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">bibitem</span><span class="hljs-string">{biblabel1}</span></span> <span class="hljs-tag">\<span class="hljs-name">url</span><span class="hljs-string">{http://www.example.com/}</span></span>, 2012-12-09
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{thebibliography}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
-</code></pre>
-<h3 id="biblatex">Biblatex</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">{article}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[backend=biber]</span><span class="hljs-string">{biblatex}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">addbibresource</span><span class="hljs-string">{refs.bib}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">cite</span><span class="hljs-string">{&lt;some-ref&gt;}</span></span>
-<span class="hljs-comment">% \nocite{*} % to print all references from databse</span>
-
-<span class="hljs-tag">\<span class="hljs-name">printbibliography</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
-</code></pre>
-<pre><code>$ pdflatex document.tex &amp;&amp; biber document.bcf &amp;&amp; pdflatex document.tex
-</code></pre><p>Where <code>refs.bib</code> may look like <a href="http://ctan.space-pro.be/tex-archive/macros/latex/contrib/biblatex/doc/examples/biblatex-examples.bib">this</a>.</p>
-<p>More info:</p>
-<ul>
-<li><a href="http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf">http://mirrors.ctan.org/macros/latex/contrib/biblatex/doc/biblatex.pdf</a></li>
-<li><a href="http://www.ctan.org/tex-archive/macros/latex/exptl/biblatex/doc/examples">http://www.ctan.org/tex-archive/macros/latex/exptl/biblatex/doc/examples</a></li>
-<li><a href="http://tex.stackexchange.com/questions/13509/biblatex-for-idiots">http://tex.stackexchange.com/questions/13509/biblatex-for-idiots</a></li>
-<li><a href="http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex">http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex</a></li>
-</ul>
-<h2 id="misc">Misc</h2>
-<h3 id="other">Other</h3>
-<ul>
-<li><a href="http://tex.stackexchange.com/a/17553">Plus-minus symbol with parenthesis around the minus sign</a></li>
-<li><a href="http://tex.stackexchange.com/a/47563">Equation system</a></li>
-</ul>
-<h3 id="margins">Margins</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[top=1cm, bottom=2cm, left=3cm, right=4cm]</span><span class="hljs-string">{geometry}</span></span>
-</code></pre>
-<h3 id="european-style-paragraph-newline-no-indentation">European style paragraph newline (no indentation)</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{parskip}</span></span>
-</code></pre>
-<h3 id="fancy-headers-with-fancyhdr">Fancy headers with <code>fancyhdr</code></h3>
-<p><a href="http://en.wikibooks.org/wiki/LaTeX/Page_Layout#Page_styles">More info</a></p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{fancyhdr}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">lhead</span><span class="hljs-string">{\textsc{Title}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">chead</span><span class="hljs-string">{}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">rhead</span><span class="hljs-string">{\thepage}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">lfoot</span><span class="hljs-string">{}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">cfoot</span><span class="hljs-string">{}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">rfoot</span><span class="hljs-string">{\textsl{Author}</span></span>}
-
-<span class="hljs-tag">\<span class="hljs-name">pagestyle</span><span class="hljs-string">{fancy}</span></span>
-
-<span class="hljs-comment">% hline in the footer, just like header.</span>
-<span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\footrulewidth}</span><span class="hljs-string">{0.4pt}</span></span>
-</code></pre>
-<h3 id="enumerate-interitemtext">Enumerate interitemtext</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">[a4paper]</span><span class="hljs-string">{article}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{lipsum}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">newcommand</span><span class="hljs-string">{\interitemtext}</span><span class="hljs-string">[1]</span><span class="hljs-string">{
-  \item[] \hspace{-\labelwidth}</span></span><span class="hljs-tag">\<span class="hljs-name">hspace</span><span class="hljs-string">{-\labelsep}</span></span>#1
-}
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">lipsum</span><span class="hljs-string">[1]</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{enumerate}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">item</span></span> First item
-  <span class="hljs-tag">\<span class="hljs-name">item</span></span> Second item
-  <span class="hljs-tag">\<span class="hljs-name">interitemtext</span><span class="hljs-string">{This is some inter-item text}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">item</span></span> Third item
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{enumerate}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">lipsum</span><span class="hljs-string">[2]</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
-</code></pre>
-<h3 id="margin-notes">Margin notes</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[left=3.175cm, marginparwidth=2.825cm, marginparsep=3mm]</span><span class="hljs-string">{geometry}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{marginnote}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">reversemarginpar</span></span>
-</code></pre>
-<h3 id="table-of-contents-dots-for-sections">Table of contents dots for sections:</h3>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{tocloft}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\cftsecleader}</span><span class="hljs-string">{\cftdotfill{\cftdotsep}</span></span>}
-</code></pre>
-<h3 id="-tables-http-en-wikibooks-org-wiki-latex-tables"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables">Tables</a></h3>
-<p>Table spacing:</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\arraystretch}</span><span class="hljs-string">{1.4}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\tabcolsep}</span><span class="hljs-string">{0.2cm}</span></span>
-</code></pre>
-<h4 id="-booktabs-http-en-wikibooks-org-wiki-latex-tables-using_booktabs"><a href="http://en.wikibooks.org/wiki/LaTeX/Tables#Using_booktabs">Booktabs</a></h4>
-<p>Superfacny tables with aligned numbers using <a href="http://ctan.uib.no/macros/latex/contrib/siunitx/siunitx.pdf"><code>siunitx</code></a>:</p>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{table}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">centering</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">sisetup</span><span class="hljs-string">{
-    table-figures-integer = 3,
-    table-figures-decimal = 0,
-    table-sign-mantissa  % Include space for minus-sign.
-  }</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{tabular}</span><span class="hljs-string">{@{}</span></span>
-                  S
-                  S
-                  S[table-figures-integer=2,table-figures-decimal=2] <span class="hljs-comment">% Config row separately.</span>
-                  @{}}
-    <span class="hljs-tag">\<span class="hljs-name">toprule</span></span>
-    <span class="hljs-comment">%% Wrap header fields in curly braces so that siunitx</span>
-    <span class="hljs-comment">%% doesn't treat them as numbers.</span>
-    {first field}, {second field}, {third field} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">midrule</span></span>
-    <span class="hljs-comment">%% numbers here, remember \\ also on the last line.</span>
-    <span class="hljs-tag">\<span class="hljs-name">bottomrule</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{tabular}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">caption</span><span class="hljs-string">{The caption}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">label</span><span class="hljs-string">{tab:mytable}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{table}</span></span>
-</code></pre>
-<h3 id="force-hfill">Force <code>\hfill</code></h3>
-<p><code>lefttext \hfill righttext</code> might fail to right-align <code>righttext</code> if <code>lefttext</code> takes up the entire text width. Solve this by using <code>lefttext \hspace*{0pt}\hfill righttext</code>.</p>
-<pre><code class="tex"><span class="hljs-comment">%% QED square-symbol properly floating to the right.</span>
-<span class="hljs-tag">\<span class="hljs-name">newcommand</span><span class="hljs-string">{\qed}</span><span class="hljs-string">{\hspace*{0pt}</span></span><span class="hljs-tag">\<span class="hljs-name">hfill</span></span><span class="hljs-tag">\<span class="hljs-name">ensuremath</span><span class="hljs-string">{\square}</span></span>}
-</code></pre>
-<h2 id="titlepage-template">Titlepage template</h2>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{titlepage}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">thispagestyle</span><span class="hljs-string">{empty}</span></span>
-  <span class="hljs-comment">% \null\vskip{-2em}</span>
-  <span class="hljs-tag">\<span class="hljs-name">noindent</span></span> <span class="hljs-tag">\<span class="hljs-name">large</span><span class="hljs-string">{\textbf{Stockholm University \hfill Fysikum}</span></span>}
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 7em
-  <span class="hljs-tag">\<span class="hljs-name">centering</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 2em
-  <span class="hljs-tag">\<span class="hljs-name">Huge</span><span class="hljs-string">{{Laboratory session 3}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 0.2em
-  <span class="hljs-tag">\<span class="hljs-name">Huge</span><span class="hljs-string">{\textbf{Interference and Diffraction}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 1.5em
-  <span class="hljs-tag">\<span class="hljs-name">Large</span><span class="hljs-string">{\textsc{Waves and Optics, FK4009, 10.5 hp}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vfill</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">LARGE</span><span class="hljs-string">{\textsl{Viktor Qvarfordt}</span></span>}
-  <span class="hljs-tag">\<span class="hljs-name">vfill</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">large</span></span>
-  <span class="hljs-comment">%% Ugly trick to center the table perfectly regardless of the width of the columns.</span>
-  <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[\textwidth]</span><span class="hljs-string">[c]</span><span class="hljs-string">{\begin{tabular}</span><span class="hljs-string">{rl}</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[\textwidth]</span><span class="hljs-string">[r]</span><span class="hljs-string">{\textbf{Laboration performed}</span></span>} &amp; <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[\textwidth]</span><span class="hljs-string">[l]</span><span class="hljs-string">{April 18, 2013}</span></span> <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Report handed in}</span></span>     &amp; April 26, 2013 <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Grade aim}</span></span>            &amp; VG <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Lab. partners}</span></span>        &amp; Alice <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-                                  &amp; Bob <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Lab. assistants}</span></span>      &amp; Carol <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-                                  &amp; David <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Submitted to}</span></span>         &amp; Eva <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Course examinator}</span></span>    &amp; Francis
-  <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{tabular}</span></span>}
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{titlepage}</span></span>
-</code></pre>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">[..., titlepage, ...]</span><span class="hljs-string">{article}</span></span>
-
-<span class="hljs-comment">% ...</span>
-
-<span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">title</span><span class="hljs-string">{Title}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">course</span><span class="hljs-string">{Course}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">author</span><span class="hljs-string">{Author}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">examiner</span><span class="hljs-string">{Examiner}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">school</span><span class="hljs-string">{School}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{titlepage}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">thispagestyle</span><span class="hljs-string">{empty}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">null</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> -2em<span class="hljs-comment">%</span>
-  <span class="hljs-tag">\<span class="hljs-name">noindent</span></span> <span class="hljs-tag">\<span class="hljs-name">large</span><span class="hljs-string">{\textbf{\school \hfill \today}</span></span>}
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 10em
-  <span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{center}</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 2em
-    <span class="hljs-tag">\<span class="hljs-name">Huge</span><span class="hljs-string">{\textbf{\title}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 2em
-    <span class="hljs-tag">\<span class="hljs-name">Large</span><span class="hljs-string">{\course}</span></span> <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 10em
-    <span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{large}</span></span>
-      <span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{tabular}</span><span class="hljs-string">{ll}</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Authors}</span></span> &amp; <span class="hljs-tag">\<span class="hljs-name">author</span></span> <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Examiner}</span></span> &amp; <span class="hljs-tag">\<span class="hljs-name">examiner</span></span> <span class="hljs-tag">\<span class="hljs-name">rule</span><span class="hljs-string">{0pt}</span><span class="hljs-string">{1.5em}</span></span>
-      <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{tabular}</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{large}</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">vfill</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{center}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{titlepage}</span></span>
-
-<span class="hljs-comment">% ...</span>
-</code></pre>
-<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{titlepage}</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">thispagestyle</span><span class="hljs-string">{empty}</span></span>
-  <span class="hljs-comment">% \null\vskip{-2em}</span>
-  <span class="hljs-tag">\<span class="hljs-name">noindent</span></span> <span class="hljs-tag">\<span class="hljs-name">large</span><span class="hljs-string">{\textbf{Stockholm University \hfill Fysikum}</span></span>}
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 7em
-  <span class="hljs-tag">\<span class="hljs-name">centering</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 2em
-  <span class="hljs-tag">\<span class="hljs-name">Huge</span><span class="hljs-string">{{Laboration 1}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">Huge</span><span class="hljs-string">{\textbf{Geometrical Optics}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vskip</span></span> 2em
-  <span class="hljs-tag">\<span class="hljs-name">Large</span><span class="hljs-string">{\textsc{Waves and Optics, FK4009, 10.5 hp}</span></span>} <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">vfill</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">LARGE</span><span class="hljs-string">{\textsl{Viktor Qvarfordt}</span></span>}
-  <span class="hljs-tag">\<span class="hljs-name">vfill</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">large</span></span>
-  <span class="hljs-comment">%% Ugly trick to center the table perfectly regardless of the width of the columns.</span>
-  <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[\textwidth]</span><span class="hljs-string">[c]</span><span class="hljs-string">{\begin{tabular}</span><span class="hljs-string">{rl}</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[\textwidth]</span><span class="hljs-string">[r]</span><span class="hljs-string">{\textbf{Laboration performed}</span></span>} &amp; <span class="hljs-tag">\<span class="hljs-name">makebox</span><span class="hljs-string">[\textwidth]</span><span class="hljs-string">[l]</span><span class="hljs-string">{April 3, 2013}</span></span> <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Report handed in}</span></span>     &amp; April 11, 2013 <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Grade aim}</span></span>            &amp; .. <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Lab. partners}</span></span>        &amp; .. <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-                                  &amp; .. <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Lab. assistants}</span></span>      &amp; .. <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-                                  &amp; .. <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Submitted to}</span></span>         &amp; .. <span class="hljs-tag">\<span class="hljs-name">\</span></span>
-    <span class="hljs-tag">\<span class="hljs-name">textbf</span><span class="hljs-string">{Course examinator}</span></span>    &amp; ..
-  <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{tabular}</span></span>}
-<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{titlepage}</span></span>
-</code></pre>
-<p>, err_log, re.MULTILINE).group(1)
-          err_line = view.substr(view.line(view.text_point(err_row - 1, 0)))
-          match = re.search(‘(‘ + re.escape(err_text) + ‘)’, err_line)
-          if match:
-            err_col = match.end()
-          else:
-            err_col = 0
-          err_pos =  sublime.Region(view.text_point(err_row - 1, err_col))
-          view.sel().add(err_pos)
-          view.show_at_center(err_pos)</p>
-<pre><code>      # view.window().focus_view(view)
-
-  def popenAsync(onExit, popenArg, **popenKwargs):
-    def runInThread():
-      proc = subprocess.Popen(popenArg, **popenKwargs)
-      proc.wait()
-      onExit(proc)
-    thread = threading.Thread(target=runInThread)
-    thread.start()
-
-  popenAsync(cb,
-    [
-      tex_engine,
-      &#39;-halt-on-error&#39;,
-      &#39;-interaction=nonstopmode&#39;,
-      &#39;-shell-escape&#39;,
-      # &#39;-file-line-error&#39;,
-      tmp_path + &#39;/index.tex&#39;
-    ],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT,
-    cwd=tmp_path,
-    bufsize=1,
-    universal_newlines=True)
-</code></pre><p>class SetPanelText(sublime_plugin.TextCommand):
-  def run(self, edit, text):
-    text = text.strip()
-    self.view.insert(edit, self.view.size(), text)
-    self.view.sel().clear()
-    match = re.search(‘^!’, text, re.MULTILINE)
-    if match:
-      err_pos = match.start()
-      self.view.set_viewport_position(self.view.text_to_layout(err_pos))</p>
-<pre><code>  # self.view.show_at_center(err_pos)
-  # self.view.sel().add(self.view.line(err_pos).a)
-</code></pre><pre><code>
-
-
-
-## Automagically compile document
-
-Basic version:
-
-```bash
-while inotifywait -qq -e modify *.tex; do
-  clear &amp;&amp; pdflatex -interaction=nonstopmode *.tex | grep &quot;^\!\|^l.&quot;
-done
-</code></pre><p>Extended with more features: <a href="https://github.com/ViktorQvarfordt/auto-tex-compile">auto-tex-compile</a></p>
 <h2 id="code-highlighting-with-minted">Code highlighting with <code>minted</code></h2>
 <p><a href="https://code.google.com/p/minted/">https://code.google.com/p/minted/</a></p>
 <p>Basic usage:</p>

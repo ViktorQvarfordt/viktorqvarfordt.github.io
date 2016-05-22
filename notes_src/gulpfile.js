@@ -51,9 +51,11 @@ gulp.task('default', function() {
     }))
     .pipe(tap(function(file) {
       var m;
+      var fileContent;
       s = file.contents.toString()
-      while (m = s.match('<<include +([^>>]+)>>')) {
-        s = s.replace(m[0], fs.readFileSync(expandTilde(m[1])).toString());
+      while (m = s.match('<<include +([^>]+)>>')) {
+        fileContent = fs.readFileSync(expandTilde(m[1])).toString()
+        s = s.replace(m[0], () => fileContent); // Use a funciton to avoid $ substitution
       }
       file.contents = new Buffer(s);
     }))

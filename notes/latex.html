@@ -176,7 +176,8 @@ Hello World!
 </code></pre>
 <p>This can be use with the following Sublime Text 3 plugin that automatically extracts and opens embedded files for editing.</p>
 <pre><code class="python"><span class="hljs-keyword">import</span> sublime, sublime_plugin
-<span class="hljs-keyword">import</span> os, subprocess, re
+<span class="hljs-keyword">import</span> os, subprocess, threading, re
+
 
 <span class="hljs-comment"># BUGS</span>
 <span class="hljs-comment"># - This plug-in does not get loaded immediately, i.e. on_load is not executed if sublime is not already opened.</span>
@@ -220,35 +221,27 @@ Hello World!
     <span class="hljs-keyword">if</span> view.file_name().startswith(<span class="hljs-string">'/tmp/magic-sublime-latex'</span>):
       tmp_path = re.search(<span class="hljs-string">'(/tmp/magic-sublime-latex[^/]*)'</span>, view.file_name()).group(<span class="hljs-number">1</span>)
       pdf_path = tmp_path.replace(<span class="hljs-string">'/tmp/magic-sublime-latex'</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-string">'!'</span>, <span class="hljs-string">'/'</span>)
-      print(view.substr(sublime.Region(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>)))
       <span class="hljs-keyword">if</span> view.substr(sublime.Region(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>)) == <span class="hljs-string">'% xelatex'</span>:
         tex_engine = <span class="hljs-string">'xelatex'</span>
-        print(<span class="hljs-string">'test2'</span>)
       <span class="hljs-keyword">else</span>:
         tex_engine = <span class="hljs-string">'pdflatex'</span>
-      p = subprocess.Popen(
-        [tex_engine, <span class="hljs-string">'-halt-on-error'</span>, <span class="hljs-string">'-interaction=nonstopmode'</span>, <span class="hljs-string">'-shell-escape'</span>, tmp_path + <span class="hljs-string">'/index.tex'</span>],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        cwd=tmp_path,
-        bufsize=<span class="hljs-number">1</span>,
-        universal_newlines=<span class="hljs-keyword">True</span>)
-      p.wait()
-      <span class="hljs-keyword">if</span> p.returncode == <span class="hljs-number">0</span>:
-        <span class="hljs-comment"># Overwrite original pdf with new pdf</span>
-        <span class="hljs-comment"># os.rename(f[:-3] + 'pdf', '/'.join(f.replace('/tmp/magic-sublime-latex', '').replace('!', '/').split('/')[0:-1]))</span>
-        os.rename(tmp_path + <span class="hljs-string">'/index.pdf'</span>, pdf_path)
-      <span class="hljs-keyword">else</span>:
-        err_log = p.stdout.read()
-        <span class="hljs-comment"># Show error log in panel</span>
-        panel = view.window().create_output_panel(<span class="hljs-string">'log'</span>)
-        panel.set_syntax_file(<span class="hljs-string">'Packages/LaTeX/LaTeX Log.tmLanguage'</span>)
-        panel.run_command(<span class="hljs-string">'set_panel_text'</span>, { <span class="hljs-string">'text'</span>: err_log })
-        view.window().run_command(<span class="hljs-string">'show_panel'</span>, {<span class="hljs-string">'panel'</span>: <span class="hljs-string">'output.log'</span>})
-        <span class="hljs-comment"># Jump cursor to error line</span>
-        view.sel().clear()
-        err_row = int(re.search(<span class="hljs-string">'^l\.(\d+)'</span>, err_log, re.MULTILINE).group(<span class="hljs-number">1</span>))
-        err_text = re.search(<span class="hljs-string">'^l\.\d+ \.?\.?\.?(.*)</span>
+
+      <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cb</span><span class="hljs-params">(p)</span>:</span>
+        <span class="hljs-keyword">if</span> p.returncode == <span class="hljs-number">0</span>:
+          <span class="hljs-comment"># Overwrite original pdf with new pdf</span>
+          <span class="hljs-comment"># os.rename(f[:-3] + 'pdf', '/'.join(f.replace('/tmp/magic-sublime-latex', '').replace('!', '/').split('/')[0:-1]))</span>
+          os.rename(tmp_path + <span class="hljs-string">'/index.pdf'</span>, pdf_path)
+        <span class="hljs-keyword">else</span>:
+          err_log = p.stdout.read()
+          <span class="hljs-comment"># Show error log in panel</span>
+          panel = view.window().create_output_panel(<span class="hljs-string">'log'</span>)
+          panel.set_syntax_file(<span class="hljs-string">'Packages/LaTeX/LaTeX Log.tmLanguage'</span>)
+          panel.run_command(<span class="hljs-string">'set_panel_text'</span>, { <span class="hljs-string">'text'</span>: err_log })
+          view.window().run_command(<span class="hljs-string">'show_panel'</span>, {<span class="hljs-string">'panel'</span>: <span class="hljs-string">'output.log'</span>})
+          <span class="hljs-comment"># Jump cursor to error line</span>
+          view.sel().clear()
+          err_row = int(re.search(<span class="hljs-string">'^l\.(\d+)'</span>, err_log, re.MULTILINE).group(<span class="hljs-number">1</span>))
+          err_text = re.search(<span class="hljs-string">'^l\.\d+ \.?\.?\.?(.*)</span>
 </code></pre>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>
@@ -601,26 +594,50 @@ def f(x):
 <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{titlepage}</span></span>
 </code></pre>
 <p>, err_log, re.MULTILINE).group(1)
-        err_line = view.substr(view.line(view.text_point(err_row - 1, 0)))
-        match = re.search(‘(‘ + re.escape(err_text) + ‘)’, err_line)
-        if match:
-          err_col = match.end()
-        else:
-          err_col = 0
-        err_pos =  sublime.Region(view.text_point(err_row - 1, err_col))
-        view.sel().add(err_pos)
-        view.show_at_center(err_pos)</p>
-<p>class SetPanelText(sublime_plugin.TextCommand):
+          err_line = view.substr(view.line(view.text_point(err_row - 1, 0)))
+          match = re.search(‘(‘ + re.escape(err_text) + ‘)’, err_line)
+          if match:
+            err_col = match.end()
+          else:
+            err_col = 0
+          err_pos =  sublime.Region(view.text_point(err_row - 1, err_col))
+          view.sel().add(err_pos)
+          view.show_at_center(err_pos)</p>
+<pre><code>      # view.window().focus_view(view)
+
+  def popenAsync(onExit, popenArg, **popenKwargs):
+    def runInThread():
+      proc = subprocess.Popen(popenArg, **popenKwargs)
+      proc.wait()
+      onExit(proc)
+    thread = threading.Thread(target=runInThread)
+    thread.start()
+
+  popenAsync(cb,
+    [
+      tex_engine,
+      &#39;-halt-on-error&#39;,
+      &#39;-interaction=nonstopmode&#39;,
+      &#39;-shell-escape&#39;,
+      # &#39;-file-line-error&#39;,
+      tmp_path + &#39;/index.tex&#39;
+    ],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    cwd=tmp_path,
+    bufsize=1,
+    universal_newlines=True)
+</code></pre><p>class SetPanelText(sublime_plugin.TextCommand):
   def run(self, edit, text):
     text = text.strip()
     self.view.insert(edit, self.view.size(), text)
-    self.view.show(len(text), False) # Scroll to bottom
     self.view.sel().clear()
     match = re.search(‘^!’, text, re.MULTILINE)
     if match:
-      err_pos = match.start()</p>
-<pre><code>  # self.view.show(err_pos) # Scroll to error line
-  self.view.sel().add(self.view.line(err_pos).a)
+      err_pos = match.start()
+      self.view.set_viewport_position(self.view.text_to_layout(err_pos))</p>
+<pre><code>  # self.view.show_at_center(err_pos)
+  # self.view.sel().add(self.view.line(err_pos).a)
 </code></pre><pre><code>
 
 

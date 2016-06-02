@@ -47,7 +47,16 @@ bra[<span class="hljs-string">"000"</span>].ket[<span class="hljs-string">"000"<
 ket[<span class="hljs-string">"000"</span>].bra[<span class="hljs-string">"000"</span>] <span class="hljs-comment">(* the correct matrix *)</span>
 <span class="hljs-keyword">ConjugateTranspose</span>[ket[<span class="hljs-string">"010"</span>]] == bra[<span class="hljs-string">"010"</span>] <span class="hljs-comment">(* True *)</span>
 </code></pre>
+<h3 id="tensor-products">Tensor products</h3>
+<pre><code class="mathematica"><span class="hljs-keyword">CircleTimes</span>[x__] := <span class="hljs-keyword">KroneckerProduct</span>[x];
+i = <span class="hljs-keyword">IdentityMatrix</span>[<span class="hljs-number">2</span>];
+σ<span class="hljs-number">1</span> = <span class="hljs-keyword">PauliMatrix</span>[<span class="hljs-number">1</span>];
+σ<span class="hljs-number">2</span> = <span class="hljs-keyword">PauliMatrix</span>[<span class="hljs-number">2</span>];
+σ<span class="hljs-number">3</span> = <span class="hljs-keyword">PauliMatrix</span>[<span class="hljs-number">3</span>];
+σ<span class="hljs-number">1</span>⊗σ<span class="hljs-number">3</span>
+</code></pre>
 <h3 id="partial-trace">Partial trace</h3>
+<p>WARNING: This gives is wring by a factor of 2, sometimes?</p>
 <p>The partial trace $\mathrm{tr}_\alpha(\rho)$ can be computed with</p>
 <p>\begin{equation}
   \operatorname{tr}_1(A_{12}) = \sum_i \langle i \rvert_1 A_{12} \lvert i \rangle_1 = \sum_i (\langle i \rvert \otimes I) \rvert A_{12} (\lvert i \rangle \otimes I)

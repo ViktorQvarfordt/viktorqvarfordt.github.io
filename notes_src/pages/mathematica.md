@@ -42,7 +42,22 @@ ket["000"].bra["000"] (* the correct matrix *)
 ConjugateTranspose[ket["010"]] == bra["010"] (* True *)
 ```
 
+### Tensor products
+
+```mathematica
+CircleTimes[x__] := KroneckerProduct[x];
+i = IdentityMatrix[2];
+σ1 = PauliMatrix[1];
+σ2 = PauliMatrix[2];
+σ3 = PauliMatrix[3];
+σ1⊗σ3
+```
+
+
+
 ### Partial trace
+
+WARNING: This gives is wring by a factor of 2, sometimes?
 
 The partial trace $\mathrm{tr}\_\alpha(\rho)$ can be computed with
 

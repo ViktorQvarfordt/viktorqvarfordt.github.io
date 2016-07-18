@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>villem.io</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+      /*cursor: none;*/
+    }
+    #infoText {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<img src="villbis.png" id="villbis" style="display: none;">
+<canvas id="canvas"></canvas>
+<div id="infoText">test</div>
+
+<script>
+String.prototype.capitalizeFirstLetter = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+var cnv = document.getElementById('canvas')
+var ctx = cnv.getContext('2d')
+ctx.globalAlpha = 0.4;
+
+function resize() {
+  cnv.width = window.innerWidth
+  cnv.height = window.innerHeight
+}
+
+resize()
+
+window.addEventListener('resize', resize)
+
+// function drawCircle(obj) {
+//   ctx.beginPath()
+//   ctx.arc(obj.x - obj.r, obj.y - obj.r, obj.r, 0, 2*Math.PI, true)
+//   ctx.fillStyle = 'red'
+//   ctx.fill()
+//   ctx.strokeStyle = 'black'
+//   ctx.lineWidth = 3
+//   ctx.stroke()
+// }
+
+function drawImage(obj) {
+  var img = document.getElementById('villbis')
+  var f = img.width / img.height
+  ctx.drawImage(img, obj.x - obj.r, obj.y - obj.r, 2 * obj.r * f, 2 * obj.r)
+}
+
+// function drawTriangle(obj) {
+//   // shape
+//   ctx.beginPath();
+//   ctx.moveTo(obj.x + obj.r, obj.y);
+//   ctx.lineTo(obj.x, obj.y + 2 * obj.r);
+//   ctx.lineTo(obj.x + 2 * obj.r, obj.y + 2 * obj.r);
+//   ctx.closePath();
+//   // outline
+//   ctx.lineWidth = 3;
+//   ctx.strokeStyle = 'black';
+//   ctx.stroke();
+//   // fill
+//   ctx.fillStyle = '#FFCC00';
+//   ctx.fill();
+// }
+
+function drawPolygon(obj) {
+  ctx.beginPath()
+  ctx.moveTo (obj.x + obj.r * Math.cos(0), obj.y + obj.r *  Math.sin(0))
+  for (var i = 1; i <= obj.sides; i += 1) {
+    ctx.lineTo (obj.x + obj.r * Math.cos(i * 2 * Math.PI / obj.sides), obj.y + obj.r * Math.sin(i * 2 * Math.PI / obj.sides));
+  }
+  // outline
+  ctx.lineWidth = 3
+  ctx.strokeStyle = 'black'
+  ctx.stroke()
+  // fill
+  ctx.fillStyle = obj.color
+  ctx.fill()
+}
+
+function clear() {
+  ctx.clearRect(0, 0, cnv.width, cnv.height)
+}
+
+var user = {
+  x: 50,
+  y: 50,
+  r: 30,
+  v: [1, 0]
+}
+
+var colors = ['#FFCC00', 'skyblue', 'green', 'red']
+var shapes = []
+
+var t1, t2
+
+function main() {
+  t2 = Date.now()
+  dt = (t2 - (t1 || t2)) / 1000
+  t1 = t2
+
+  window.requestAnimationFrame(main)
+  clear()
+  var k = 200 // number of pixels per second
+
+  // Move user
+  if (38 in keyCodeDown) { // up
+    user.y -= k * dt
+  }
+  if (37 in keyCodeDown) { // left
+    user.x -= k * dt
+  }
+  if (39 in keyCodeDown) { // right
+    user.x += k * dt
+  }
+  if (40 in keyCodeDown) { // down
+    user.y += k * dt
+  }
+  user.x = mod(user.x, cnv.width)
+  user.y = mod(user.y, cnv.height)
+
+  // Eat shapes
+  for (var i = 0; i < shapes.length; i++) {
+    var shape = shapes[i]
+    if (distance(user, shape) < user.r + shape.r) {
+      user.r += 0.1 * shape.r
+      shapes.splice(i, 1)
+      continue
+    } else {
+      drawPolygon(shape)
+    }
+  }
+  infoText.textContent = user.r.toFixed(2)
+
+  // Randomly generate new shapes
+  if (shapes.length < 5) {
+    shapes.push({
+      x: Math.floor(Math.random() * cnv.width),
+      y: Math.floor(Math.random() * cnv.height),
+      r: Math.floor(Math.random() * 20) + 10,
+      sides: Math.floor(Math.random() * 5) + 3,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    })
+  }
+
+  // Draw user
+  // drawCircle(user)
+  drawImage(user)
+
+}
+
+function mod(k, n) {
+  while (k < 0) {
+    k += n
+  }
+  return k % n
+}
+
+function distance(a1, a2) {
+  var x = a1.x - a2.x
+  var y = a1.y - a2.y
+  return Math.sqrt(x*x + y*y)
+}
+
+var keyCodeDown = {}
+
+main()
+
+document.addEventListener('keydown', function(e) {
+  keyCodeDown[e.keyCode] = 1
+  if (36 < e.keyCode && e.keyCode < 41) {
+    e.preventDefault()
+  }
+})
+
+document.addEventListener('keyup', function(e) {
+  delete keyCodeDown[e.keyCode]
+})
+
+</script>
+
+</body>
+</html>

@@ -2,6 +2,14 @@
 
 [TOC]
 
+
+## Misc.
+
+```js
+function zeroPad(str, n) { return ('0'.repeat(n) + str).slice(-n) }
+```
+
+
 ## HTTP
 
 ```js

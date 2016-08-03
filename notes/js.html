@@ -21,10 +21,14 @@
   <body>
     <div class="content"><h1 id="js">JS</h1>
 <ul>
+<li><a href="#misc">Misc.</a></li>
 <li><a href="#http">HTTP</a></li>
 <li><a href="#arrop">ArrOp</a></li>
 <li><a href="#svg">SVG</a></li>
 </ul>
+<h2 id="misc">Misc.</h2>
+<pre><code class="js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">zeroPad</span>(<span class="hljs-params">str, n</span>) </span>{ <span class="hljs-keyword">return</span> (<span class="hljs-string">'0'</span>.repeat(n) + str).slice(-n) }
+</code></pre>
 <h2 id="http">HTTP</h2>
 <pre><code class="js"><span class="hljs-built_in">window</span>.http = (() =&gt; {
   <span class="hljs-string">'use strict'</span>

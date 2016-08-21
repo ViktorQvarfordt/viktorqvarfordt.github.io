@@ -104,7 +104,7 @@ $\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
 
 
 
-## Template with source embedded to pdf
+## Source embedded to PDF
 
 A very good convention is to store the source in the PDF as an attachment. Anyone who has the PDF can then extract the source and continue working on the original source. The following example illustrates this, assuming that the source file is named `main.tex`.
 

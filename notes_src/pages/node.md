@@ -1,5 +1,7 @@
 # Node.js
 
+See also [js](js)
+
 [TOC]
 
 
@@ -42,6 +44,8 @@ http.createServer((req, res) => {
 ```
 $ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
 ```
+
+Or use https://certbot.eff.org/
 
 **Setup server:**
 

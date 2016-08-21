@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  </head>
+  <body>
+    <div class="content"><h1 id="git">Git</h1>
+<h2 id="fancy-log">Fancy log</h2>
+<pre><code>git log --graph --pretty=tformat:&quot;%C(6)%an: %C(7)%s%n%C(2)%h%C(7): %C(5)%t%C(1)%d %C(3)% ar %C(4)%ad%n&quot; --abbrev=5 --date=short --all
+</code></pre><p>Or use <code>gitg</code>.</p>
+<h2 id="push-to-non-bare-repo">Push to non-bare repo</h2>
+<p>On the receiving repo, set</p>
+<pre><code>$ git config receive.denyCurrentBranch ignore
+</code></pre><p>then</p>
+<pre><code>$ git push /path/to/receiving-repo master:master
+</code></pre><p>Finally, on the receiving repo</p>
+<pre><code>$ git reset --hard
+</code></pre><p>See <a href="https://github.com/englishtown/stash-hook-mirror/wiki/Mirror-To-Non-Bare-Remote-Repo">this</a> for something more elaborate.</p>
+<h2 id="submodules">Submodules</h2>
+<ul>
+<li><a href="https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial">https://git.wiki.kernel.org/index.php/GitSubmoduleTutorial</a></li>
+<li><a href="http://book.git-scm.com/5_submodules.html">http://book.git-scm.com/5_submodules.html</a></li>
+</ul>
+<p><em>Adding submodule to superproject (note, no trailing slash):</em></p>
+<pre><code>$ git submodule add host:path/to/repo.git local/path/repo
+</code></pre><p><em>Cloning projects with submodule:</em> <code>--recursive</code></p>
+<p><em>Pull submodules after clone:</em></p>
+<pre><code>$ git submodule update --init --recursive
+</code></pre><p><em>Removal of submodule:</em></p>
+<ol>
+<li>Delete the relevant line from the <code>.gitmodules</code> file.</li>
+<li>Delete the relevant section from <code>.git/config</code>.</li>
+<li>Run <code>git rm --cached path_to_submodule</code> (no trailing slash).</li>
+<li>Commit and delete the now untracked submodule files.</li>
+</ol>
+<h2 id="misc">Misc.</h2>
+<ul>
+<li><a href="http://git-scm.com/book/">http://git-scm.com/book/</a></li>
+<li><a href="http://www.youtube.com/watch?v=ZDR433b0HJY">http://www.youtube.com/watch?v=ZDR433b0HJY</a></li>
+<li><a href="http://toroid.org/ams/git-website-howto">Using hooks</a></li>
+</ul>
+<h2 id="send-mail-on-push">Send mail on push</h2>
+<p>Put the following 2 files in <code>.git/hooks/</code>; <a href="https://github.com/git-multimail/git-multimail/blob/master/git-multimail/post-receive.example"><code>post-receive</code></a> and <a href="https://github.com/git-multimail/git-multimail/blob/master/git-multimail/git_multimail.py"><code>git_multimail.py</code></a>, and update <code>.git/config</code> with</p>
+<pre><code>[multimailhook]
+    mailingList = &quot;foo@example.com,bar@example.com&quot;
+</code></pre></div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  </head>
+  <body>
+    <div class="content"><h1 id="mplayer">MPlayer</h1>
+<p>Reducing the quality of the file being played on the fly, useful when
+playing a media file from a remote source over a slow network
+connection:</p>
+<pre><code>mplayer videofile.mkv -vfm ffmpeg -lavdopts lowres=3:fast:skiploopfilter=all:skipidct=all -framedrop -cache 8192
+</code></pre><p>Resetting the brightness, hue etc. values. MPlayer doesn’t reset these
+values after restarting:</p>
+<pre><code>xvattr -a XV_HUE -v 0
+xvattr -a XV_SATURATION -v 0
+xvattr -a XV_BRIGHTNESS -v 0
+xvattr -a XV_CONTRAST -v 0
+</code></pre><p>Converting any (audio) format to wav:</p>
+<pre><code>mplayer inputfile.foo -ao pcm:file=&quot;outputfile.wav&quot;
+</code></pre></div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

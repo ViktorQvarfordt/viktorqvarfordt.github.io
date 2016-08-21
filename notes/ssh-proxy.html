@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/notes.css">
+    <link rel="stylesheet" href="/assets/hljs-github.css">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        messageStyle: "none",
+        tex2jax: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          processEscapes: true
+        },
+        "HTML-CSS": {
+          availableFonts: ["TeX"]
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  </head>
+  <body>
+    <div class="content"><h1 id="ssh-proxy-tunnel-traffic-through-ssh">SSH Proxy: Tunnel traffic through SSH</h1>
+<p><em>How to set up a ssh tunnel and how to use it as a proxy in a browser.</em></p>
+<h2 id="direct-tunnel">Direct tunnel</h2>
+<p>Set up a tunnel to <code>host</code> on localhost’s port 8080:</p>
+<pre><code>ssh -ND 8080 user@host
+</code></pre><h3 id="configure-the-browser-to-connect-to-this-socks5-proxy">Configure the browser to connect to this <code>SOCKS5</code> proxy.</h3>
+<p><strong>Google chrome:</strong> Start a new browser session connected to the proxy (linux):</p>
+<pre><code>google-chrome --proxy-server=socks5://localhost:8080 --user-data-dir=/tmp/tmpuser
+</code></pre><p><strong>Firefox:</strong> <code>Edit -&gt; Preferences -&gt; Advanced -&gt; Network -&gt; Settings -&gt; Manual proxy configuration</code>: Fill in SOCKS Host and port, leave the rest blank.</p>
+<h2 id="tunnel-through-several-computers">Tunnel through several computers</h2>
+<p>We want to set up a tunnel from <code>host0</code> going through <code>host1</code>, <code>host2</code>, …, <code>host(n-1)</code>, <code>hostn</code> (that is, <code>host0</code> will use the ip of <code>hostn</code> on the web).</p>
+<p>On <code>hostk</code> for <code>k = 0, 1, ..., (n-2)</code> we run</p>
+<pre><code>ssh -N user@host(k+1) -L port:localhost:hostport
+</code></pre><p>On <code>host(n-1)</code> we run (just like in case of a direct tunnel)</p>
+<pre><code>ssh -ND 8080 user@hostn
+</code></pre><hr>
+<p><em>Consult the man page of ssh for a description of the flags etc.</em></p>
+</div>
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+  </body>
+</html>

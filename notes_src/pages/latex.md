@@ -142,11 +142,7 @@ Hello World!
 \end{document}
 ```
 
-This can be use with the following Sublime Text 3 plugin that automatically extracts and opens embedded files for editing.
-
-```python
-<<include ~/.config/sublime-text-3/Packages/User/magic_latex_pdf.py>>
-```
+This can be use with [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra/blob/master/magic_latex_pdf.py) Sublime Text plugin that automatically extracts and opens embedded files for editing.
 
 
 

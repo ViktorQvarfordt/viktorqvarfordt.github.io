@@ -140,41 +140,25 @@
 <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
 </code></pre>
 <h2 id="template-with-source-embedded-to-pdf">Template with source embedded to pdf</h2>
+<p>A very good convention is to store the source in the PDF as an attachment. Anyone who has the PDF can then extract the source and continue working on the original source. The following example illustrates this, assuming that the source file is named <code>main.tex</code>.</p>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">[a4paper]</span><span class="hljs-string">{article}</span></span>
 
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[utf8]</span><span class="hljs-string">{inputenc}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[T1]</span><span class="hljs-string">{fontenc}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{embedfile,lastpage,geometry,amsmath,amssymb}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[hidelinks]</span><span class="hljs-string">{hyperref}</span></span>
-
-{ <span class="hljs-comment">% Show page number as thispage/lastpage</span>
-  <span class="hljs-tag">\<span class="hljs-name">makeatletter</span></span>
-  <span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">ps</span></span>@plain{ <span class="hljs-comment">% Redefine plain to also override titlepage pagestyle.</span>
-    <span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\@oddfoot}</span><span class="hljs-string">{\hfill\thepage/\pageref*{LastPage}</span></span><span class="hljs-tag">\<span class="hljs-name">hfill</span></span>}
-    <span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\@evenfoot}</span><span class="hljs-string">{\@oddfoot}</span></span>
-  }
-  <span class="hljs-tag">\<span class="hljs-name">makeatother</span></span>
-}
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{embedfile}</span></span>
 
 <span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
 
-{ <span class="hljs-comment">% Embed latex source in pdf</span>
-  <span class="hljs-tag">\<span class="hljs-name">embedfile</span><span class="hljs-string">{index.tex}</span></span>
+<span class="hljs-comment">%% Embed latex source in pdf</span>
+{
+  <span class="hljs-tag">\<span class="hljs-name">embedfile</span><span class="hljs-string">{main.tex}</span></span>
   <span class="hljs-tag">\<span class="hljs-name">renewcommand</span></span><span class="hljs-tag">\<span class="hljs-name">thefootnote</span><span class="hljs-string">{}</span></span>
   <span class="hljs-tag">\<span class="hljs-name">footnotetext</span><span class="hljs-string">{This document contains its \LaTeX{}</span></span> source embedded as PDF attachment.}
 }
 
-<span class="hljs-tag">\<span class="hljs-name">title</span><span class="hljs-string">{Title}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">author</span><span class="hljs-string">{Viktor Qvarfordt}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">maketitle</span></span>
-
-<span class="hljs-tag">\<span class="hljs-name">section</span><span class="hljs-string">{Introduction}</span></span>
-
-Hello World!
+This document contains PDF attachments.
 
 <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
 </code></pre>
-<p>This can be use with <a href="https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra/blob/master/magic_latex_pdf.py">this</a> Sublime Text plugin that automatically extracts and opens embedded files for editing.</p>
+<p>This idea can be use with <a href="https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra/blob/master/magic_latex_pdf.py">this</a> Sublime Text plugin that automatically extracts and opens embedded files for editing. This way, only the PDFs need to be stored, also for work-in-progress documents.</p>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>
 <pre><code class="bash"><span class="hljs-keyword">while</span> inotifywait -qq <span class="hljs-_">-e</span> modify *.tex; <span class="hljs-keyword">do</span>

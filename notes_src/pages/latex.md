@@ -106,43 +106,28 @@ $\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
 
 ## Template with source embedded to pdf
 
+A very good convention is to store the source in the PDF as an attachment. Anyone who has the PDF can then extract the source and continue working on the original source. The following example illustrates this, assuming that the source file is named `main.tex`.
+
 ```tex
 \documentclass[a4paper]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{embedfile,lastpage,geometry,amsmath,amssymb}
-\usepackage[hidelinks]{hyperref}
-
-{ % Show page number as thispage/lastpage
-  \makeatletter
-  \def\ps@plain{ % Redefine plain to also override titlepage pagestyle.
-    \renewcommand{\@oddfoot}{\hfill\thepage/\pageref*{LastPage}\hfill}
-    \renewcommand{\@evenfoot}{\@oddfoot}
-  }
-  \makeatother
-}
+\usepackage{embedfile}
 
 \begin{document}
 
-{ % Embed latex source in pdf
-  \embedfile{index.tex}
+%% Embed latex source in pdf
+{
+  \embedfile{main.tex}
   \renewcommand\thefootnote{}
   \footnotetext{This document contains its \LaTeX{} source embedded as PDF attachment.}
 }
 
-\title{Title}
-\author{Viktor Qvarfordt}
-\maketitle
-
-\section{Introduction}
-
-Hello World!
+This document contains PDF attachments.
 
 \end{document}
 ```
 
-This can be use with [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra/blob/master/magic_latex_pdf.py) Sublime Text plugin that automatically extracts and opens embedded files for editing.
+This idea can be use with [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra/blob/master/magic_latex_pdf.py) Sublime Text plugin that automatically extracts and opens embedded files for editing. This way, only the PDFs need to be stored, also for work-in-progress documents.
 
 
 

@@ -19,24 +19,17 @@
     <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
   </head>
   <body>
-    <div class="content"><h1 id="some-notes">Some notes</h1>
-<ul>
-<li><a href="latex">LaTeX</a></li>
-</ul>
-<ul>
-<li><a href="html">HTML</a></li>
-<li><a href="css">CSS</a></li>
-<li><a href="js">JS</a></li>
-<li><a href="node">Node.js</a></li>
-<li><a href="python">Python</a></li>
-</ul>
-<ul>
-<li><a href="user-scripts">User scripts</a></li>
-<li><a href="mathematica">Mathematica</a></li>
-<li><a href="ssh-proxy">SSH Proxy</a></li>
-<li><a href="pdf">PDF</a></li>
-<li><a href="git">Git</a></li>
-</ul>
+    <div class="content"><h1 id="python">Python</h1>
+<p>Async/non-blocking function call via threads</p>
+<pre><code class="python"><span class="hljs-keyword">import</span> subprocess, threading
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">asyncCall</span><span class="hljs-params">(cb, popenArg, **popenKwargs)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wrap</span><span class="hljs-params">()</span>:</span>
+        proc = subprocess.Popen(popenArg, **popenKwargs)
+        proc.wait()
+        cb(proc)
+    threading.Thread(target=wrap).start()
+</code></pre>
 </div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->

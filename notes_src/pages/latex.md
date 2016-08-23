@@ -104,31 +104,9 @@ $\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
 
 
 
-## Source embedded to PDF
+## Source-embedded PDFs
 
-A very good convention is to store the source in the PDF as an attachment. Anyone who has the PDF can then extract the source and continue working on the original source. The following example illustrates this, assuming that the source file is named `main.tex`.
-
-```tex
-\documentclass[a4paper]{article}
-
-\usepackage{embedfile}
-
-\begin{document}
-
-%% Embed latex source in pdf
-{
-  \embedfile{main.tex}
-  \renewcommand\thefootnote{}
-  \footnotetext{This document contains its \LaTeX{} source embedded as PDF attachment.}
-}
-
-This document contains PDF attachments.
-
-\end{document}
-```
-
-This idea can be use with [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra/blob/master/magic_latex_pdf.py) Sublime Text plugin that automatically extracts and opens embedded files for editing. This way, only the PDFs need to be stored, also for work-in-progress documents.
-
+See [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra).
 
 
 

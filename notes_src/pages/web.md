@@ -53,6 +53,21 @@ Re-render
 
 ### Flexbox
 
+```css
+.wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+```
+
 - http://demo.agektmr.com/flexbox/
 - https://gist.github.com/cimmanon/727c9d558b374d27c5b6
 

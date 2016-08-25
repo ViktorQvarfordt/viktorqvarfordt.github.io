@@ -7,6 +7,7 @@
 * [CSS](css)
 * [JS](js)
 * [Node.js](node)
+* [NPM](npm)
 * [Python](python)
 
 

@@ -25,6 +25,7 @@
 <li><a href="#html">HTML</a></li>
 <li><a href="#mobile">Mobile</a></li>
 <li><a href="#mathjax">MathJax</a></li>
+<li><a href="#katex">KaTeX</a></li>
 <li><a href="#css">CSS</a><ul>
 <li><a href="#flexbox">Flexbox</a></li>
 <li><a href="#animations-and-transitions">Animations and transitions</a></li>
@@ -42,7 +43,7 @@
 <li>Miscellaneous useful information <a href="http://www.html5rocks.com/en/mobile/">http://www.html5rocks.com/en/mobile/</a></li>
 </ul>
 <h2 id="mathjax">MathJax</h2>
-<p>Force LaTeX font and use $ for equations.</p>
+<p>Force LaTeX font and use <code>$</code> for equations.</p>
 <pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span>&gt;</span><span class="actionscript">
   MathJax.Hub.Config({
     messageStyle: <span class="hljs-string">'none'</span>,
@@ -62,6 +63,22 @@
   <span class="hljs-built_in">window</span>.setTimeout(reRender, <span class="hljs-number">1000</span>)
   <span class="hljs-built_in">window</span>.MathJax.Hub.Queue([<span class="hljs-string">"Typeset"</span>, <span class="hljs-built_in">window</span>.MathJax.Hub])
 })()
+</code></pre>
+<h2 id="katex">KaTeX</h2>
+<p><a href="https://github.com/Khan/KaTeX">KaTeX</a> renders much faster than MathJax. However, KaTeX (still) has some <a href="http://meta.mathoverflow.net/questions/1908/katex-vs-mathjax">limitations</a> such as not supporting <code>align</code>.</p>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/contrib/auto-render.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+ renderMathInElement(<span class="hljs-built_in">document</span>.body, {
+  delimiters: [
+    {left: <span class="hljs-string">"$$"</span>, right: <span class="hljs-string">"$$"</span>, display: <span class="hljs-literal">true</span>},
+    {left: <span class="hljs-string">"\\["</span>, right: <span class="hljs-string">"\\]"</span>, display: <span class="hljs-literal">true</span>},
+    {left: <span class="hljs-string">"$"</span>, right: <span class="hljs-string">"$"</span>, display: <span class="hljs-literal">false</span>},
+    {left: <span class="hljs-string">"\\("</span>, right: <span class="hljs-string">"\\)"</span>, display: <span class="hljs-literal">false</span>}
+  ]
+ });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h2 id="css">CSS</h2>
 <h3 id="flexbox">Flexbox</h3>

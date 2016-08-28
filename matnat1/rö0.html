@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        max-width: 700px;
+        margin: 0 auto;
+        margin-bottom: 5em;
+        padding: 0 1em;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        line-height: 1.6;
+        word-wrap: break-word;
+        color: #333;
+      }
+      h1, h2, h3, h4 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      h1, h2 {
+        padding-bottom: 0.3em;
+        border-bottom: 1px solid #eee;
+      }
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.5em; }
+      h3 { font-size: 1.25em; }
+      h4 { font-size: 1.1em; }
+      blockquote {
+        padding: 0 1em;
+        color: #777;
+        border-left: 0.25em solid #ddd;
+        margin: 0;
+      }
+      a { text-decoration: none; color: #4078c0; }
+      a:hover { text-decoration: underline; }
+      a:visited { color: #4078c0; }
+      hr {
+        height: 0.25em;
+        padding: 0;
+        margin: 24px 0;
+        background-color: #e7e7e7;
+        border: 0;
+      }
+      code {
+        padding: 0.2em 0.4em;
+        margin: 0;
+        font-size: 85%;
+        background-color: rgba(0,0,0,0.04);
+        border-radius: 3px;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      }
+      pre {
+        padding: 16px;
+        overflow: auto;
+        font-size: 85%;
+        line-height: 1.45;
+        background-color: #f7f7f7;
+        border-radius: 3px;
+        word-wrap: normal;
+      }
+      pre code {
+        display: inline;
+        max-width: auto;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        line-height: inherit;
+        word-wrap: normal;
+        background-color: transparent;
+        border: 0;
+        font-size: 100%;
+        word-break: normal;
+        white-space: pre;
+        background: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1 id="matnat-i-r-0-basic-r-knemissar-small-">MatNat I — RÖ 0: Basic räknemissar</small></h1>
+<h2 id="kvadreringsregln">Kvadreringsregln</h2>
+<p>\[ (a+b)^2 = a^2 + b^2 + 2ab \]</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Kvadreringsregeln.png" style="width: 200px; display: block; margin: 0 auto;"></p>
+<p>Inget nytt händer om en term är negativ, eftersom vi alltid kan skriva $a-b = a+(-b)$, vi får då</p>
+<p>\begin{align*}
+  (a-b)^2 &= (a+(-b))^2 \\
+  &= a^2 + (-b)^2 + 2a(-b) \\
+  &= a^2 + b^2 - 2ab.
+\end{align*}</p>
+<h2 id="konjugatregeln">Konjugatregeln</h2>
+<p>\[ (a+b)(a-b) = a^2 - b^2 \]</p>
+<p>Att kalla dessa likheter för <em>regler</em> är kanske vilseledande, det är ju inget mer än likheter, men konventionen har blivit sådan. Vad som gör dessa likheter viktiga är att de ofta förekommer i algebraiska manipulationer. Att snabbt känna igen VL eller HL i dessa likehter gör många räkningar mycket lättare.</p>
+<p><strong>Exempel:</strong> Förenkla uttrycket,</p>
+<p>\[ \frac{x^2-y^2}{x^2+2xy+y^2} = \frac{(x+y)(x-y)}{(x+y)^2} = \frac{x-y}{x+y}. \]</p>
+<p><br>
+<strong>Exempel:</strong> Låt inte “variablen” förvirra. Förenkla uttrycket,</p>
+<p>\[ \frac{x^2-(y+z)^2}{x+y+z} = \frac{(x+(y+z))(x-(y+z))}{x+y+z} = x-y-z. \]</p>
+<p><br>
+<strong>Exempel:</strong> Ett vanligt trick är att förlänga med konjugatet till nämnaren. Förenkla,</p>
+<p>\[ \frac{1-x}{1+\sqrt{x}} = \frac{(1-x)(1-\sqrt{x})}{(1+\sqrt{x})(1-\sqrt{x})} = \frac{(1-x)(1-\sqrt{x})}{1-x} = 1-\sqrt{x}. \]
+<br></p>
+<h2 id="vanliga-misstag">Vanliga misstag</h2>
+<p>\[ (a+b)^2 = a^2 + b^2 \]\[ \frac{1}{a+b} = \frac{1}{a} + \frac{1}{b} \]\[ \sin(x+y) = \sin(x) + \sin(y) \]</p>
+<p>Mer allmänt, om $f$ är vilken funktion som helst så gäller nästan aldrig att</p>
+<p>\[ f(x+y) = f(x) + f(y). \]</p>
+<p>En funktion med denna egenskap kallas <em>linjär</em>. Att felaktigt använda linjäritet är ett så vanligt fel bland nya studenter att man sarkastiskt kallar det för <em>Universella linjäritetssatsen</em>. Se <a href="http://www2.math.uu.se/~qimh/Analys.pdf">Analys i nån variabel – Xantcha</a>.</p>
+<h2 id="division-och-f-rkortning">Division och förkortning</h2>
+<p>Nya studenter lyckas ofta förvirra sig själva när det kommer till att förkorta bråk. När man förkortar så stryker man en <em>faktor</em> i täljaren och samma faktor i nämnaren.</p>
+<p><strong>Exempel:</strong> Förenkla,
+\[ \frac{x^2 + xy}{x} = \frac{x(x+y)}{x} = x + y. \]</p>
+<p><strong>Vanligt misstag:</strong> Man kan inte förkorta <em>termer</em>. Det gäller inte att
+\[ \frac{a+b}{a} = b. \]</p>
+<h2 id="kvadratroten">Kvadratroten</h2>
+<p>Vi kan definiera $\sqrt{a}$ (kvadratroten ur $a$) för $a\ge 0$ på två ekvivalenta sätt.</p>
+<ol>
+<li><p>Kvadratroten ur ett tal $a$ är det tal $x \ge 0$ vars kvadrat är lika med $a$, det vill säga $x^2 = a$.</p>
+</li>
+<li><p>Ekvationen $x^2 = a$ har två lösningar. Vi definierar $\sqrt{a}$ som den positiva lösningen till ekvationen. (Och så lägger vi till att $\sqrt{0} = 0$.)</p>
+</li>
+</ol>
+<p><strong>TL;DR</strong> Roten-ur är alltid icke-negativ.</p>
+<p>Alltså har vi att lösningarna till $x^2 = 5$ är $\sqrt{5}$ och $-\sqrt{5}$.</p>
+<p><strong>Vanligt misstag:</strong> $x^2$ och $\sqrt{x}$ tar inte alltid ut varandra. Det gäller inte att
+\[ \sqrt{(-2)^2} = -2 \]
+eftersom $(-2)^2 = 4$ och $\sqrt{4} = 2$. Detta är faktiskt (en möjlig) definition av absolutbelopp:
+\[ |x| = \sqrt{x^2} \]</p>
+<h2 id="potenser-och-exponenter">Potenser och exponenter</h2>
+<p>Låt oss först reda ut terminologin:</p>
+<blockquote>
+<p>En <em>potens</em> kallas ett uttryck av typen ${\displaystyle 4^{5}}$ där $4$ är <em>basen</em> och $5$ är <em>exponenten</em>, och utläses “fyra upphöjt till fem”. Mer generellt är uttryck på formen ${\displaystyle a^{b}}$ potensuttryck. Operationen att “upphöja” kallas exponentiering. I sammanhang där det är typografiskt omöjligt att skriva upphöjda siffror, liksom i programmeringssammanhang och på många miniräknare, förekommer även skrivsättet $a^b$.</p>
+<p>– Wikipedia</p>
+</blockquote>
+<p>Kvadratroten är egentligen en exponent, det är bara alternativ notation,
+\[ \sqrt{x} = x^{1/2}. \]
+Med detta som utgångspunk definierar man även kubikroten/tredje-roten ($\sqrt[3]{x}$), …, $n$:te-roten ($\sqrt[n]{x}$) som
+\[ \sqrt[n]{x} = x^{1/n}. \]</p>
+<p>Detta medför att räknereglerna för kvadratrötter överförs på potenslagarna:</p>
+<p>\begin{align*}
+    {(x\cdot y)}^{n} &= x^{n}\cdot y^{n} \\
+    {\left({x \over y}\right)^{m}} &= {x^{m} \over y^{m}} \\
+    x^{m}\cdot x^{n} &= x^{m+n} \\
+    {x^{m} \over x^{n}} &= x^{m-n},(x\neq 0) \\
+    {(x^{m})}^{n} &= x^{m\cdot n}
+\end{align*}</p>
+<p>När det kommer till att räkna med kvadratrötter är det oftast lättast att skriva om på potensform och använda potenslagarna.</p>
+
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      MathJax.Hub.Config({
+        messageStyle: 'none',
+        tex2jax: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          processEscapes: true
+        },
+        'HTML-CSS': {
+          availableFonts: ['TeX'],
+          linebreaks: { automatic: true, width: "container" }
+        }
+      });
+    </script>
+
+  </body>
+
+</html>

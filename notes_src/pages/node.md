@@ -1,8 +1,8 @@
 # Node.js
 
-See also [JS](js)
+See also [JS](js).
 
-See also [NPM](npm)
+See also [NPM](npm).
 
 [TOC]
 

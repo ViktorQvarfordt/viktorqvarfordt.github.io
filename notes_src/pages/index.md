@@ -3,8 +3,7 @@
 * [LaTeX](latex)
 
 
-* [HTML](html)
-* [CSS](css)
+* [Web](web)
 * [JS](js)
 * [Node.js](node)
 * [NPM](npm)

@@ -20,7 +20,7 @@ Make page behave nicely on mobile devices:
 
 ## MathJax
 
-Force LaTeX font and use $ for equations.
+Force LaTeX font and use `$` for equations.
 
 ```html
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
@@ -47,7 +47,25 @@ Re-render
 })()
 ```
 
+## KaTeX
 
+[KaTeX](https://github.com/Khan/KaTeX) renders much faster than MathJax. However, KaTeX (still) has some [limitations](http://meta.mathoverflow.net/questions/1908/katex-vs-mathjax) such as not supporting `align`.
+
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/contrib/auto-render.min.js"></script>
+<script>
+ renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "\\[", right: "\\]", display: true},
+    {left: "$", right: "$", display: false},
+    {left: "\\(", right: "\\)", display: false}
+  ]
+ });
+</script>
+```
 
 ## CSS
 

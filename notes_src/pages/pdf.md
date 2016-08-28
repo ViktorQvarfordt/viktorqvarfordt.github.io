@@ -2,13 +2,17 @@
 
 `pdftk` does merging, splitting, meta data manipulations and other fancy things.
 
-## pdf→svg
+`pdfcrop` removes margins.
+
+
+## pdf to svg
 
 ```
 pdfcrop --hires input.pdf output.pdf && pdf2svg output.pdf output.svg
 ```
 
 See also [this page](latex/minimal) for notes on making minimal pdf documents with latex (no margins, page numbers etc).
+
 
 ## Extract images from pdf
 

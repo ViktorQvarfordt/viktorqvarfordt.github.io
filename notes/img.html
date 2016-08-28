@@ -19,25 +19,17 @@
     <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
   </head>
   <body>
-    <div class="content"><h1 id="some-notes">Some notes</h1>
-<ul>
-<li><a href="latex">LaTeX</a></li>
-</ul>
-<ul>
-<li><a href="web">Web</a></li>
-<li><a href="js">JS</a></li>
-<li><a href="node">Node.js</a></li>
-<li><a href="npm">NPM</a></li>
-<li><a href="python">Python</a></li>
-</ul>
-<ul>
-<li><a href="user-scripts">User scripts</a></li>
-<li><a href="mathematica">Mathematica</a></li>
-<li><a href="ssh-proxy">SSH Proxy</a></li>
-<li><a href="pdf">PDF</a></li>
-<li><a href="git">Git</a></li>
-</ul>
-</div>
+    <div class="content"><h1 id="image-manipulation">Image manipulation</h1>
+<h2 id="lossless-rotation">Lossless rotation</h2>
+<p>Lossless rotation of <code>foo.jpg</code> 90 deg clocwise.</p>
+<pre><code>exiftran -9 -i foo.jpg
+</code></pre><p>Flags:</p>
+<pre><code>-i  Enable in-place editing of the images.
+-9  Rotate by 90 degrees clockwise.
+-1  Rotate by 180 degrees clockwise.
+-2  Rotate by 270 degrees clockwise.
+-a  Automatic (using exif orientation tag).
+</code></pre></div>
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
   </body>

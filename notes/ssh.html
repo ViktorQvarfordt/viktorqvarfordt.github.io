@@ -19,13 +19,25 @@
     <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
   </head>
   <body>
-    <div class="content"><p>% SSH
-% Viktor Qvarfordt
-% 2012-08-18</p>
+    <div class="content"><h1 id="ssh">SSH</h1>
+<h2 id="ssh-proxy-tunnel-traffic-through-ssh">SSH Proxy: Tunnel traffic through SSH</h2>
+<p><em>How to set up a ssh tunnel and how to use it as a proxy in a browser.</em></p>
+<h3 id="direct-tunnel">Direct tunnel</h3>
+<p>Set up a tunnel to <code>host</code> on localhost’s port 8080:</p>
+<pre><code>ssh -ND 8080 user@host
+</code></pre><h4 id="configure-the-browser-to-connect-to-this-socks5-proxy">Configure the browser to connect to this <code>SOCKS5</code> proxy.</h4>
+<p><strong>Google chrome:</strong> Start a new browser session connected to the proxy (linux):</p>
+<pre><code>google-chrome --proxy-server=socks5://localhost:8080 --user-data-dir=/tmp/tmpuser
+</code></pre><p><strong>Firefox:</strong> <code>Edit -&gt; Preferences -&gt; Advanced -&gt; Network -&gt; Settings -&gt; Manual proxy configuration</code>: Fill in SOCKS Host and port, leave the rest blank.</p>
+<h3 id="tunnel-through-several-computers">Tunnel through several computers</h3>
+<p>We want to set up a tunnel from <code>host0</code> going through <code>host1</code>, <code>host2</code>, …, <code>host(n-1)</code>, <code>hostn</code> (that is, <code>host0</code> will use the ip of <code>hostn</code> on the web).</p>
+<p>On <code>hostk</code> for <code>k = 0, 1, ..., (n-2)</code> we run</p>
+<pre><code>ssh -N user@host(k+1) -L port:localhost:hostport
+</code></pre><p>On <code>host(n-1)</code> we run (just like in case of a direct tunnel)</p>
+<pre><code>ssh -ND 8080 user@hostn
+</code></pre><hr>
+<p><em>Consult the man page of ssh for a description of the flags etc.</em></p>
 <h2 id="automated-ssh-access-no-password">Automated SSH access, no password</h2>
-<p>Sometimes one needs to have an automated process connect to a remote
-host via ssh. For this purpose I like to have a special key with no
-passphrase, normally passphrases should be used.</p>
 <p>Create the passphrase-less private and public key:</p>
 <pre><code>$ ssh-keygen -t rsa -f ~/.ssh/id_rsa_nopass
 </code></pre><p>Put the public key on remote:</p>
@@ -44,15 +56,9 @@ Host alias
     User user
     Port 44
     IdentityFile ~/.ssh/id_rsa_nopass
-</code></pre><p>Instead of doing <code>ssh user@example.com:44 -i ~/.ssh/id_rsa_nopass</code> we
-can now simply do <code>ssh alias</code>.</p>
+</code></pre><p>Thus, <code>ssh user@example.com:44 -i ~/.ssh/id_rsa_nopass</code> is shortened to <code>ssh alias</code>.</p>
 <h2 id="configuring-ssh-server">Configuring SSH server</h2>
-<p>Require keys, but allow passwords from some hosts:
-<a href="http://blather.michaelwlucas.com/archives/818">http://blather.michaelwlucas.com/archives/818</a></p>
-<p>Want to run on port 22, but don’t want the Middle East and Asia to
-perform brute force authentication attempts? Use <a href="LINK_MISSING">this</a>
-tool to automatically sniff <code>auth.log</code> and add firewall rules for
-misbehaving ips.</p>
+<p>Require keys, but allow passwords from some hosts: <a href="http://blather.michaelwlucas.com/archives/818">http://blather.michaelwlucas.com/archives/818</a></p>
 <h2 id="misc">Misc.</h2>
 <ul>
 <li>SSH-agent: <a href="http://www.ibm.com/developerworks/library/l-keyc2/">http://www.ibm.com/developerworks/library/l-keyc2/</a></li>

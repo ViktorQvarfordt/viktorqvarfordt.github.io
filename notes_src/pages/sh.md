@@ -1,5 +1,11 @@
 # Shell stuff
 
+See scripts, https://github.com/ViktorQvarfordt/scripts.
+<br>
+See Bash Pitfalls, http://mywiki.wooledge.org/BashPitfalls.
+<br>
+See Bash Guide, http://mywiki.wooledge.org/BashGuide.
+
 
 ## Standalone process
 

@@ -23,3 +23,8 @@ hr {
   color: inherit;
   text-decoration: none;
 }
+@media (max-width: 800px) {
+  body {
+    font-size: 18px;
+  }
+}

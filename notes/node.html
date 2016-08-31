@@ -23,6 +23,10 @@
 <p>See also <a href="js">JS</a>.</p>
 <p>See also <a href="npm">NPM</a>.</p>
 <ul>
+<li><a href="#managing-multiple-node-servers">Managing multiple node servers</a><ul>
+<li><a href="#listening-on-port-80-w-o-root">Listening on port 80 w/o root</a></li>
+</ul>
+</li>
 <li><a href="#http-server-without-express">HTTP server without express</a></li>
 <li><a href="#https">HTTPS</a></li>
 <li><a href="#basic-auth">Basic Auth</a></li>
@@ -31,6 +35,21 @@
 <li><a href="#simple-db">Simple DB</a></li>
 <li><a href="#-errorhandler"><code>ErrorHandler</code></a></li>
 </ul>
+<h2 id="managing-multiple-node-servers">Managing multiple node servers</h2>
+<p><a href="https://github.com/Unitech/pm2">pm2</a></p>
+<h3 id="listening-on-port-80-w-o-root">Listening on port 80 w/o root</h3>
+<blockquote>
+<p>It’s a general rule that you shouldn’t run node as root, but only root can bind to ports less than 1024. This is where authbind comes in. Authbind allows non-root users to bind to ports less than 1024.</p>
+<pre><code>$ sudo apt-get install authbind
+$ sudo touch /etc/authbind/byport/80
+$ sudo chown %user% /etc/authbind/byport/80
+$ sudo chmod 755 /etc/authbind/byport/80
+$ authbind --deep pm2 update
+</code></pre><p>Now you can start applications with PM2 that can bind to port 80 without being root!</p>
+<p>It’s recommended to put an alias in your .bashrc file:</p>
+<p>alias pm2=’authbind —deep pm2’</p>
+<p>— <a href="http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root">http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root</a></p>
+</blockquote>
 <h2 id="http-server-without-express">HTTP server without express</h2>
 <p>Example, http body parsing and query string parsing:</p>
 <pre><code class="js"><span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>);

@@ -7,6 +7,28 @@ See also [NPM](npm).
 [TOC]
 
 
+## Managing multiple node servers
+
+[pm2](https://github.com/Unitech/pm2)
+
+### Listening on port 80 w/o root
+
+> It’s a general rule that you shouldn’t run node as root, but only root can bind to ports less than 1024. This is where authbind comes in. Authbind allows non-root users to bind to ports less than 1024.
+>
+>     $ sudo apt-get install authbind
+>     $ sudo touch /etc/authbind/byport/80
+>     $ sudo chown %user% /etc/authbind/byport/80
+>     $ sudo chmod 755 /etc/authbind/byport/80
+>     $ authbind --deep pm2 update
+> Now you can start applications with PM2 that can bind to port 80 without being root!
+>
+> It’s recommended to put an alias in your .bashrc file:
+>
+> alias pm2='authbind --deep pm2'
+>
+> — http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root
+
+
 ## HTTP server without express
 
 Example, http body parsing and query string parsing:

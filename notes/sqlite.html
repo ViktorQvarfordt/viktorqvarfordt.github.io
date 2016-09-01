@@ -38,7 +38,7 @@
 </code></pre>
 <h2 id="convert-entire-database-to-ascii-text-file">Convert entire database to ASCII text file</h2>
 <pre><code>$ echo &#39;.dump&#39; | sqlite3 mydb.sqlite3 &gt; mydb.ascii
-</code></pre><p>…and then back again:</p>
+</code></pre><p>...and then back again:</p>
 <pre><code>$ cat mydb.ascii | sqlite3 mydb.sqlite3
 </code></pre><h2 id="misc">Misc.</h2>
 <p>Remove all carriage return characters (CR, <code>\r</code>, <code>^M</code>) in column:</p>

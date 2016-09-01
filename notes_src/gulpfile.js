@@ -21,7 +21,6 @@ renderer.heading = function(text, level, raw) {
 marked.setOptions({
   renderer: renderer,
   langPrefix: '',
-  smartypants: true,
   highlight: function (code, lang) {
     if (lang)
       return hljs.highlight(lang, code).value;

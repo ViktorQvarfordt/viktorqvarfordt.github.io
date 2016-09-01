@@ -1,6 +1,6 @@
 # JS
 
-See also [node](node)
+See also [Node.js](node).
 
 [TOC]
 

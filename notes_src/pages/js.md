@@ -8,9 +8,9 @@ See also [Node.js](node).
 ## Misc.
 
 ```js
-function zeroPad(str, n) { return ('0'.repeat(n) + str).slice(-n) }
+function zeroPad(str, n) { return ('0'.repeat(n) + str).slice(-n); }
 
-(new Date()).toISOString().substring(0, 10) // YYYY-MM-DD HH:SS
+(new Date()).toISOString().substring(0, 16).replace('T', ' '); // YYYY-MM-DD HH:SS
 ```
 
 

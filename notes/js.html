@@ -37,9 +37,9 @@
 <li><a href="#svg">SVG</a></li>
 </ul>
 <h2 id="misc">Misc.</h2>
-<pre><code class="js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">zeroPad</span>(<span class="hljs-params">str, n</span>) </span>{ <span class="hljs-keyword">return</span> (<span class="hljs-string">'0'</span>.repeat(n) + str).slice(-n) }
+<pre><code class="js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">zeroPad</span>(<span class="hljs-params">str, n</span>) </span>{ <span class="hljs-keyword">return</span> (<span class="hljs-string">'0'</span>.repeat(n) + str).slice(-n); }
 
-(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()).toISOString().substring(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>) <span class="hljs-comment">// YYYY-MM-DD HH:SS</span>
+(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()).toISOString().substring(<span class="hljs-number">0</span>, <span class="hljs-number">16</span>).replace(<span class="hljs-string">'T'</span>, <span class="hljs-string">' '</span>); <span class="hljs-comment">// YYYY-MM-DD HH:SS</span>
 </code></pre>
 <h2 id="http">HTTP</h2>
 <pre><code class="js"><span class="hljs-built_in">window</span>.http = (() =&gt; {

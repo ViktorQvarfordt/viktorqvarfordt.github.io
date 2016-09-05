@@ -42,6 +42,7 @@
 <li><a href="#async-flow-control">Async flow control</a></li>
 <li><a href="#https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS proxy (multiple servers with different domain on same host)</a></li>
 <li><a href="#simple-db">Simple DB</a></li>
+<li><a href="#mongodb">MongoDB</a></li>
 <li><a href="#-errorhandler"><code>ErrorHandler</code></a></li>
 </ul>
 <h2 id="managing-multiple-node-servers">Managing multiple node servers</h2>
@@ -233,6 +234,44 @@ http.createServer((req, res) =&gt; {
     res.end(<span class="hljs-string">`404 <span class="hljs-subst">${req.url}</span>`</span>)
   }
 }).listen(<span class="hljs-number">8080</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Running...'</span>))
+</code></pre>
+<h2 id="mongodb">MongoDB</h2>
+<pre><code class="js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">var</span> app = express();
+
+<span class="hljs-keyword">var</span> MongoClient = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongodb'</span>).MongoClient;
+<span class="hljs-keyword">var</span> mongourl = <span class="hljs-string">'mongodb://127.0.0.1:27017/probgen'</span>;
+
+
+MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, db</span>) </span>{
+  <span class="hljs-keyword">if</span>(err) <span class="hljs-keyword">throw</span> err;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Connected to '</span> + mongourl);
+
+  app.get(<span class="hljs-string">'/foo/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).findOne({id: <span class="hljs-built_in">parseInt</span>(req.params.id)}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foo</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) {
+        res.json(<span class="hljs-number">500</span>, err);
+      } <span class="hljs-keyword">else</span> {
+        res.json(foo);
+      }
+    });
+  });
+
+  app.get(<span class="hljs-string">'/foo/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    variantsCollection.find({}).toArray(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foos</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) {
+        res.json(<span class="hljs-number">500</span>, err);
+      } <span class="hljs-keyword">else</span> {
+        res.json(foos);
+      }
+    });
+  });
+
+  app.listen(<span class="hljs-number">8000</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Listening on port '</span> + app.address().port);
+  });
+
+});
 </code></pre>
 <h2 id="-errorhandler"><code>ErrorHandler</code></h2>
 <pre><code class="js"><span class="hljs-comment">// Report errors by email and to error.log</span>

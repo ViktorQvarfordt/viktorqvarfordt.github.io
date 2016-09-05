@@ -237,6 +237,48 @@ http.createServer((req, res) => {
 ```
 
 
+## MongoDB
+
+```js
+var express = require('express');
+var app = express();
+
+var MongoClient = require('mongodb').MongoClient;
+var mongourl = 'mongodb://127.0.0.1:27017/probgen';
+
+
+MongoClient.connect(mongourl, function(err, db) {
+  if(err) throw err;
+  console.log('Connected to ' + mongourl);
+
+  app.get('/foo/:id', function(req, res) {
+    db.collection('foo').findOne({id: parseInt(req.params.id)}, function(err, foo) {
+      if (err) {
+        res.json(500, err);
+      } else {
+        res.json(foo);
+      }
+    });
+  });
+
+  app.get('/foo/', function(req, res) {
+    variantsCollection.find({}).toArray(function(err, foos) {
+      if (err) {
+        res.json(500, err);
+      } else {
+        res.json(foos);
+      }
+    });
+  });
+
+  app.listen(8000, function() {
+    console.log('Listening on port ' + app.address().port);
+  });
+
+});
+```
+
+
 
 ## `ErrorHandler`
 

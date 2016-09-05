@@ -240,7 +240,7 @@ http.createServer((req, res) =&gt; {
 <span class="hljs-keyword">var</span> app = express();
 
 <span class="hljs-keyword">var</span> MongoClient = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongodb'</span>).MongoClient;
-<span class="hljs-keyword">var</span> mongourl = <span class="hljs-string">'mongodb://127.0.0.1:27017/probgen'</span>;
+<span class="hljs-keyword">var</span> mongourl = <span class="hljs-string">'mongodb://127.0.0.1:27017/mydb'</span>;
 
 
 MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, db</span>) </span>{
@@ -258,7 +258,7 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
   });
 
   app.get(<span class="hljs-string">'/foo/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-    variantsCollection.find({}).toArray(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foos</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).find({}).toArray(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foos</span>) </span>{
       <span class="hljs-keyword">if</span> (err) {
         res.json(<span class="hljs-number">500</span>, err);
       } <span class="hljs-keyword">else</span> {

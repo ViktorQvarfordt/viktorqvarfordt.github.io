@@ -244,7 +244,7 @@ var express = require('express');
 var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
-var mongourl = 'mongodb://127.0.0.1:27017/probgen';
+var mongourl = 'mongodb://127.0.0.1:27017/mydb';
 
 
 MongoClient.connect(mongourl, function(err, db) {
@@ -262,7 +262,7 @@ MongoClient.connect(mongourl, function(err, db) {
   });
 
   app.get('/foo/', function(req, res) {
-    variantsCollection.find({}).toArray(function(err, foos) {
+    db.collection('foo').find({}).toArray(function(err, foos) {
       if (err) {
         res.json(500, err);
       } else {

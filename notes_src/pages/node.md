@@ -77,8 +77,8 @@ Or use https://certbot.eff.org/
 const https = require('https')
 
 https.createServer({
-  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
-  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+  key: fs.readFileSync(`${process.env.HOME}/.credentials/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.credentials/ssl/cert.pem`)
 }, (req, res) {
   res.end('Hello encrypted world!')
 }).listen(8080, () => console.log('Listening on https://localhost:8080'))
@@ -110,8 +110,8 @@ function authenticate(req, res, cb) {
 }
 
 https.createServer({
-  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
-  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+  key: fs.readFileSync(`${process.env.HOME}/.credentials/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.credentials/ssl/cert.pem`)
 }, (req, res) => {
   authenticate(req, res, () => {
     res.writeHead(200, {'Content-type': 'text/plain; charset=utf-8'})
@@ -179,8 +179,8 @@ proxy.on('error', (err, req, res) => { console.log(err); res.end() })
 
 
 https.createServer({
-  key: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/key.pem`),
-  cert: fs.readFileSync(`${process.env.HOME}/.secrets/ssl/cert.pem`)
+  key: fs.readFileSync(`${process.env.HOME}/.credentials/ssl/key.pem`),
+  cert: fs.readFileSync(`${process.env.HOME}/.credentials/ssl/cert.pem`)
 }, (req, res) => {
   if (req.headers.host in rules) {
     proxy.web(req, res, { target: rules[req.headers.host] })
@@ -287,7 +287,7 @@ MongoClient.connect(mongourl, function(err, db) {
 ```js
 // Report errors by email and to error.log
 
-const credentials = JSON.parse(fs.readFileSync(`${process.env.HOME}/.secrets/credentials.json`))
+const credentials = JSON.parse(fs.readFileSync(`${process.env.HOME}/.credentials/credentials.json`))
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',

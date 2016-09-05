@@ -95,8 +95,8 @@ http.createServer((req, res) =&gt; {
 <pre><code class="js"><span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/ssl/cert.pem`</span>)
+  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) {
   res.end(<span class="hljs-string">'Hello encrypted world!'</span>)
 }).listen(<span class="hljs-number">8080</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
@@ -123,8 +123,8 @@ https.createServer({
 }
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/ssl/cert.pem`</span>)
+  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) =&gt; {
   authenticate(req, res, () =&gt; {
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
@@ -184,8 +184,8 @@ proxy.on(<span class="hljs-string">'error'</span>, (err, req, res) =&gt; { <span
 
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/ssl/cert.pem`</span>)
+  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) =&gt; {
   <span class="hljs-keyword">if</span> (req.headers.host <span class="hljs-keyword">in</span> rules) {
     proxy.web(req, res, { target: rules[req.headers.host] })
@@ -277,7 +277,7 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
 <h2 id="-errorhandler"><code>ErrorHandler</code></h2>
 <pre><code class="js"><span class="hljs-comment">// Report errors by email and to error.log</span>
 
-<span class="hljs-keyword">const</span> credentials = <span class="hljs-built_in">JSON</span>.parse(fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.secrets/credentials.json`</span>))
+<span class="hljs-keyword">const</span> credentials = <span class="hljs-built_in">JSON</span>.parse(fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/credentials.json`</span>))
 
 <span class="hljs-keyword">const</span> transporter = nodemailer.createTransport({
   host: <span class="hljs-string">'smtp.gmail.com'</span>,

@@ -255,7 +255,23 @@ After compiling the document, simply run the command `pdfcrop` on the resulting 
 \clearpage
 ```
 
-### [Centering figure that is wider than `\textwidth`](http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth)
+### [Centering equation or figure that is wider than `\textwidth`](http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth)
+
+**Equation:**
+
+```
+\newcommand{\centermath}[1]{\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}}
+```
+
+Example:
+
+```
+\centermath{\begin{align*}
+  very long
+\end{align*}}
+```
+
+**Figure:**
 
 Example:
 

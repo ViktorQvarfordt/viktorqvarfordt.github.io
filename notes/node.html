@@ -66,14 +66,14 @@ $ authbind --deep pm2 update
 <span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
 <span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
 
-http.createServer((req, res) =&gt; {
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/'</span>) {
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/plain'</span>})
     res.end(<span class="hljs-string">'Hello World'</span>)
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (url.parse(req.url).pathname === <span class="hljs-string">'/search'</span>) {
     <span class="hljs-keyword">const</span> query = querystring.parse(url.parse(req.url).query)
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
-    res.end(<span class="hljs-string">`Received query string: <span class="hljs-subst">${JSON.stringify(query, null, 2)}</span>`</span>)
+    res.end(<span class="hljs-string">`Received query string: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(query, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>`</span>)
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/data'</span> &amp;&amp; req.method === <span class="hljs-string">'POST'</span>) {
     <span class="hljs-keyword">let</span> body = <span class="hljs-string">''</span>
     req.on(<span class="hljs-string">'data'</span>, chunk =&gt; body += chunk)
@@ -95,8 +95,8 @@ http.createServer((req, res) =&gt; {
 <pre><code class="js"><span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
+  <span class="hljs-attr">key</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  <span class="hljs-attr">cert</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) {
   res.end(<span class="hljs-string">'Hello encrypted world!'</span>)
 }).listen(<span class="hljs-number">8080</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
@@ -123,8 +123,8 @@ https.createServer({
 }
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
+  <span class="hljs-attr">key</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  <span class="hljs-attr">cert</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) =&gt; {
   authenticate(req, res, () =&gt; {
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
@@ -134,12 +134,12 @@ https.createServer({
 </code></pre>
 <h2 id="async-flow-control">Async flow control</h2>
 <pre><code class="js"><span class="hljs-keyword">const</span> flow = {
-  parallel: (funs, cb) =&gt; {
+  <span class="hljs-attr">parallel</span>: <span class="hljs-function">(<span class="hljs-params">funs, cb</span>) =&gt;</span> {
     <span class="hljs-keyword">let</span> totalResult = []
     <span class="hljs-keyword">let</span> counter = <span class="hljs-number">0</span>
     <span class="hljs-keyword">let</span> someError = <span class="hljs-literal">false</span>
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; funs.length; i++) {
-      funs[i]((err, result) =&gt; {
+      funs[i](<span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> {
         totalResult[i] = result
         counter++
         <span class="hljs-keyword">if</span> (err) {
@@ -152,11 +152,11 @@ https.createServer({
       })
     }
   },
-  series: (funs, cb) =&gt; {
+  <span class="hljs-attr">series</span>: <span class="hljs-function">(<span class="hljs-params">funs, cb</span>) =&gt;</span> {
     <span class="hljs-keyword">let</span> totalResult = []
     <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">const</span> next = () =&gt; {
-      funs[i]((err, result) =&gt; {
+    <span class="hljs-keyword">const</span> next = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      funs[i](<span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> {
         totalResult.push(result)
         <span class="hljs-keyword">if</span> (err) cb(err)
         <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i++ <span class="xml"><span class="hljs-tag">&lt; <span class="hljs-attr">totalResult</span>) <span class="hljs-attr">next</span>()
@@ -179,16 +179,16 @@ https.createServer({
   <span class="hljs-string">'api.example.com'</span>: <span class="hljs-string">'http://localhost:3001'</span>
 }
 
-<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({ secure: <span class="hljs-literal">false</span> })
+<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({ <span class="hljs-attr">secure</span>: <span class="hljs-literal">false</span> })
 proxy.on(<span class="hljs-string">'error'</span>, (err, req, res) =&gt; { <span class="hljs-built_in">console</span>.log(err); res.end() })
 
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
+  <span class="hljs-attr">key</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  <span class="hljs-attr">cert</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) =&gt; {
   <span class="hljs-keyword">if</span> (req.headers.host <span class="hljs-keyword">in</span> rules) {
-    proxy.web(req, res, { target: rules[req.headers.host] })
+    proxy.web(req, res, { <span class="hljs-attr">target</span>: rules[req.headers.host] })
   } <span class="hljs-keyword">else</span> {
     res.writeHead(<span class="hljs-number">500</span>)
     res.end(<span class="hljs-string">`unknown domain '<span class="hljs-subst">${req.headers.host}</span>'`</span>)
@@ -196,7 +196,7 @@ https.createServer({
 }).listen(<span class="hljs-number">443</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Proxy server listening on https://127.0.0.1'</span>))
 
 
-http.createServer((req, res) =&gt; {
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   res.writeHead(<span class="hljs-number">301</span>, { <span class="hljs-string">'Location'</span>: <span class="hljs-string">`https://<span class="hljs-subst">${req.headers.host}</span><span class="hljs-subst">${req.url}</span>`</span> })
   res.end()
 }).listen(<span class="hljs-number">80</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'HTTP -&gt; HTTPS redirect server listening on http://127.0.0.1'</span>))
@@ -207,7 +207,7 @@ http.createServer((req, res) =&gt; {
 
 <span class="hljs-keyword">const</span> dbPath = <span class="hljs-string">`<span class="hljs-subst">${__dirname}</span>/db.json`</span>
 
-http.createServer((req, res) =&gt; {
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${req.method}</span> <span class="hljs-subst">${req.url}</span>`</span>)
   <span class="hljs-keyword">if</span> (req.method === <span class="hljs-string">'GET'</span> &amp;&amp; req.url === <span class="hljs-string">'/db'</span>) {
     fs.readFile(dbPath, <span class="hljs-string">'utf8'</span>, (err, data) =&gt; {
@@ -249,7 +249,7 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Connected to '</span> + mongourl);
 
   app.get(<span class="hljs-string">'/foo/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-    db.collection(<span class="hljs-string">'foo'</span>).findOne({id: <span class="hljs-built_in">parseInt</span>(req.params.id)}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foo</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).findOne({<span class="hljs-attr">id</span>: <span class="hljs-built_in">parseInt</span>(req.params.id)}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foo</span>) </span>{
       <span class="hljs-keyword">if</span> (err) {
         res.json(<span class="hljs-number">500</span>, err);
       } <span class="hljs-keyword">else</span> {
@@ -280,35 +280,35 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
 <span class="hljs-keyword">const</span> credentials = <span class="hljs-built_in">JSON</span>.parse(fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/credentials.json`</span>))
 
 <span class="hljs-keyword">const</span> transporter = nodemailer.createTransport({
-  host: <span class="hljs-string">'smtp.gmail.com'</span>,
-  port: <span class="hljs-number">465</span>,
-  secure: <span class="hljs-literal">true</span>,
-  auth: {
-    user: credentials.gmailNotifier.user,
-    pass: credentials.gmailNotifier.pass
+  <span class="hljs-attr">host</span>: <span class="hljs-string">'smtp.gmail.com'</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">465</span>,
+  <span class="hljs-attr">secure</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">auth</span>: {
+    <span class="hljs-attr">user</span>: credentials.gmailNotifier.user,
+    <span class="hljs-attr">pass</span>: credentials.gmailNotifier.pass
   }
 })
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">log</span>(<span class="hljs-params">msg</span>) </span>{
-  <span class="hljs-keyword">const</span> msg = <span class="hljs-string">`<span class="hljs-subst">${(new Date()).toISOString()}</span> <span class="hljs-subst">${msg}</span>`</span>
+  <span class="hljs-keyword">const</span> msg = <span class="hljs-string">`<span class="hljs-subst">${(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()).toISOString()}</span> <span class="hljs-subst">${msg}</span>`</span>
   <span class="hljs-built_in">console</span>.log(msg)
   fs.appendFile(<span class="hljs-string">`<span class="hljs-subst">${__dirname}</span>/error.log`</span>, <span class="hljs-string">`<span class="hljs-subst">${msg}</span>\n`</span>)
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendmail</span>(<span class="hljs-params">from, subject, text</span>) </span>{
   transporter.sendMail({
-    <span class="hljs-keyword">from</span>: <span class="hljs-string">`<span class="hljs-subst">${from}</span> &lt;<span class="hljs-subst">${credentials.gmailNotifier.user}</span>&gt;`</span>,
-    to: credentials.gmail.user,
-    subject: subject,
-    text: text,
+    <span class="hljs-attr">from</span>: <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-keyword">from</span>}</span> &lt;<span class="hljs-subst">${credentials.gmailNotifier.user}</span>&gt;`</span>,
+    <span class="hljs-attr">to</span>: credentials.gmail.user,
+    <span class="hljs-attr">subject</span>: subject,
+    <span class="hljs-attr">text</span>: text,
   }, err =&gt; {
-    <span class="hljs-keyword">if</span> (err) log(<span class="hljs-string">`SENDMAIL ERROR: <span class="hljs-subst">${JSON.stringify(err, null, 2)}</span>`</span>)
+    <span class="hljs-keyword">if</span> (err) log(<span class="hljs-string">`SENDMAIL ERROR: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(err, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>`</span>)
   })
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">errorHandler</span>(<span class="hljs-params">err, cb</span>) </span>{
   <span class="hljs-keyword">if</span> (!err) <span class="hljs-keyword">return</span>
-  log(<span class="hljs-string">`ERROR: <span class="hljs-subst">${JSON.stringify(err, null, 2)}</span>`</span>)
+  log(<span class="hljs-string">`ERROR: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(err, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>`</span>)
   sendmail(<span class="hljs-string">'Fitbit sleep log'</span>, <span class="hljs-string">'Error'</span>, <span class="hljs-built_in">JSON</span>.stringify(err, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>))
 }
 </code></pre>

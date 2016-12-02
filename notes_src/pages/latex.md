@@ -255,7 +255,7 @@ After compiling the document, simply run the command `pdfcrop` on the resulting 
 \clearpage
 ```
 
-### [Centering equation or figure that is wider than `\textwidth`](http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth)
+### Centering equation or figure that is wider than `\textwidth`
 
 **Equation:**
 
@@ -272,6 +272,8 @@ Example:
 ```
 
 **Figure:**
+
+http://tex.stackexchange.com/questions/16582/center-figure-that-is-wider-than-textwidth
 
 Example:
 

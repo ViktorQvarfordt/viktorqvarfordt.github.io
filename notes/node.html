@@ -248,6 +248,50 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
   <span class="hljs-keyword">if</span>(err) <span class="hljs-keyword">throw</span> err;
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Connected to '</span> + mongourl);
 
+  <span class="hljs-comment">// List all</span>
+  app.get(<span class="hljs-string">'/foo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).find().toArray(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, docs</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) {
+        res.json(<span class="hljs-number">500</span>, err);
+      } <span class="hljs-keyword">else</span> {
+        res.json(docs);
+      }
+    });
+  });
+
+  <span class="hljs-comment">// Insert new</span>
+  app.post(<span class="hljs-string">'/foo'</span>, (req, res) =&gt; {
+    <span class="hljs-built_in">console</span>.log(req.body);
+    req.body.timeCreated = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+    db.collection(<span class="hljs-string">'memories'</span>).insertOne(req.body, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+      res.end();
+    });
+  });
+
+  <span class="hljs-comment">// Update existing</span>
+  app.post(<span class="hljs-string">'/foo/:id'</span>, (req, res) =&gt; {
+    req.body.timeEdited = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+    <span class="hljs-built_in">console</span>.log(req.body);
+    <span class="hljs-keyword">delete</span> req.body._id;
+    <span class="hljs-comment">// db.collection('foo').replaceOne({ _id: ObjectId(req.params.id) }, req.body, function(err) {</span>
+    db.collection(<span class="hljs-string">'foo'</span>).updateOne({ _id: ObjectId(req.params.id) }, { $set: req.body }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Updated <span class="hljs-subst">${req.params.id}</span>`</span>);
+      res.end();
+    });
+  });
+
+  <span class="hljs-comment">// Delete</span>
+  app.delete(<span class="hljs-string">'/foo/:id'</span>, (req, res) =&gt; {
+    db.collection(<span class="hljs-string">'foo'</span>).deleteOne({ _id: ObjectId(req.params.id) }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, doc</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Deleted <span class="hljs-subst">${req.params.id}</span>.`</span>);
+      res.end();
+    });
+  });
+
+  <span class="hljs-comment">// Get by id</span>
   app.get(<span class="hljs-string">'/foo/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
     db.collection(<span class="hljs-string">'foo'</span>).findOne({id: <span class="hljs-built_in">parseInt</span>(req.params.id)}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foo</span>) </span>{
       <span class="hljs-keyword">if</span> (err) {
@@ -258,15 +302,6 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
     });
   });
 
-  app.get(<span class="hljs-string">'/foo/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-    db.collection(<span class="hljs-string">'foo'</span>).find({}).toArray(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foos</span>) </span>{
-      <span class="hljs-keyword">if</span> (err) {
-        res.json(<span class="hljs-number">500</span>, err);
-      } <span class="hljs-keyword">else</span> {
-        res.json(foos);
-      }
-    });
-  });
 
   app.listen(<span class="hljs-number">8000</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Listening on port '</span> + app.address().port);

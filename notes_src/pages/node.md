@@ -253,6 +253,50 @@ MongoClient.connect(mongourl, function(err, db) {
   if(err) throw err;
   console.log('Connected to ' + mongourl);
 
+  // List all
+  app.get('/foo', function(req, res) {
+    db.collection('foo').find().toArray(function(err, docs) {
+      if (err) {
+        res.json(500, err);
+      } else {
+        res.json(docs);
+      }
+    });
+  });
+
+  // Insert new
+  app.post('/foo', (req, res) => {
+    console.log(req.body);
+    req.body.timeCreated = new Date();
+    db.collection('memories').insertOne(req.body, function(err) {
+      if (err) throw err;
+      res.end();
+    });
+  });
+
+  // Update existing
+  app.post('/foo/:id', (req, res) => {
+    req.body.timeEdited = new Date();
+    console.log(req.body);
+    delete req.body._id;
+    // db.collection('foo').replaceOne({ _id: ObjectId(req.params.id) }, req.body, function(err) {
+    db.collection('foo').updateOne({ _id: ObjectId(req.params.id) }, { $set: req.body }, function(err) {
+      if (err) throw err;
+      console.log(`Updated ${req.params.id}`);
+      res.end();
+    });
+  });
+
+  // Delete
+  app.delete('/foo/:id', (req, res) => {
+    db.collection('foo').deleteOne({ _id: ObjectId(req.params.id) }, function(err, doc) {
+      if (err) throw err;
+      console.log(`Deleted ${req.params.id}.`);
+      res.end();
+    });
+  });
+
+  // Get by id
   app.get('/foo/:id', function(req, res) {
     db.collection('foo').findOne({id: parseInt(req.params.id)}, function(err, foo) {
       if (err) {
@@ -263,15 +307,6 @@ MongoClient.connect(mongourl, function(err, db) {
     });
   });
 
-  app.get('/foo/', function(req, res) {
-    db.collection('foo').find({}).toArray(function(err, foos) {
-      if (err) {
-        res.json(500, err);
-      } else {
-        res.json(foos);
-      }
-    });
-  });
 
   app.listen(8000, function() {
     console.log('Listening on port ' + app.address().port);

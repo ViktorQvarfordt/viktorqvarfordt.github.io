@@ -37,11 +37,11 @@ See Bash Guide, <a href="http://mywiki.wooledge.org/BashGuide">http://mywiki.woo
 <h2 id="standalone-process">Standalone process</h2>
 <pre><code>nohup ... &gt;/dev/null 2&gt;&amp;1 &amp;
 </code></pre><h2 id="pipe-search-results-to-from-find">Pipe search results to from <code>find</code></h2>
-<pre><code>$ find -name &quot;regex&quot; -exec rm -iv {} \;
+<pre><code>$ find -name "regex&quot; -exec rm -iv {} \;
 
 $ find -name &quot;regex&quot; -print0 | xargs -0 rm -iv
 </code></pre><h2 id="list-all-manually-installed-packages">List all manually installed packages:</h2>
-<pre><code>aptitude  --display-format &#39;%p&#39; search &#39;?installed!?automatic&#39; &gt; ~/my_packages
+<pre><code>aptitude  --display-format '%p' search '?installed!?automatic' &gt; ~/my_packages
 </code></pre><h2 id="sync">sync</h2>
 <pre><code>rsync -v --partial --progress --human-readable --rsh=&quot;ssh -p &lt;port&gt;&quot;
 

@@ -32,7 +32,7 @@
 <h2 id="ssh-proxy-tunnel-traffic-through-ssh">SSH Proxy: Tunnel traffic through SSH</h2>
 <p><em>How to set up a ssh tunnel and how to use it as a proxy in a browser.</em></p>
 <h3 id="direct-tunnel">Direct tunnel</h3>
-<p>Set up a tunnel to <code>host</code> on localhost&#39;s port 8080:</p>
+<p>Set up a tunnel to <code>host</code> on localhost's port 8080:</p>
 <pre><code>ssh -ND 8080 user@host
 </code></pre><h4 id="configure-the-browser-to-connect-to-this-socks5-proxy">Configure the browser to connect to this <code>SOCKS5</code> proxy.</h4>
 <p><strong>Google chrome:</strong> Start a new browser session connected to the proxy (linux):</p>
@@ -50,7 +50,7 @@
 <p>Create the passphrase-less private and public key:</p>
 <pre><code>$ ssh-keygen -t rsa -f ~/.ssh/id_rsa_nopass
 </code></pre><p>Put the public key on remote:</p>
-<pre><code>$ ssh-copy-id -i ~/.ssh/id_rsa_nopass.pub &#39;-p 22 user@remote-host&#39;
+<pre><code>$ ssh-copy-id -i ~/.ssh/id_rsa_nopass.pub '-p 22 user@remote-host'
 </code></pre><p>More info on this ssh keys:</p>
 <ul>
 <li><a href="http://mywiki.wooledge.org/SshKeys">http://mywiki.wooledge.org/SshKeys</a></li>

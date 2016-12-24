@@ -51,15 +51,16 @@ gulp.task('default', function() {
     .pipe(tap(function(file) {
       var m;
       var fileContent;
-      s = file.contents.toString()
+      s = file.contents.toString();
       while (m = s.match('<<include +([^>]+)>>')) {
-        fileContent = fs.readFileSync(expandTilde(m[1])).toString()
+        fileContent = fs.readFileSync(expandTilde(m[1])).toString();
         s = s.replace(m[0], () => fileContent); // Use a funciton to avoid $ substitution
       }
       file.contents = new Buffer(s);
     }))
     .pipe(tap(function(file) {
-      file.contents = new Buffer(marked(file.contents.toString()));
+      // Replace &#39; and &#39; back to ' and ", marked messses this up, see https://github.com/chjj/marked/issues/269
+      file.contents = new Buffer(marked(file.contents.toString()).replace(/&#39;/g, "'").replace(/&quot;/, '"'));
       file.path = file.path.replace(/md$/, 'html');
     }))
     .pipe(tap(function(file) {

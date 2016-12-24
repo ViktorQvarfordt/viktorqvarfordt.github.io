@@ -29,7 +29,7 @@
   </head>
   <body>
     <div class="content"><h1 id="mathematica">Mathematica</h1>
-<pre><code>Clear[&quot;Global`*&quot;]
+<pre><code>Clear["Global`*&quot;]
 $PrePrint = If[MatrixQ[#], MatrixForm[#], #] &amp;;
 </code></pre><h2 id="no-notebook">No notebook</h2>
 <pre><code class="sh">$ math -noprompt -run &lt; code.txt

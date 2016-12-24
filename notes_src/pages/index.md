@@ -26,4 +26,4 @@
 * [sqlite](sqlite)
 
 
-<input type="text" placeholder="Search..." onkeydown="if (event.keyCode === 13) setTimeout(function() {window.location = 'https://www.google.com/search?q=site:viktorq.se%20' + this.value}, 0)">
+<input type="text" placeholder="Search..." onkeydown="if (event.keyCode === 13) { el = this; setTimeout(function() {window.location = 'https://www.google.com/search?q=site:viktorq.se%20' + el.value}, 0) }">

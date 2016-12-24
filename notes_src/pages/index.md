@@ -25,18 +25,5 @@
 * [screen-capture](screen-capture)
 * [sqlite](sqlite)
 
-<div>
-  <script>
-    (function() {
-      var cx = '013739512049824560026:ckksyvenwwm';
-      var gcse = document.createElement('script');
-      gcse.type = 'text/javascript';
-      gcse.async = true;
-      gcse.src = 'ht'+'tps://cse.google.com/cse.js?cx=' + cx;
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(gcse, s);
-    })();
-  </script>
-  <gcse:search></gcse:search>
-</div>
 
+<input type="text" placeholder="Search..." onclick="window.location = 'https://www.google.com/search?q=site:viktorq.se%20' + this.value">

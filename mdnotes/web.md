@@ -1,6 +1,6 @@
 # Web
 
-[TOC]
+<!-- toc -->
 
 
 # [JS](js)

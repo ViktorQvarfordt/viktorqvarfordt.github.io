@@ -1,33 +1,377 @@
+<!doctype html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/notes.css">
-    <link rel="stylesheet" href="/assets/hljs-github.css">
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        messageStyle: "none",
-        tex2jax: {
-          inlineMath: [["$", "$"], ["\\(", "\\)"]],
-          processEscapes: true
-        },
-        "HTML-CSS": {
-          availableFonts: ["TeX"]
-        }
-      });
-    </script>
-    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-83637895-1', 'auto');
-      ga('send', 'pageview');
-    </script>
+  <head>
+    <meta charset="utf-8">
+    <title>Node.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+a { color: #05a; text-decoration: none; }
+a:hover, a:focus { text-decoration: underline; }
+body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 24px;
+  font-family: 'Inconsolata', 'Monospace';
+  background-color: #fff;
+  color: #000;
+  margin-bottom: 50px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+hr {
+  border: none;
+  height: 1px;
+  background-color: #000;
+}
+.hidden-link {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 800px) {
+  body {
+    font-size: 18px;
+  }
+}
+blockquote {
+  padding: 0 1em;
+  color: #777;
+  border-left: 0.25em solid #ddd;
+  margin: 0;
+}
+
+
+/* @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic); */
+/*
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxh_xHqYgAV9Bl_ZQbYUxnQU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBobN6UDyHWBl620a-IRfuBk.woff) format('woff');
+}
+*/
+
+/*html { position: relative; min-height: 100%; font-size:100%; }*/
+/*
+body { margin: 0 auto 8rem auto; padding:0 1em; max-width:40em;
+       font-family:'Open Sans'; color:#333; }
+*/
+body {
+  /*font-family: 'Open Sans';*/
+  font-family: 'Inconsolata';
+  font-size: 16px;
+  color: #000;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: 300; }
+h1 { font-size: 37px; }
+h2 { font-size: 32px; }
+h3 { font-size: 26px; }
+
+a { color:#0088cc; text-decoration:none; }
+a:hover, a:focus { color:#005580; text-decoration:underline; }
+
+/* The font is so thick that it needs to be brighter to fit in. */
+/*.MathJax { color: #444; }*/
+
+.content {
+  margin: 40px auto 0 auto;
+  max-width: 800px;
+}
+
+/*.article-title {
+  font-size: 275%;
+  font-weight: 300;
+  font-family: inherit;
+  outline: none;
+  margin: 2rem 0 1rem 0;
+  border: none;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+}
+.article-title:after {
+  position: absolute;
+  font-size: 12px;
+  right: 0;
+  bottom: -2rem;
+  color: #aaa;
+}
+*/
+
+.date {
+  margin-top: -1rem;
+  text-align: right;
+  font-size: 85%;
+  color: #aaa;
+  min-height: 19px; /* Height of element when non-empty. */
+}
+
+/* Modern Clean CSS Sticky Footer: http://mystrd.at/modern-clean-css-sticky-footer/ */
+/*footer       { position:absolute; left:0; bottom:0;   width:100%; }*/
+/*footer .wrap { position:absolute; left:0; bottom:1em; width:100%; text-align:center; font-size:0.8rem; }*/
+
+/* Instead I use a footer that is always visible. */
+.footer-separator {
+  position: fixed;
+  left: 0;
+  bottom: 25px;
+  height: 20px;
+  width: 100%;
+  z-index: 99;
+  background: -webkit-gradient(linear, center bottom, center top, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+}
+.footer {
+  background-color: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  /*text-align: center;*/
+  /*font-size: 0.8rem;*/
+  /*background: #fafafa;*/
+  height: 25px;
+  padding: 0;
+  margin: 0;
+}
+.footer-inner {
+  position: absolute;
+  left: 0;
+  bottom: 7px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
+.footer p { margin: 0; }
+.footer a { color: inherit !important; }
+
+/* li p:first-child { margin-top: 0; } */
+/* li p:last-child { margin-bottom: 0; } */
+
+
+/* - STYLING CODE - */
+
+/*@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic);*/
+
+code {
+  color: inherit;
+  /* font-family: 'Ubuntu Mono', monospace; */
+  font-family: 'Inconsolata', monospace;
+  font-size: 14px;
+  padding: 2px 3px;
+}
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+  font-size: inherit;
+  background-color: inherit;
+  border: inherit;
+}
+pre code {
+  padding: 0;
+  border: none;
+}
+pre {
+  line-height: 1;
+  padding: 10px;
+  overflow: auto;
+}
+pre, code {
+  background-color: #fcfcfc;
+  border: 1px solid #eee;
+  /*border: 1px solid #e1e1e8;*/
+  border-radius: 5px;
+}
+pre, pre code {
+  white-space: pre;
+  word-wrap: normal;
+}
+
+/* - END STYLING CODE - */
+
+
+
+/* - MISC - */
+
+#copyleft {
+  -webkit-transform: rotate(180deg);
+   -khtml-transform: rotate(180deg);
+     -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+       -o-transform: rotate(180deg);
+          transform: rotate(180deg);
+            display: inline-block;
+}
+
+/* - END MISC -  */
+
+
+
+/* TESTING */
+
+hr { border:0; height:1px;
+    background-image: -webkit-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1) 30%, rgba(230,230,230,1) 70%, rgba(230,230,230,0));
+    background-image:    -moz-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1) 30%, rgba(230,230,230,1) 70%, rgba(230,230,230,0));
+    background-image:     -ms-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1) 30%, rgba(230,230,230,1) 70%, rgba(230,230,230,0));
+    background-image:      -o-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1) 30%, rgba(230,230,230,1) 70%, rgba(230,230,230,0));
+   }
+
+hr { border:0; height:1px;
+    background-image: -webkit-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1), rgba(230,230,230,0));
+    background-image:    -moz-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1), rgba(230,230,230,0));
+    background-image:     -ms-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1), rgba(230,230,230,0));
+    background-image:      -o-linear-gradient(left, rgba(230,230,230,0), rgba(230,230,230,1), rgba(230,230,230,0));
+   }
+
+/* END TESTING */
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.diff .hljs-header,
+.hljs-javadoc {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.javascript .hljs-title,
+.nginx .hljs-title,
+.hljs-subst,
+.hljs-request,
+.hljs-status {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-hexcolor,
+.ruby .hljs-constant {
+  color: #099;
+}
+
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.tex .hljs-formula {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-id,
+.coffeescript .hljs-params,
+.scss .hljs-preprocessor {
+  color: #900;
+  font-weight: bold;
+}
+
+.javascript .hljs-title,
+.lisp .hljs-title,
+.clojure .hljs-title,
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-class .hljs-title,
+.haskell .hljs-type,
+.vhdl .hljs-literal,
+.tex .hljs-command {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rules .hljs-property,
+.django .hljs-tag .hljs-keyword {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body {
+  color: #008080;
+}
+
+.hljs-regexp {
+  color: #009926;
+}
+
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.lisp .hljs-keyword,
+.tex .hljs-special,
+.hljs-prompt {
+  color: #990073;
+}
+
+.hljs-built_in,
+.lisp .hljs-title,
+.clojure .hljs-built_in {
+  color: #0086b3;
+}
+
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.diff .hljs-change {
+  background: #0086b3;
+}
+
+.hljs-chunk {
+  color: #aaa;
+}
+</style>
   </head>
+
   <body>
+
     <div class="content"><h1 id="node-js">Node.js</h1>
 <p>See also <a href="js">JS</a>.</p>
 <p>See also <a href="npm">NPM</a>.</p>
@@ -43,7 +387,7 @@
 <li><a href="#https-proxy-multiple-servers-with-different-domain-on-same-host">HTTPS proxy (multiple servers with different domain on same host)</a></li>
 <li><a href="#simple-db">Simple DB</a></li>
 <li><a href="#mongodb">MongoDB</a></li>
-<li><a href="#-errorhandler"><code>ErrorHandler</code></a></li>
+<li><a href="#errorhandler"><code>ErrorHandler</code></a></li>
 </ul>
 <h2 id="managing-multiple-node-servers">Managing multiple node servers</h2>
 <p><a href="https://github.com/Unitech/pm2">pm2</a></p>
@@ -58,22 +402,22 @@ $ authbind --deep pm2 update
 </code></pre><p>Now you can start applications with PM2 that can bind to port 80 without being root!</p>
 <p>It’s recommended to put an alias in your .bashrc file:</p>
 <p>alias pm2='authbind --deep pm2'</p>
-<p>— <a href="http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root">http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root</a></p>
 </blockquote>
+<p>— <a href="http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root">http://pm2.keymetrics.io/docs/usage/specifics/#listening-on-port-80-w-o-root</a></p>
 <h2 id="http-server-without-express">HTTP server without express</h2>
 <p>Example, http body parsing and query string parsing:</p>
 <pre><code class="js"><span class="hljs-keyword">const</span> url = <span class="hljs-built_in">require</span>(<span class="hljs-string">'url'</span>);
 <span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
 <span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
 
-http.createServer((req, res) =&gt; {
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/'</span>) {
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/plain'</span>})
     res.end(<span class="hljs-string">'Hello World'</span>)
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (url.parse(req.url).pathname === <span class="hljs-string">'/search'</span>) {
     <span class="hljs-keyword">const</span> query = querystring.parse(url.parse(req.url).query)
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
-    res.end(<span class="hljs-string">`Received query string: <span class="hljs-subst">${JSON.stringify(query, null, 2)}</span>`</span>)
+    res.end(<span class="hljs-string">`Received query string: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(query, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>`</span>)
   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (req.url === <span class="hljs-string">'/data'</span> &amp;&amp; req.method === <span class="hljs-string">'POST'</span>) {
     <span class="hljs-keyword">let</span> body = <span class="hljs-string">''</span>
     req.on(<span class="hljs-string">'data'</span>, chunk =&gt; body += chunk)
@@ -95,8 +439,8 @@ http.createServer((req, res) =&gt; {
 <pre><code class="js"><span class="hljs-keyword">const</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>)
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
+  <span class="hljs-attr">key</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  <span class="hljs-attr">cert</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) {
   res.end(<span class="hljs-string">'Hello encrypted world!'</span>)
 }).listen(<span class="hljs-number">8080</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Listening on https://localhost:8080'</span>))
@@ -123,8 +467,8 @@ https.createServer({
 }
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
+  <span class="hljs-attr">key</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  <span class="hljs-attr">cert</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) =&gt; {
   authenticate(req, res, () =&gt; {
     res.writeHead(<span class="hljs-number">200</span>, {<span class="hljs-string">'Content-type'</span>: <span class="hljs-string">'text/plain; charset=utf-8'</span>})
@@ -134,12 +478,12 @@ https.createServer({
 </code></pre>
 <h2 id="async-flow-control">Async flow control</h2>
 <pre><code class="js"><span class="hljs-keyword">const</span> flow = {
-  parallel: (funs, cb) =&gt; {
+  <span class="hljs-attr">parallel</span>: <span class="hljs-function">(<span class="hljs-params">funs, cb</span>) =&gt;</span> {
     <span class="hljs-keyword">let</span> totalResult = []
     <span class="hljs-keyword">let</span> counter = <span class="hljs-number">0</span>
     <span class="hljs-keyword">let</span> someError = <span class="hljs-literal">false</span>
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; funs.length; i++) {
-      funs[i]((err, result) =&gt; {
+      funs[i](<span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> {
         totalResult[i] = result
         counter++
         <span class="hljs-keyword">if</span> (err) {
@@ -152,11 +496,11 @@ https.createServer({
       })
     }
   },
-  series: (funs, cb) =&gt; {
+  <span class="hljs-attr">series</span>: <span class="hljs-function">(<span class="hljs-params">funs, cb</span>) =&gt;</span> {
     <span class="hljs-keyword">let</span> totalResult = []
     <span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">const</span> next = () =&gt; {
-      funs[i]((err, result) =&gt; {
+    <span class="hljs-keyword">const</span> next = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      funs[i](<span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> {
         totalResult.push(result)
         <span class="hljs-keyword">if</span> (err) cb(err)
         <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i++ <span class="xml"><span class="hljs-tag">&lt; <span class="hljs-attr">totalResult</span>) <span class="hljs-attr">next</span>()
@@ -179,16 +523,16 @@ https.createServer({
   <span class="hljs-string">'api.example.com'</span>: <span class="hljs-string">'http://localhost:3001'</span>
 }
 
-<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({ secure: <span class="hljs-literal">false</span> })
+<span class="hljs-keyword">const</span> proxy = httpProxy.createProxyServer({ <span class="hljs-attr">secure</span>: <span class="hljs-literal">false</span> })
 proxy.on(<span class="hljs-string">'error'</span>, (err, req, res) =&gt; { <span class="hljs-built_in">console</span>.log(err); res.end() })
 
 
 https.createServer({
-  key: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
-  cert: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
+  <span class="hljs-attr">key</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/key.pem`</span>),
+  <span class="hljs-attr">cert</span>: fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/ssl/cert.pem`</span>)
 }, (req, res) =&gt; {
   <span class="hljs-keyword">if</span> (req.headers.host <span class="hljs-keyword">in</span> rules) {
-    proxy.web(req, res, { target: rules[req.headers.host] })
+    proxy.web(req, res, { <span class="hljs-attr">target</span>: rules[req.headers.host] })
   } <span class="hljs-keyword">else</span> {
     res.writeHead(<span class="hljs-number">500</span>)
     res.end(<span class="hljs-string">`unknown domain '<span class="hljs-subst">${req.headers.host}</span>'`</span>)
@@ -196,7 +540,7 @@ https.createServer({
 }).listen(<span class="hljs-number">443</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Proxy server listening on https://127.0.0.1'</span>))
 
 
-http.createServer((req, res) =&gt; {
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   res.writeHead(<span class="hljs-number">301</span>, { <span class="hljs-string">'Location'</span>: <span class="hljs-string">`https://<span class="hljs-subst">${req.headers.host}</span><span class="hljs-subst">${req.url}</span>`</span> })
   res.end()
 }).listen(<span class="hljs-number">80</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'HTTP -&gt; HTTPS redirect server listening on http://127.0.0.1'</span>))
@@ -207,7 +551,7 @@ http.createServer((req, res) =&gt; {
 
 <span class="hljs-keyword">const</span> dbPath = <span class="hljs-string">`<span class="hljs-subst">${__dirname}</span>/db.json`</span>
 
-http.createServer((req, res) =&gt; {
+http.createServer(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${req.method}</span> <span class="hljs-subst">${req.url}</span>`</span>)
   <span class="hljs-keyword">if</span> (req.method === <span class="hljs-string">'GET'</span> &amp;&amp; req.url === <span class="hljs-string">'/db'</span>) {
     fs.readFile(dbPath, <span class="hljs-string">'utf8'</span>, (err, data) =&gt; {
@@ -275,7 +619,7 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
     <span class="hljs-built_in">console</span>.log(req.body);
     <span class="hljs-keyword">delete</span> req.body._id;
     <span class="hljs-comment">// db.collection('foo').replaceOne({ _id: ObjectId(req.params.id) }, req.body, function(err) {</span>
-    db.collection(<span class="hljs-string">'foo'</span>).updateOne({ _id: ObjectId(req.params.id) }, { $set: req.body }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).updateOne({ <span class="hljs-attr">_id</span>: ObjectId(req.params.id) }, { <span class="hljs-attr">$set</span>: req.body }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
       <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Updated <span class="hljs-subst">${req.params.id}</span>`</span>);
       res.end();
@@ -284,7 +628,7 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
 
   <span class="hljs-comment">// Delete</span>
   app.delete(<span class="hljs-string">'/foo/:id'</span>, (req, res) =&gt; {
-    db.collection(<span class="hljs-string">'foo'</span>).deleteOne({ _id: ObjectId(req.params.id) }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, doc</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).deleteOne({ <span class="hljs-attr">_id</span>: ObjectId(req.params.id) }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, doc</span>) </span>{
       <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Deleted <span class="hljs-subst">${req.params.id}</span>.`</span>);
       res.end();
@@ -293,7 +637,7 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
 
   <span class="hljs-comment">// Get by id</span>
   app.get(<span class="hljs-string">'/foo/:id'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-    db.collection(<span class="hljs-string">'foo'</span>).findOne({id: <span class="hljs-built_in">parseInt</span>(req.params.id)}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foo</span>) </span>{
+    db.collection(<span class="hljs-string">'foo'</span>).findOne({<span class="hljs-attr">id</span>: <span class="hljs-built_in">parseInt</span>(req.params.id)}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, foo</span>) </span>{
       <span class="hljs-keyword">if</span> (err) {
         res.json(<span class="hljs-number">500</span>, err);
       } <span class="hljs-keyword">else</span> {
@@ -309,46 +653,62 @@ MongoClient.connect(mongourl, <span class="hljs-function"><span class="hljs-keyw
 
 });
 </code></pre>
-<h2 id="-errorhandler"><code>ErrorHandler</code></h2>
+<h2 id="errorhandler"><code>ErrorHandler</code></h2>
 <pre><code class="js"><span class="hljs-comment">// Report errors by email and to error.log</span>
 
 <span class="hljs-keyword">const</span> credentials = <span class="hljs-built_in">JSON</span>.parse(fs.readFileSync(<span class="hljs-string">`<span class="hljs-subst">${process.env.HOME}</span>/.credentials/credentials.json`</span>))
 
 <span class="hljs-keyword">const</span> transporter = nodemailer.createTransport({
-  host: <span class="hljs-string">'smtp.gmail.com'</span>,
-  port: <span class="hljs-number">465</span>,
-  secure: <span class="hljs-literal">true</span>,
-  auth: {
-    user: credentials.gmailNotifier.user,
-    pass: credentials.gmailNotifier.pass
+  <span class="hljs-attr">host</span>: <span class="hljs-string">'smtp.gmail.com'</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">465</span>,
+  <span class="hljs-attr">secure</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">auth</span>: {
+    <span class="hljs-attr">user</span>: credentials.gmailNotifier.user,
+    <span class="hljs-attr">pass</span>: credentials.gmailNotifier.pass
   }
 })
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">log</span>(<span class="hljs-params">msg</span>) </span>{
-  <span class="hljs-keyword">const</span> msg = <span class="hljs-string">`<span class="hljs-subst">${(new Date()).toISOString()}</span> <span class="hljs-subst">${msg}</span>`</span>
+  <span class="hljs-keyword">const</span> msg = <span class="hljs-string">`<span class="hljs-subst">${(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()).toISOString()}</span> <span class="hljs-subst">${msg}</span>`</span>
   <span class="hljs-built_in">console</span>.log(msg)
   fs.appendFile(<span class="hljs-string">`<span class="hljs-subst">${__dirname}</span>/error.log`</span>, <span class="hljs-string">`<span class="hljs-subst">${msg}</span>\n`</span>)
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sendmail</span>(<span class="hljs-params">from, subject, text</span>) </span>{
   transporter.sendMail({
-    <span class="hljs-keyword">from</span>: <span class="hljs-string">`<span class="hljs-subst">${from}</span> &lt;<span class="hljs-subst">${credentials.gmailNotifier.user}</span>&gt;`</span>,
-    to: credentials.gmail.user,
-    subject: subject,
-    text: text,
+    <span class="hljs-attr">from</span>: <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-keyword">from</span>}</span> &lt;<span class="hljs-subst">${credentials.gmailNotifier.user}</span>&gt;`</span>,
+    <span class="hljs-attr">to</span>: credentials.gmail.user,
+    <span class="hljs-attr">subject</span>: subject,
+    <span class="hljs-attr">text</span>: text,
   }, err =&gt; {
-    <span class="hljs-keyword">if</span> (err) log(<span class="hljs-string">`SENDMAIL ERROR: <span class="hljs-subst">${JSON.stringify(err, null, 2)}</span>`</span>)
+    <span class="hljs-keyword">if</span> (err) log(<span class="hljs-string">`SENDMAIL ERROR: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(err, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>`</span>)
   })
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">errorHandler</span>(<span class="hljs-params">err, cb</span>) </span>{
   <span class="hljs-keyword">if</span> (!err) <span class="hljs-keyword">return</span>
-  log(<span class="hljs-string">`ERROR: <span class="hljs-subst">${JSON.stringify(err, null, 2)}</span>`</span>)
+  log(<span class="hljs-string">`ERROR: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(err, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>`</span>)
   sendmail(<span class="hljs-string">'Fitbit sleep log'</span>, <span class="hljs-string">'Error'</span>, <span class="hljs-built_in">JSON</span>.stringify(err, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>))
 }
 </code></pre>
 </div>
+
     <!-- <div class="footer-separator"></div> -->
     <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      MathJax.Hub.Config({
+        messageStyle: 'none',
+        tex2jax: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          processEscapes: true
+        },
+        'HTML-CSS': {
+          availableFonts: ['TeX'],
+        }
+      });
+    </script>
+
   </body>
+
 </html>

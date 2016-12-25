@@ -1,4 +1,4 @@
-# Web
+# Apache
 
 ## Apache proxy node app
 
@@ -13,16 +13,15 @@
   ServerName sub.domain.com
 
   ProxyRequests off
- 
+
   <Proxy *>
     Order deny,allow
     Allow from all
   </Proxy>
- 
+
   <Location />
     ProxyPass http://localhost:3000/
     ProxyPassReverse http://localhost:3000/
   </Location>
 </VirtualHost>
 ```
-

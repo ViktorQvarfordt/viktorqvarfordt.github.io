@@ -1,6 +1,5 @@
-cd ~/vc/viktorqvarfordt.github.io/notes_src
-gulp
 cd ~/vc/viktorqvarfordt.github.io
+node ~/Dropbox/cloud/lightweight-markdown-server/build.js mdnotes notes
 git add . -A
 git commit -m "Update notes"
 git push

@@ -1,14 +1,11 @@
 # $\LaTeX$
 
-[TOC]
+<!-- toc -->
 
 External links:
 
 - [Wikibooks LaTeX](http://en.wikibooks.org/wiki/LaTeX)
 - [The Not So Short Introduction to LaTeX](http://tobi.oetiker.ch/lshort/lshort.pdf)
-
-
-
 
 
 ## Macros etc.

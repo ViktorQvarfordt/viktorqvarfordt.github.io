@@ -2,7 +2,7 @@
 
 See also [Node.js](node).
 
-[TOC]
+<!-- toc -->
 
 
 ## Misc.

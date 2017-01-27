@@ -380,6 +380,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#commands">Commands</a></li>
 <li><a href="#equation-numbering-based-on-section-number">Equation numbering based on section number</a></li>
 <li><a href="#comma-separated-arguments">Comma separated arguments</a></li>
+<li><a href="#commutative-diagrams">Commutative diagrams</a></li>
 </ul>
 </li>
 <li><a href="#source-embedded-pdfs">Source-embedded PDFs</a></li>
@@ -493,7 +494,32 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
 </code></pre>
-<h2 id="source-embedded-pdfs">Source-embedded PDFs</h2>
+<h3 id="commutative-diagrams">Commutative diagrams</h3>
+<pre><code>\usepackage{tikz-cd}
+\tikzset{ % see http://tex.stackexchange.com/questions/169512/tikz-style-arrow-tips-missing-when-using-tikz-cd-crossing-over
+  commutative diagrams/.cd,
+  arrow style=tikz,
+  diagrams={&gt;=latex}
+}
+</code></pre><p>Commutative square</p>
+<pre><code>\begin{center}
+  \begin{tikzcd}
+    A \ar{r}{f} \ar{d}{g} &amp; B \ar{d}{h} \\
+    C \ar{r}{i} &amp; D
+  \end{tikzcd}
+\end{center}
+</code></pre><p>Eequalizer</p>
+<pre><code>\begin{tikzcd}[cramped]
+  E \ar[r, "e&quot;] &amp; X \ar[r, shift left, &quot;f&quot;] \ar[r, shift right, &quot;g&quot;'] &amp; Y
+\end{tikzcd}
+</code></pre><p>Slanted arrows</p>
+<pre><code>\begin{center}
+  \begin{tikzcd}
+    \cdot \ar[dr] \ar[rr, shift left] \ar[rr, shift right] &amp;&amp; \cdot \ar[dl] \\
+    &amp; X
+  \end{tikzcd}
+\end{center}
+</code></pre><h2 id="source-embedded-pdfs">Source-embedded PDFs</h2>
 <p>See <a href="https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra">this</a>.</p>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>

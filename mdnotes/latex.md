@@ -101,6 +101,46 @@ $\ip{u}{v} \ip{u,v} \ip u,v \ip uv$
 ```
 
 
+### Commutative diagrams
+
+```
+\usepackage{tikz-cd}
+\tikzset{ % see http://tex.stackexchange.com/questions/169512/tikz-style-arrow-tips-missing-when-using-tikz-cd-crossing-over
+  commutative diagrams/.cd,
+  arrow style=tikz,
+  diagrams={>=latex}
+}
+```
+
+Commutative square
+
+```
+\begin{center}
+  \begin{tikzcd}
+    A \ar{r}{f} \ar{d}{g} & B \ar{d}{h} \\
+    C \ar{r}{i} & D
+  \end{tikzcd}
+\end{center}
+```
+
+Eequalizer
+
+```
+\begin{tikzcd}[cramped]
+  E \ar[r, "e"] & X \ar[r, shift left, "f"] \ar[r, shift right, "g"'] & Y
+\end{tikzcd}
+```
+
+Slanted arrows
+
+```
+\begin{center}
+  \begin{tikzcd}
+    \cdot \ar[dr] \ar[rr, shift left] \ar[rr, shift right] && \cdot \ar[dl] \\
+    & X
+  \end{tikzcd}
+\end{center}
+```
 
 
 ## Source-embedded PDFs

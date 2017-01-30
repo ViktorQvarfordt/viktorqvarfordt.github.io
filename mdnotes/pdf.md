@@ -2,6 +2,10 @@
 
 `pdftk` does merging, splitting, meta data manipulations and other fancy things.
 
+```
+pdftk file1.pdf file2.pdf cat output mergedfile.pdf
+```
+
 `pdfcrop` removes margins.
 
 

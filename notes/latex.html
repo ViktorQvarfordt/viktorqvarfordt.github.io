@@ -383,7 +383,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#commutative-diagrams">Commutative diagrams</a></li>
 </ul>
 </li>
+<li><a href="#sublimetext">SublimeText</a><ul>
+<li><a href="#misc-improvements">Misc. improvements</a><ul>
+<li><a href="#improve-symbol-goto">Improve symbol goto</a></li>
+</ul>
+</li>
+<li><a href="#latextools">LaTeXTools</a></li>
 <li><a href="#source-embedded-pdfs">Source-embedded PDFs</a></li>
+</ul>
+</li>
 <li><a href="#automagically-compile-document">Automagically compile document</a></li>
 <li><a href="#code-highlighting-with-minted">Code highlighting with <code>minted</code></a></li>
 <li><a href="#embed-file-as-pdf-attachment">Embed file as PDF attachment</a></li>
@@ -519,7 +527,60 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     &amp; X
   \end{tikzcd}
 \end{center}
-</code></pre><h2 id="source-embedded-pdfs">Source-embedded PDFs</h2>
+</code></pre><h2 id="sublimetext">SublimeText</h2>
+<h3 id="misc-improvements">Misc. improvements</h3>
+<h4 id="improve-symbol-goto">Improve symbol goto</h4>
+<p>This will make <code>ctrl+r</code> (symbol goto) show an overview of the document layout, for easy navigation</p>
+<p>Create <code>Symbol List.tmPreferences</code> in <code>.../subl/Packages/User/</code> and populate it with</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+  &lt;key&gt;name&lt;/key&gt;
+  &lt;string&gt;Symbol List&lt;/string&gt;
+  &lt;key&gt;scope&lt;/key&gt;
+  &lt;string&gt;meta.section&lt;/string&gt;
+  &lt;key&gt;settings&lt;/key&gt;
+  &lt;dict&gt;
+    &lt;key&gt;showInSymbolList&lt;/key&gt;
+    &lt;integer&gt;1&lt;/integer&gt;
+    &lt;key&gt;showInIndexedSymbolList&lt;/key&gt;
+    &lt;integer&gt;1&lt;/integer&gt;
+    &lt;key&gt;symbolTransformation&lt;/key&gt;
+    &lt;string&gt;
+      s/(\\chapter.*)/$1/;
+      s/(\\section.*)/    $1/;
+      s/(\\subsection.*)/        $1/;
+      s/(\\subsubsection.*)/            $1/;
+    &lt;/string&gt;
+    &lt;key&gt;symbolIndexTransformation&lt;/key&gt;
+    &lt;string&gt;
+      s/(\\chapter.*)/$1/;
+      s/(\\section.*)/    $1/;
+      s/(\\subsection.*)/        $1/;
+      s/(\\subsubsection.*)/            $1/;
+    &lt;/string&gt;
+  &lt;/dict&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre><p>Disable default symbol goto (because they are mostly useless) by changing <code>&lt;key&gt;scope&lt;/key&gt;</code> to</p>
+<pre><code>&lt;key&gt;scope&lt;/key&gt;
+&lt;string&gt;NULL&lt;/string&gt;
+</code></pre><p>in the following files of the default package LaTeX (which can be modified by the package PackageResourceViewer)</p>
+<pre><code>Symbol List - Commands.tmPreferences
+Symbol List - Labels.tmPreferences
+Symbol List - Sections.tmPreferences
+</code></pre><h3 id="latextools">LaTeXTools</h3>
+<ol>
+<li>Install LaTeXTools via PackageControl.</li>
+<li>Install <code>latexmk python-dbus</code>.</li>
+<li>Preferences -&gt; Package Settings -&gt; LaTeXTools -&gt; Settings - User</li>
+</ol>
+<pre><code>&quot;sublime&quot;: &quot;subl&quot;, // or whatever you have
+&quot;output_directory&quot;: &quot;/tmp/LaTeXToolsTmp&quot;, // avoid cluttering. think about how this can be a different path for each project
+&quot;preview_math_color&quot;: &quot;white&quot;,
+&quot;preview_math_background_color&quot;: &quot;black&quot;,
+&quot;preview_math_density&quot;: 300,
+</code></pre><h3 id="source-embedded-pdfs">Source-embedded PDFs</h3>
 <p>See <a href="https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra">this</a>.</p>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>

@@ -143,7 +143,85 @@ Slanted arrows
 ```
 
 
-## Source-embedded PDFs
+
+## SublimeText
+
+
+### Misc. improvements
+
+#### Improve symbol goto
+
+This will make `ctrl+r` (symbol goto) show an overview of the document layout, for easy navigation
+
+Create `Symbol List.tmPreferences` in `.../subl/Packages/User/` and populate it with
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>Symbol List</string>
+  <key>scope</key>
+  <string>meta.section</string>
+  <key>settings</key>
+  <dict>
+    <key>showInSymbolList</key>
+    <integer>1</integer>
+    <key>showInIndexedSymbolList</key>
+    <integer>1</integer>
+    <key>symbolTransformation</key>
+    <string>
+      s/(\\chapter.*)/$1/;
+      s/(\\section.*)/    $1/;
+      s/(\\subsection.*)/        $1/;
+      s/(\\subsubsection.*)/            $1/;
+    </string>
+    <key>symbolIndexTransformation</key>
+    <string>
+      s/(\\chapter.*)/$1/;
+      s/(\\section.*)/    $1/;
+      s/(\\subsection.*)/        $1/;
+      s/(\\subsubsection.*)/            $1/;
+    </string>
+  </dict>
+</dict>
+</plist>
+
+```
+
+Disable default symbol goto (because they are mostly useless) by changing `<key>scope</key>` to
+
+```
+<key>scope</key>
+<string>NULL</string>
+```
+
+in the following files of the default package LaTeX (which can be modified by the package PackageResourceViewer)
+
+```
+Symbol List - Commands.tmPreferences
+Symbol List - Labels.tmPreferences
+Symbol List - Sections.tmPreferences
+```
+
+
+### LaTeXTools
+
+1. Install LaTeXTools via PackageControl.
+3. Install `latexmk python-dbus`.
+2. Preferences -> Package Settings -> LaTeXTools -> Settings - User
+
+```
+"sublime": "subl", // or whatever you have
+"output_directory": "/tmp/LaTeXToolsTmp", // avoid cluttering. think about how this can be a different path for each project
+"preview_math_color": "white",
+"preview_math_background_color": "black",
+"preview_math_density": 300,
+```
+
+
+
+### Source-embedded PDFs
 
 See [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra).
 

@@ -54,6 +54,29 @@ i = IdentityMatrix[2];
 ```
 
 
+### Direct sum
+
+```mathematica
+DirectSum[list_] := ArrayFlatten[ReleaseHold[DiagonalMatrix[Hold /@ list]]]
+```
+
+### Plot complex eigenvalues
+
+```mathematica
+ComplexToPolar[z_] /; z \[Element] Complexes :=
+  Module[{w}, w = FullSimplify[z]; Abs[w] Exp[I Arg[w]]];
+ShowEV[A_] := Module[{ev, evNoDupes, p},
+   ev = Eigenvalues[A];
+   evNoDupes = DeleteDuplicates[ev];
+   Print[Length[evNoDupes], " of ", Length[ev], " distinct ",
+    ComplexToPolar[evNoDupes]];
+   p = ListPlot[{Re[#], Im[#]} & /@ evNoDupes, AxesOrigin -> {0, 0},
+     PlotRange -> {{-1.2, 1.2}, {-1.2, 1.2}}, AspectRatio -> 1,
+     Frame -> True, PlotStyle -> Directive[Red, PointSize[.025]]];
+   Show[p, Graphics[{Thickness[0.003], Circle[{0, 0}, 1]}]]
+   ];
+```
+
 
 ### Partial trace
 

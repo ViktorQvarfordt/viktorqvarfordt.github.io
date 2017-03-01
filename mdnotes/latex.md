@@ -227,6 +227,11 @@ See [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra).
 
 
 
+## Web
+
+Embed math as image in html http://tex.stackexchange.com/questions/44486/pixel-perfect-vertical-alignment-of-image-rendered-tex-snippets
+
+
 ## Automagically compile document
 
 Basic version:
@@ -371,6 +376,13 @@ After compiling the document, simply run the command `pdfcrop` on the resulting 
 \restoregeometry
 \clearpage
 ```
+
+### Center cell in `alignat`
+
+```
+\newcommand*\centermathcell[1]{\omit\hfil$\displaystyle#1$\hfil\ignorespaces}
+```
+
 
 ### Centering equation or figure that is wider than `\textwidth`
 
@@ -634,6 +646,31 @@ Superfacny tables with aligned numbers using [`siunitx`](http://ctan.uib.no/macr
 
 
 
+### References
+
+#### Showkeys
+
+```
+\usepackage{showkeys}
+```
+
+Show labels for `\ref` and `\cite` etc. in document, for use when drafting document. The following snippet enables `showkeys` with `cleveref`
+
+```latex
+% Enable showkeys for \cref and \Cref
+% tex.stackexchange.com/questions/139698/usiong-showkes-and-cleveref-together
+\makeatletter
+  \SK@def\cref#1{\SK@\SK@@ref{#1}\SK@cref{#1}}%
+  \SK@def\Cref#1{\SK@\SK@@ref{#1}\SK@Cref{#1}}%
+\makeatother
+```
+
+Tweaking of `showkeys`:
+
+```
+% \renewcommand*\showkeyslabelformat[1]{%
+%   \parbox[t]{\marginparwidth}{\raggedright\normalfont\footnotesize\ttfamily#1}}
+```
 
 
 

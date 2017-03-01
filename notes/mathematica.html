@@ -408,6 +408,23 @@ i = <span class="hljs-keyword">IdentityMatrix</span>[<span class="hljs-number">2
 σ<span class="hljs-number">3</span> = <span class="hljs-keyword">PauliMatrix</span>[<span class="hljs-number">3</span>];
 σ<span class="hljs-number">1</span>⊗σ<span class="hljs-number">3</span>
 </code></pre>
+<h3 id="direct-sum">Direct sum</h3>
+<pre><code class="mathematica">DirectSum[list_] := <span class="hljs-keyword">ArrayFlatten</span>[<span class="hljs-keyword">ReleaseHold</span>[<span class="hljs-keyword">DiagonalMatrix</span>[<span class="hljs-keyword">Hold</span> /@ list]]]
+</code></pre>
+<h3 id="plot-complex-eigenvalues">Plot complex eigenvalues</h3>
+<pre><code class="mathematica">ComplexToPolar[z_] /; z \[<span class="hljs-keyword">Element</span>] <span class="hljs-keyword">Complexes</span> :=
+  <span class="hljs-keyword">Module</span>[{w}, w = <span class="hljs-keyword">FullSimplify</span>[z]; <span class="hljs-keyword">Abs</span>[w] <span class="hljs-keyword">Exp</span>[<span class="hljs-keyword">I</span> <span class="hljs-keyword">Arg</span>[w]]];
+ShowEV[A_] := <span class="hljs-keyword">Module</span>[{ev, evNoDupes, p},
+   ev = <span class="hljs-keyword">Eigenvalues</span>[A];
+   evNoDupes = <span class="hljs-keyword">DeleteDuplicates</span>[ev];
+   <span class="hljs-keyword">Print</span>[<span class="hljs-keyword">Length</span>[evNoDupes], <span class="hljs-string">" of "</span>, <span class="hljs-keyword">Length</span>[ev], <span class="hljs-string">" distinct "</span>,
+    ComplexToPolar[evNoDupes]];
+   p = <span class="hljs-keyword">ListPlot</span>[{Re[#], Im[#]} &amp; /@ evNoDupes, <span class="hljs-keyword">AxesOrigin</span> -&gt; {0, 0},
+     <span class="hljs-keyword">PlotRange</span> -&gt; {{-1.2, 1.2}, {-1.2, 1.2}}, <span class="hljs-keyword">AspectRatio</span> -&gt; <span class="hljs-number">1</span>,
+     <span class="hljs-keyword">Frame</span> -&gt; <span class="hljs-keyword">True</span>, <span class="hljs-keyword">PlotStyle</span> -&gt; <span class="hljs-keyword">Directive</span>[<span class="hljs-keyword">Red</span>, <span class="hljs-keyword">PointSize</span>[<span class="hljs-number">.025</span>]]];
+   <span class="hljs-keyword">Show</span>[p, <span class="hljs-keyword">Graphics</span>[{Thickness[0.003], Circle[{0, 0}, <span class="hljs-number">1</span>]}]]
+   ];
+</code></pre>
 <h3 id="partial-trace">Partial trace</h3>
 <p>WARNING: This gives is wring by a factor of 2, sometimes?</p>
 <p>The partial trace $\mathrm{tr}\_\alpha(\rho)$ can be computed with</p>

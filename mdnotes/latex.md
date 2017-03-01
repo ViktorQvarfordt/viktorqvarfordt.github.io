@@ -656,7 +656,7 @@ Superfacny tables with aligned numbers using [`siunitx`](http://ctan.uib.no/macr
 
 Show labels for `\ref` and `\cite` etc. in document, for use when drafting document. The following snippet enables `showkeys` with `cleveref`
 
-```latex
+```tex
 % Enable showkeys for \cref and \Cref
 % tex.stackexchange.com/questions/139698/usiong-showkes-and-cleveref-together
 \makeatletter

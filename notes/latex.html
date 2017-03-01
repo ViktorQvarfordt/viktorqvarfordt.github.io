@@ -392,6 +392,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#source-embedded-pdfs">Source-embedded PDFs</a></li>
 </ul>
 </li>
+<li><a href="#web">Web</a></li>
 <li><a href="#automagically-compile-document">Automagically compile document</a></li>
 <li><a href="#code-highlighting-with-minted">Code highlighting with <code>minted</code></a></li>
 <li><a href="#embed-file-as-pdf-attachment">Embed file as PDF attachment</a></li>
@@ -403,6 +404,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </li>
 <li><a href="#images-figures-and-floats">Images, figures and floats</a><ul>
 <li><a href="#full-page-image">Full-page image</a></li>
+<li><a href="#center-cell-in-alignat">Center cell in <code>alignat</code></a></li>
 <li><a href="#centering-equation-or-figure-that-is-wider-than-textwidth">Centering equation or figure that is wider than <code>\textwidth</code></a></li>
 </ul>
 </li>
@@ -424,6 +426,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li><a href="#force-hfill">Force <code>\hfill</code></a></li>
+<li><a href="#references">References</a><ul>
+<li><a href="#showkeys">Showkeys</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#titlepage-template">Titlepage template</a></li>
@@ -582,6 +588,8 @@ Symbol List - Sections.tmPreferences
 &quot;preview_math_density&quot;: 300,
 </code></pre><h3 id="source-embedded-pdfs">Source-embedded PDFs</h3>
 <p>See <a href="https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra">this</a>.</p>
+<h2 id="web">Web</h2>
+<p>Embed math as image in html <a href="http://tex.stackexchange.com/questions/44486/pixel-perfect-vertical-alignment-of-image-rendered-tex-snippets">http://tex.stackexchange.com/questions/44486/pixel-perfect-vertical-alignment-of-image-rendered-tex-snippets</a></p>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>
 <pre><code class="bash"><span class="hljs-keyword">while</span> inotifywait -qq <span class="hljs-_">-e</span> modify *.tex; <span class="hljs-keyword">do</span>
@@ -671,7 +679,9 @@ def f(x):
 <span class="hljs-tag">\<span class="hljs-name">restoregeometry</span></span>
 <span class="hljs-tag">\<span class="hljs-name">clearpage</span></span>
 </code></pre>
-<h3 id="centering-equation-or-figure-that-is-wider-than-textwidth">Centering equation or figure that is wider than <code>\textwidth</code></h3>
+<h3 id="center-cell-in-alignat">Center cell in <code>alignat</code></h3>
+<pre><code>\newcommand*\centermathcell[1]{\omit\hfil$\displaystyle#1$\hfil\ignorespaces}
+</code></pre><h3 id="centering-equation-or-figure-that-is-wider-than-textwidth">Centering equation or figure that is wider than <code>\textwidth</code></h3>
 <p><strong>Equation:</strong></p>
 <pre><code>\newcommand{\centermath}[1]{\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}}
 </code></pre><p>Example:</p>
@@ -842,7 +852,21 @@ def f(x):
 <pre><code class="tex"><span class="hljs-comment">%% QED square-symbol properly floating to the right.</span>
 <span class="hljs-tag">\<span class="hljs-name">newcommand</span><span class="hljs-string">{\qed}</span><span class="hljs-string">{\hspace*{0pt}</span></span><span class="hljs-tag">\<span class="hljs-name">hfill</span></span><span class="hljs-tag">\<span class="hljs-name">ensuremath</span><span class="hljs-string">{\square}</span></span>}
 </code></pre>
-<h2 id="titlepage-template">Titlepage template</h2>
+<h3 id="references">References</h3>
+<h4 id="showkeys">Showkeys</h4>
+<pre><code>\usepackage{showkeys}
+</code></pre><p>Show labels for <code>\ref</code> and <code>\cite</code> etc. in document, for use when drafting document. The following snippet enables <code>showkeys</code> with <code>cleveref</code></p>
+<pre><code class="tex"><span class="hljs-comment">% Enable showkeys for \cref and \Cref</span>
+<span class="hljs-comment">% tex.stackexchange.com/questions/139698/usiong-showkes-and-cleveref-together</span>
+<span class="hljs-tag">\<span class="hljs-name">makeatletter</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">SK</span></span>@def<span class="hljs-tag">\<span class="hljs-name">cref</span></span>#1{<span class="hljs-tag">\<span class="hljs-name">SK</span></span>@<span class="hljs-tag">\<span class="hljs-name">SK</span></span>@@ref{#1}<span class="hljs-tag">\<span class="hljs-name">SK</span></span>@cref{#1}}<span class="hljs-comment">%</span>
+  <span class="hljs-tag">\<span class="hljs-name">SK</span></span>@def<span class="hljs-tag">\<span class="hljs-name">Cref</span></span>#1{<span class="hljs-tag">\<span class="hljs-name">SK</span></span>@<span class="hljs-tag">\<span class="hljs-name">SK</span></span>@@ref{#1}<span class="hljs-tag">\<span class="hljs-name">SK</span></span>@Cref{#1}}<span class="hljs-comment">%</span>
+<span class="hljs-tag">\<span class="hljs-name">makeatother</span></span>
+</code></pre>
+<p>Tweaking of <code>showkeys</code>:</p>
+<pre><code>% \renewcommand*\showkeyslabelformat[1]{%
+%   \parbox[t]{\marginparwidth}{\raggedright\normalfont\footnotesize\ttfamily#1}}
+</code></pre><h2 id="titlepage-template">Titlepage template</h2>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{titlepage}</span></span>
   <span class="hljs-tag">\<span class="hljs-name">thispagestyle</span><span class="hljs-string">{empty}</span></span>
   <span class="hljs-comment">% \null\vskip{-2em}</span>

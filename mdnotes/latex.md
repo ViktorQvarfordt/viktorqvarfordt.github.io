@@ -389,7 +389,7 @@ After compiling the document, simply run the command `pdfcrop` on the resulting 
 **Equation:**
 
 ```
-\newcommand{\centermath}[1]{\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}}
+\newcommand{\centermath}[1]{\par\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}\par}
 ```
 
 Example:

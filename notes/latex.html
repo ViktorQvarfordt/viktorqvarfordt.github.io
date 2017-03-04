@@ -683,7 +683,7 @@ def f(x):
 <pre><code>\newcommand*\centermathcell[1]{\omit\hfil$\displaystyle#1$\hfil\ignorespaces}
 </code></pre><h3 id="centering-equation-or-figure-that-is-wider-than-textwidth">Centering equation or figure that is wider than <code>\textwidth</code></h3>
 <p><strong>Equation:</strong></p>
-<pre><code>\newcommand{\centermath}[1]{\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}}
+<pre><code>\newcommand{\centermath}[1]{\par\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}\par}
 </code></pre><p>Example:</p>
 <pre><code>\centermath{\begin{align*}
   very long

@@ -22,4 +22,14 @@ See also [this page](latex/minimal) for notes on making minimal pdf documents wi
 
 [Inkscape](http://inkscape.org/) is the solution to most things dealing with vector graphics (which is what pdf's mostly are), although it can also be used to extract ordinary images from pdfs.
 
-Also pdf to svg should be achievable directly with Inkscape.
+1. Open the PDF in Inkscape.
+2. Select and copy the image.
+3. Past the image into a new Inkscape document.
+4. File -> Document Properties...
+5. Resize page to content... -> Resize page to drawing or selection
+6. Save as... PDF (Best to use PDF when including images in LaTeX)
+
+
+## PDF to SVG
+
+Inkscape.

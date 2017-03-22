@@ -376,6 +376,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <pre><code>Clear["Global`*&quot;]
 $PrePrint = If[MatrixQ[#], MatrixForm[#], #] &amp;;
 </code></pre><h2 id="no-notebook">No notebook</h2>
+<p>Write code in your favorite editor and run your code from a mathematica notebook by <code>Get[&quot;/path/to/file.wl&quot;];</code>. Or, run mathematica from console (cannot show <code>MatrixForm[..]</code> etc by using.</p>
 <pre><code class="sh">$ math -noprompt -run &lt; code.txt
 $ math -noprompt -run <span class="hljs-string">"&lt;&lt;test.txt; Exit[];"</span>
 $ math -noprompt -run <span class="hljs-string">"Print[TeXForm[Integrate[Cos[x], x]]]; Exit[];"</span>
@@ -387,6 +388,7 @@ $ math -script code.txt
 <li><code>-script</code> requires <code>Print[..]</code> for output while <code>-run</code> does not if reading from file (not stdinput).</li>
 <li><code>-script</code> does not support <code>TeXForm</code> and <code>MatrixForm</code>.</li>
 </ul>
+<p>Mathematica support for Sublime Text: <a href="https://github.com/ViktorQvarfordt/Sublime-Mathematica">https://github.com/ViktorQvarfordt/Sublime-Mathematica</a>.</p>
 <h2 id="quantum-information">Quantum information</h2>
 <h3 id="bras-and-kets">Bras and kets</h3>
 <pre><code class="mathematica">bra[str_] := {Flatten[Apply[TensorProduct, Map[If[#1 == "0", {1, 0}, {0, 1}] &amp;, <span class="hljs-keyword">Characters</span>[str]]]]};

@@ -8,6 +8,8 @@ $PrePrint = If[MatrixQ[#], MatrixForm[#], #] &;
 
 ## No notebook
 
+Write code in your favorite editor and run your code from a mathematica notebook by `Get["/path/to/file.wl"];`. Or, run mathematica from console (cannot show `MatrixForm[..]` etc by using.
+
 ```sh
 $ math -noprompt -run < code.txt
 $ math -noprompt -run "<<test.txt; Exit[];"
@@ -20,6 +22,7 @@ $ math -script code.txt
 - `-script` requires `Print[..]` for output while `-run` does not if reading from file (not stdinput).
 - `-script` does not support `TeXForm` and `MatrixForm`.
 
+Mathematica support for Sublime Text: [https://github.com/ViktorQvarfordt/Sublime-Mathematica](https://github.com/ViktorQvarfordt/Sublime-Mathematica).
 
 
 ## Quantum information

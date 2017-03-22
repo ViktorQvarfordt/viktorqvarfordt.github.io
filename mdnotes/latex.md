@@ -33,6 +33,25 @@ External links:
 ```
 
 
+## Unicode
+
+XeTeX
+
+https://github.com/olivierverdier/Unixode
+
+```tex
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[hidelinks,unicode=true]{hyperref}
+
+\usepackage{newunicodechar}
+\newunicodechar{α}{\alpha}
+
+```
+
+
+
 ### Commands
 
 ```tex

@@ -377,6 +377,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <ul>
 <li><a href="#macros-etc">Macros etc.</a><ul>
 <li><a href="#theorems-lemmatas-definitions-etc">Theorems, lemmatas, definitions, etc.</a></li>
+</ul>
+</li>
+<li><a href="#unicode">Unicode</a><ul>
 <li><a href="#commands">Commands</a></li>
 <li><a href="#equation-numbering-based-on-section-number">Equation numbering based on section number</a></li>
 <li><a href="#comma-separated-arguments">Comma separated arguments</a></li>
@@ -455,6 +458,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 <span class="hljs-tag">\<span class="hljs-name">theoremstyle</span><span class="hljs-string">{remark}</span></span>
 <span class="hljs-tag">\<span class="hljs-name">newtheorem</span><span class="hljs-string">{remark}</span><span class="hljs-string">{Remark}</span><span class="hljs-string">[section]</span></span>
+</code></pre>
+<h2 id="unicode">Unicode</h2>
+<p>XeTeX</p>
+<p><a href="https://github.com/olivierverdier/Unixode">https://github.com/olivierverdier/Unixode</a></p>
+<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[utf8]</span><span class="hljs-string">{inputenc}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[T1]</span><span class="hljs-string">{fontenc}</span></span>
+
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[hidelinks,unicode=true]</span><span class="hljs-string">{hyperref}</span></span>
+
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{newunicodechar}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">newunicodechar</span><span class="hljs-string">{α}</span><span class="hljs-string">{\alpha}</span></span>
 </code></pre>
 <h3 id="commands">Commands</h3>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">newcommand</span><span class="hljs-string">{\N}</span><span class="hljs-string">{\mathbb{N}</span></span>}

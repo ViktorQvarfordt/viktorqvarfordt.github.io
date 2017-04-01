@@ -147,7 +147,8 @@ Separate contexts/scopes for notebooks: http://stackoverflow.com/a/4897013
 <!--
 
 ```mathematica
-print[x_] := Module[{str="", widths, prepad, postpad, prepadstr, postpadstr},
+(* Text mode printing for matrices *)
+printmatrix[x_] := Module[{str="", widths, prepad, postpad, prepadstr, postpadstr},
   widths = Array[0&, Length[x[[1]]]];
   Do[
     Do[
@@ -173,7 +174,7 @@ print[x_] := Module[{str="", widths, prepad, postpad, prepadstr, postpadstr},
   ];
   WriteString[$Output, str, "\n"]
 ]
-print[{
+printmatrix[{
   {11111,222},
   {3,444444}}
 ]

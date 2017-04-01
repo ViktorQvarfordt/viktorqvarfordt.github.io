@@ -141,3 +141,42 @@ ToExpression["\\sqrt{x y}", TeXForm]
 ```
 
 Separate contexts/scopes for notebooks: http://stackoverflow.com/a/4897013
+
+
+
+<!--
+
+```mathematica
+print[x_] := Module[{str="", widths, prepad, postpad, prepadstr, postpadstr},
+  widths = Array[0&, Length[x[[1]]]];
+  Do[
+    Do[
+      widths[[k]] = Max[widths[[k]], StringLength[ToString[row[[k]]]]],
+      {k, Length[row]}
+    ],
+    {row, x}
+  ];
+  Do[
+    Do[
+      prepad =  Floor[(widths[[k]] - StringLength[ToString[row[[k]]]])/2];
+      If[prepad > 0, prepadstr = StringRepeat[" ", prepad], prepadstr = ""];
+      postpad = Ceiling[  (widths[[k]] - StringLength[ToString[row[[k]]]])/2];
+      If[postpad > 0, postpadstr = StringRepeat[" ", postpad], postpadstr = ""];
+      str = str <>
+            " ∣ " <>
+            prepadstr <>
+            ToString[row[[k]]] <>
+            postpadstr
+      , {k, Length[row]}];
+    str = str <> " ∣\n",
+    {row, x}
+  ];
+  WriteString[$Output, str, "\n"]
+]
+print[{
+  {11111,222},
+  {3,444444}}
+]
+```
+
+-->

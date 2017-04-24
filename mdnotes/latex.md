@@ -37,6 +37,14 @@ External links:
 
 XeTeX
 
+```tex
+\documentclass{article}
+\usepackage{unicode-math}
+\begin{document}
+$a≠b ⇔ a⊨a↑Ω π π$
+\end{document}
+```
+
 https://github.com/olivierverdier/Unixode
 
 ```tex

@@ -11,28 +11,70 @@ Delete remote tracking branc `origin/feature`
 git branch -dr origin/feature
 ```
 
-
-## GitHub PR
-
-```
-git remote add <username> <URL>
-git fetch <username>
-git co -b <pull-request-branch> <username>/<pull-request-branch>
-```
-
-### Merge pull request (merge commit)
-
-Takes
+## Rebase
 
 ```
+git rebase master
+```
+
+```
+a--b--f--g [master]
+    \
+     c--d--e [feature] (current branc)
+
+↦
+
+a--b--f--g
+          \
+           c'--d'--e' [master] [feature]
+```
+
+## Move branch
+
+```
+git branch feature
+git reset --hard b
+```
+
+```
+a--b--c--d [master]
+
+↦
+
 a--b [master]
     \
      c--d [feature]
 ```
 
-to
+## GitHub PR
+
+Do additional work on PR from `<username>` with repo at `<url>` on `<pr-branch>`.
 
 ```
+git remote add <username> <url>
+git fetch <username>
+git checkout -b <pr-branch> <username>/<pr-branch>
+# do work
+git push
+# merge in github
+git checkout master
+git pull
+git branch -d <pr-branch>
+git remote remove <username>
+```
+
+In GitHub the following options are available. I prefer 'Squash and merge', it gives a clean history.
+
+
+### Merge pull request (merge commit)
+
+```
+a--b [master]
+    \
+     c--d [feature]
+
+↦
+
 a--b------e [master] [feature]
     \    /
      c--d
@@ -41,17 +83,13 @@ a--b------e [master] [feature]
 
 ### Squash and merge
 
-Takes
-
 ```
 a--b [master]
     \
      c--d [feature]
-```
 
-to
+↦
 
-```
 a--b--e [master] [feature]
 ```
 where `e` is `c` and `d` squashed to one commit. This marks the PR as 'Merged'.
@@ -59,24 +97,21 @@ where `e` is `c` and `d` squashed to one commit. This marks the PR as 'Merged'.
 
 ### Rebase and merge
 
-Takes
-
 ```
 a--b [master]
     \
      c--d [feature]
-```
 
-to
+↦
 
-```
 a--b--c'--d' [master]
-    \--c--d  [feature]
+    \
+     c--d  [feature]
 ```
 where `c'` and `d'` are the same commits as `c` and `d` but with new SHA. The branch `[feature]` can now safely be removed. This marks the PR as 'Merged'.
 
 
-## From command line
+### From command line
 
 Github marks a PR as 'Merged' only if the commits in the PR are found on master. There is no support for rebasing from commandline and marking as 'Merged'.
 

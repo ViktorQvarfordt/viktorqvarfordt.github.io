@@ -247,6 +247,42 @@ hr { border:0; height:1px;
   <body>
 
     <div class="content"><h1 id="git">Git</h1>
+<h2 id="branches">Branches</h2>
+<p><a href="http://stackoverflow.com/questions/2003505/how-to-delete-a-git-branch-both-locally-and-remotely">http://stackoverflow.com/questions/2003505/how-to-delete-a-git-branch-both-locally-and-remotely</a></p>
+<p>Delete remote tracking branc <code>origin/feature</code></p>
+<pre><code>git branch -dr origin/feature
+</code></pre><h2 id="github-pr">GitHub PR</h2>
+<p><code>git remote add &lt;username&gt; &lt;URL&gt;  
+git fetch &lt;username&gt;
+git co -b &lt;pull-request-branch&gt; &lt;username&gt;/&lt;pull-request-branch&gt;</code></p>
+<h3 id="merge-pull-request-merge-commit">Merge pull request (merge commit)</h3>
+<p>Takes</p>
+<pre><code>a--b [master]
+    \
+     c--d [feature]
+</code></pre><p>to</p>
+<pre><code>a--b------e [master] [feature]
+    \    /
+     c--d
+</code></pre><h3 id="squash-and-merge">Squash and merge</h3>
+<p>Takes</p>
+<pre><code>a--b [master]
+    \
+     c--d [feature]
+</code></pre><p>to</p>
+<pre><code>a--b--e [master] [feature]
+</code></pre><p>where <code>e</code> is <code>c</code> and <code>d</code> squashed to one commit. This marks the PR as 'Merged'.</p>
+<h3 id="rebase-and-merge">Rebase and merge</h3>
+<p>Takes</p>
+<pre><code>a--b [master]
+    \
+     c--d [feature]
+</code></pre><p>to</p>
+<pre><code>a--b--c'--d' [master]
+    \--c--d  [feature]
+</code></pre><p>where <code>c'</code> and <code>d'</code> are the same commits as <code>c</code> and <code>d</code> but with new SHA. The branch <code>[feature]</code> can now safely be removed. This marks the PR as 'Merged'.</p>
+<h2 id="from-command-line">From command line</h2>
+<p>Github marks a PR as 'Merged' only if the commits in the PR are found on master. There is no support for rebasing from commandline and marking as 'Merged'.</p>
 <h2 id="fancy-log">Fancy log</h2>
 <pre><code>git log --graph --pretty=tformat:"%C(6)%an: %C(7)%s%n%C(2)%h%C(7): %C(5)%t%C(1)%d %C(3)% ar %C(4)%ad%n&quot; --abbrev=5 --date=short --all
 </code></pre><p>Or use <code>gitg</code>.</p>

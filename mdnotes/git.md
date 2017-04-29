@@ -14,11 +14,11 @@ git branch -dr origin/feature
 
 ## GitHub PR
 
-``
-git remote add <username> <URL>  
+```
+git remote add <username> <URL>
 git fetch <username>
 git co -b <pull-request-branch> <username>/<pull-request-branch>
-``
+```
 
 ### Merge pull request (merge commit)
 

@@ -9,13 +9,32 @@ pdftk file1.pdf file2.pdf cat output mergedfile.pdf
 `pdfcrop` removes margins.
 
 
-## pdf to svg
-
-```
-pdfcrop --hires input.pdf output.pdf && pdf2svg output.pdf output.svg
-```
+## pdf to img
 
 See also [this page](latex/minimal) for notes on making minimal pdf documents with latex (no margins, page numbers etc).
+
+### crop
+
+```
+pdfcrop --hires document.pdf document-cropped.pdf
+```
+
+(The option `--hires` makes the cropping more precies, it has nothing to do with pdf resolution, the pdf is kept as-is except the removal of margins.)
+
+### png
+
+```
+convert -density 130 document.pdf document.png
+```
+
+### svg
+
+```
+pdf2svg output.pdf output.svg
+```
+
+or Inkscape.
+
 
 
 ## Extract images from pdf
@@ -28,8 +47,3 @@ See also [this page](latex/minimal) for notes on making minimal pdf documents wi
 4. File -> Document Properties...
 5. Resize page to content... -> Resize page to drawing or selection
 6. Save as... PDF (Best to use PDF when including images in LaTeX)
-
-
-## PDF to SVG
-
-Inkscape.

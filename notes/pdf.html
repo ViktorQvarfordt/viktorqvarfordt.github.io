@@ -250,9 +250,16 @@ hr { border:0; height:1px;
 <p><code>pdftk</code> does merging, splitting, meta data manipulations and other fancy things.</p>
 <pre><code>pdftk file1.pdf file2.pdf cat output mergedfile.pdf
 </code></pre><p><code>pdfcrop</code> removes margins.</p>
-<h2 id="pdf-to-svg">pdf to svg</h2>
-<pre><code>pdfcrop --hires input.pdf output.pdf &amp;&amp; pdf2svg output.pdf output.svg
-</code></pre><p>See also <a href="latex/minimal">this page</a> for notes on making minimal pdf documents with latex (no margins, page numbers etc).</p>
+<h2 id="pdf-to-img">pdf to img</h2>
+<p>See also <a href="latex/minimal">this page</a> for notes on making minimal pdf documents with latex (no margins, page numbers etc).</p>
+<h3 id="crop">crop</h3>
+<pre><code>pdfcrop --hires document.pdf document-cropped.pdf
+</code></pre><p>(The option <code>--hires</code> makes the cropping more precies, it has nothing to do with pdf resolution, the pdf is kept as-is except the removal of margins.)</p>
+<h3 id="png">png</h3>
+<pre><code>convert -density 130 document.pdf document.png
+</code></pre><h3 id="svg">svg</h3>
+<pre><code>pdf2svg output.pdf output.svg
+</code></pre><p>or Inkscape.</p>
 <h2 id="extract-images-from-pdf">Extract images from pdf</h2>
 <p><a href="http://inkscape.org/">Inkscape</a> is the solution to most things dealing with vector graphics (which is what pdf's mostly are), although it can also be used to extract ordinary images from pdfs.</p>
 <ol>
@@ -263,8 +270,6 @@ hr { border:0; height:1px;
 <li>Resize page to content... -&gt; Resize page to drawing or selection</li>
 <li>Save as... PDF (Best to use PDF when including images in LaTeX)</li>
 </ol>
-<h2 id="pdf-to-svg">PDF to SVG</h2>
-<p>Inkscape.</p>
 </div>
 
     <!-- <div class="footer-separator"></div> -->

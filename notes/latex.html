@@ -392,7 +392,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li><a href="#latextools">LaTeXTools</a></li>
-<li><a href="#source-embedded-pdfs">Source-embedded PDFs</a></li>
 </ul>
 </li>
 <li><a href="#web">Web</a></li>
@@ -417,6 +416,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 </li>
 <li><a href="#misc">Misc</a><ul>
+<li><a href="#page-number">Page number</a></li>
 <li><a href="#other">Other</a></li>
 <li><a href="#margins">Margins</a></li>
 <li><a href="#european-style-paragraph-newline-no-indentation">European style paragraph newline (no indentation)</a></li>
@@ -444,6 +444,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </ul>
 <h2 id="macros-etc">Macros etc.</h2>
 <h3 id="theorems-lemmatas-definitions-etc">Theorems, lemmatas, definitions, etc.</h3>
+<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{amsthm}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{thmtools}</span></span>
+
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=plain,numberwithin=section]</span><span class="hljs-string">{theorem}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=plain,sibling=theorem]</span><span class="hljs-string">{proposition}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=plain,sibling=theorem]</span><span class="hljs-string">{lemma}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=plain,sibling=theorem]</span><span class="hljs-string">{corollary}</span></span>
+
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=definition,numberwithin=section]</span><span class="hljs-string">{definition}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=definition,qed=$\diamondsuit$,numberwithin=section]</span><span class="hljs-string">{example}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">declaretheorem</span><span class="hljs-string">[style=definition,qed=$\triangle$,numberwithin=section]</span><span class="hljs-string">{remark}</span></span>
+</code></pre>
+<p>Old:</p>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{amsthm}</span></span>
 
 <span class="hljs-tag">\<span class="hljs-name">theoremstyle</span><span class="hljs-string">{plain}</span></span>
@@ -606,9 +619,7 @@ Symbol List - Sections.tmPreferences
 &quot;preview_math_color&quot;: &quot;white&quot;,
 &quot;preview_math_background_color&quot;: &quot;black&quot;,
 &quot;preview_math_density&quot;: 300,
-</code></pre><h3 id="source-embedded-pdfs">Source-embedded PDFs</h3>
-<p>See <a href="https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra">this</a>.</p>
-<h2 id="web">Web</h2>
+</code></pre><h2 id="web">Web</h2>
 <p>Embed math as image in html <a href="http://tex.stackexchange.com/questions/44486/pixel-perfect-vertical-alignment-of-image-rendered-tex-snippets">http://tex.stackexchange.com/questions/44486/pixel-perfect-vertical-alignment-of-image-rendered-tex-snippets</a></p>
 <h2 id="automagically-compile-document">Automagically compile document</h2>
 <p>Basic version:</p>
@@ -645,7 +656,13 @@ def f(x):
 </code></pre>
 <h2 id="embed-file-as-pdf-attachment">Embed file as PDF attachment</h2>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{embedfile}</span></span>
-<span class="hljs-tag">\<span class="hljs-name">embedfile</span><span class="hljs-string">{index.tex}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">embedfile</span><span class="hljs-string">{doc.tex}</span></span>
+
+
+{ <span class="hljs-comment">% Create an anonymous footnote</span>
+  <span class="hljs-tag">\<span class="hljs-name">renewcommand</span></span><span class="hljs-tag">\<span class="hljs-name">thefootnote</span><span class="hljs-string">{}</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">footnotetext</span><span class="hljs-string">{This document contains its \LaTeX{}</span></span> source embedded as PDF attachment.}
+}
 </code></pre>
 <h2 id="minimal-pdf-document">Minimal pdf document</h2>
 <p>Create a pdf with no margins and page breaks. PDF document dimensions adapted to content size.</p>
@@ -775,6 +792,16 @@ def f(x):
 <li><a href="http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex">http://tex.stackexchange.com/questions/5091/what-to-do-to-switch-to-biblatex</a></li>
 </ul>
 <h2 id="misc">Misc</h2>
+<h3 id="page-number">Page number</h3>
+<pre><code class="tex"><span class="hljs-comment">% Show page number as thispage/lastpage (use fancyhdr for more flexibility)</span>
+<span class="hljs-tag">\<span class="hljs-name">makeatletter</span></span>
+<span class="hljs-tag">\<span class="hljs-name">def</span></span><span class="hljs-tag">\<span class="hljs-name">ps</span></span>@plain{ <span class="hljs-comment">% Redefine plain to also override titlepage pagestyle.</span>
+  <span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\@oddfoot}</span><span class="hljs-string">{\hfill\thepage/\pageref*{LastPage}</span></span><span class="hljs-tag">\<span class="hljs-name">hfill</span></span>}
+  <span class="hljs-tag">\<span class="hljs-name">renewcommand</span><span class="hljs-string">{\@evenfoot}</span><span class="hljs-string">{\@oddfoot}</span></span>
+}
+<span class="hljs-tag">\<span class="hljs-name">makeatother</span></span>
+<span class="hljs-tag">\<span class="hljs-name">pagestyle</span><span class="hljs-string">{plain}</span></span> <span class="hljs-comment">% Use pagestyle pain on every page</span>
+</code></pre>
 <h3 id="other">Other</h3>
 <ul>
 <li><a href="http://tex.stackexchange.com/a/17553">Plus-minus symbol with parenthesis around the minus sign</a></li>

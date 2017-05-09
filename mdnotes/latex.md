@@ -17,6 +17,23 @@ External links:
 
 ```tex
 \usepackage{amsthm}
+\usepackage{thmtools}
+
+\declaretheorem[style=plain,numberwithin=section]{theorem}
+\declaretheorem[style=plain,sibling=theorem]{proposition}
+\declaretheorem[style=plain,sibling=theorem]{lemma}
+\declaretheorem[style=plain,sibling=theorem]{corollary}
+
+\declaretheorem[style=definition,numberwithin=section]{definition}
+\declaretheorem[style=definition,qed=$\diamondsuit$,numberwithin=section]{example}
+\declaretheorem[style=definition,qed=$\triangle$,numberwithin=section]{remark}
+```
+
+
+Old:
+
+```tex
+\usepackage{amsthm}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -247,13 +264,6 @@ Symbol List - Sections.tmPreferences
 ```
 
 
-
-### Source-embedded PDFs
-
-See [this](https://github.com/ViktorQvarfordt/Sublime-LaTeX-Extra).
-
-
-
 ## Web
 
 Embed math as image in html http://tex.stackexchange.com/questions/44486/pixel-perfect-vertical-alignment-of-image-rendered-tex-snippets
@@ -310,15 +320,18 @@ def f(x):
 
 
 
-
-
 ## Embed file as PDF attachment
 
 ```tex
 \usepackage{embedfile}
-\embedfile{index.tex}
-```
+\embedfile{doc.tex}
 
+
+{ % Create an anonymous footnote
+  \renewcommand\thefootnote{}
+  \footnotetext{This document contains its \LaTeX{} source embedded as PDF attachment.}
+}
+```
 
 
 
@@ -530,6 +543,19 @@ More info:
 
 
 ## Misc
+
+### Page number
+
+```tex
+% Show page number as thispage/lastpage (use fancyhdr for more flexibility)
+\makeatletter
+\def\ps@plain{ % Redefine plain to also override titlepage pagestyle.
+  \renewcommand{\@oddfoot}{\hfill\thepage/\pageref*{LastPage}\hfill}
+  \renewcommand{\@evenfoot}{\@oddfoot}
+}
+\makeatother
+\pagestyle{plain} % Use pagestyle pain on every page
+```
 
 ### Other
 

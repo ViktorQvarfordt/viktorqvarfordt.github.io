@@ -435,6 +435,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </li>
 </ul>
 </li>
+<li><a href="#tex2txt"><code>tex2txt</code></a></li>
 <li><a href="#titlepage-template">Titlepage template</a></li>
 </ul>
 <p>External links:</p>
@@ -913,7 +914,55 @@ def f(x):
 <p>Tweaking of <code>showkeys</code>:</p>
 <pre><code>% \renewcommand*\showkeyslabelformat[1]{%
 %   \parbox[t]{\marginparwidth}{\raggedright\normalfont\footnotesize\ttfamily#1}}
-</code></pre><h2 id="titlepage-template">Titlepage template</h2>
+</code></pre><h2 id="tex2txt"><code>tex2txt</code></h2>
+<pre><code class="python"><span class="hljs-comment">#!/usr/bin/env python3</span>
+
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> re
+
+<span class="hljs-keyword">if</span> len(sys.argv) &lt; <span class="hljs-number">2</span>:
+    print(<span class="hljs-string">'missing path to file'</span>)
+    sys.exit(<span class="hljs-number">1</span>)
+
+path = sys.argv[<span class="hljs-number">1</span>]
+
+<span class="hljs-keyword">with</span> open(path) <span class="hljs-keyword">as</span> f:
+    tex = f.read()
+    tex = re.sub(<span class="hljs-string">r'\s*%[^\n]*'</span>, <span class="hljs-string">' '</span>, tex, <span class="hljs-number">0</span>, re.M)
+    tex = re.sub(<span class="hljs-string">r'\$.*?\</div>
+
+    <!-- <div class="footer-separator"></div> -->
+    <!-- <div class="footer"><div class="footer-inner">Viktor Qvarfordt</div></div> -->
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      MathJax.Hub.Config({
+        messageStyle: 'none',
+        tex2jax: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          processEscapes: true
+        },
+        'HTML-CSS': {
+          availableFonts: ['TeX'],
+        }
+      });
+    </script>
+
+  </body>
+
+</html>
+</span>, <span class="hljs-string">'X'</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'\\ '</span>, <span class="hljs-string">' '</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'\s*\\(?:cite|label|cref|Cref|ref|eqref){.*?}(\s?)\s*'</span>, <span class="hljs-string">r' REF\1'</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'\s*\\cite(?:\[.*?\])?{.*?}(\s?)\s*'</span>, <span class="hljs-string">r' REF\1'</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'\s*\\(?:texorpdfstring){.*?}{.*?}(\s?)\s*'</span>, <span class="hljs-string">r' X\1'</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'\\(?:chapter|section|subsection|text..|emph){(.*?)}'</span>, <span class="hljs-string">r'\1'</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'(?&lt;!\n)\n(?!\n)'</span>, <span class="hljs-string">' '</span>, tex)
+    tex = re.sub(<span class="hljs-string">r'\s*\\begin{(equation|subequations|theorem|align|lemma|example|equaiton|corollary|definition|remark|figure|proof)}.*?\\end{\1}\s*'</span>,       <span class="hljs-string">'\n\nENV\n\n'</span>, tex, <span class="hljs-number">0</span>, re.M|re.S)
+    tex = re.sub(<span class="hljs-string">r'\n\n+'</span>, <span class="hljs-string">'\n\n'</span>, tex)
+    <span class="hljs-comment"># tex = re.sub(r'\\\w+?{.*?}', '', tex) # Remove any command</span>
+    print(tex.strip())
+</code></pre>
+<h2 id="titlepage-template">Titlepage template</h2>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{titlepage}</span></span>
   <span class="hljs-tag">\<span class="hljs-name">thispagestyle</span><span class="hljs-string">{empty}</span></span>
   <span class="hljs-comment">% \null\vskip{-2em}</span>

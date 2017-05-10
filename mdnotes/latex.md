@@ -725,6 +725,35 @@ Tweaking of `showkeys`:
 %   \parbox[t]{\marginparwidth}{\raggedright\normalfont\footnotesize\ttfamily#1}}
 ```
 
+## `tex2txt`
+
+```python
+#!/usr/bin/env python3
+
+import sys
+import re
+
+if len(sys.argv) < 2:
+    print('missing path to file')
+    sys.exit(1)
+
+path = sys.argv[1]
+
+with open(path) as f:
+    tex = f.read()
+    tex = re.sub(r'\s*%[^\n]*', ' ', tex, 0, re.M)
+    tex = re.sub(r'\$.*?\$', 'X', tex)
+    tex = re.sub(r'\\ ', ' ', tex)
+    tex = re.sub(r'\s*\\(?:cite|label|cref|Cref|ref|eqref){.*?}(\s?)\s*', r' REF\1', tex)
+    tex = re.sub(r'\s*\\cite(?:\[.*?\])?{.*?}(\s?)\s*', r' REF\1', tex)
+    tex = re.sub(r'\s*\\(?:texorpdfstring){.*?}{.*?}(\s?)\s*', r' X\1', tex)
+    tex = re.sub(r'\\(?:chapter|section|subsection|text..|emph){(.*?)}', r'\1', tex)
+    tex = re.sub(r'(?<!\n)\n(?!\n)', ' ', tex)
+    tex = re.sub(r'\s*\\begin{(equation|subequations|theorem|align|lemma|example|equaiton|corollary|definition|remark|figure|proof)}.*?\\end{\1}\s*',       '\n\nENV\n\n', tex, 0, re.M|re.S)
+    tex = re.sub(r'\n\n+', '\n\n', tex)
+    # tex = re.sub(r'\\\w+?{.*?}', '', tex) # Remove any command
+    print(tex.strip())
+```
 
 
 ## Titlepage template

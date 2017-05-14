@@ -324,6 +324,7 @@ def f(x):
 
 ```tex
 \usepackage{embedfile}
+% \usepackage{navigator} % For xetex?
 \embedfile{doc.tex}
 
 
@@ -350,6 +351,58 @@ The `varwidth` parameter makes line-break behave normally.
   Hello minimal world!
 \end{document}
 ```
+
+
+### Better
+
+Taken from https://tex.stackexchange.com/a/11880
+
+You can use the standalone class for this. It loads the preview package automatically to crop the resulting PDF to the content. This makes the usage of pdfcrop unnecessary.
+
+Simply exchange the article class with standalone. (It uses article internally but another class can be specified using the class option.) Note that since v1.0 the default option has been changed from preview to crop. The latter is better for pictures etc. but doesn't support line breaks. Either select preview manually or use the varwidth option.
+
+```
+\documentclass[preview]{standalone}
+\begin{document}
+Hello. This is a test.
+\begin{equation}
+L = 2
+\end{equation}
+\end{document}
+```
+
+There is a border class option which sets the border around the content (the default is 0.5bp). This option excepts either one (border for all sides), two (left/right, top/bottom) or four values (left, bottom, right, top).
+
+To convert it to a PNG I recommend to use the convert command of Image Magick:
+
+```
+pdflatex file
+convert -density 300 file.pdf -quality 90 file.png
+```
+
+Here the density is 300 DPI which can be adapted to your needs. The quality setting selects the compression level and other things and 90 is AFAIK the optimum.
+
+You can also select the DPI resolution for X and Y separately and also resize the resulting image, e.g.:
+
+```
+convert -density 600x600 file.pdf -quality 90 -resize 1080x800 file.png
+```
+
+Update 2011/12/21:
+
+The new version 1.0 standalone now has the ability to call the above command line (and others) automatically, e.g.:
+
+```
+\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+```
+
+or simply (using default setting 300dpi, no resizing, PNG):
+
+```
+\documentclass[convert]{standalone}
+```
+
+This needs the `-shell-escape` compiler option to allow the execution of the conversion program from within the LaTeX document.
 
 
 ### [PDF→SVG](/notes/pdf)

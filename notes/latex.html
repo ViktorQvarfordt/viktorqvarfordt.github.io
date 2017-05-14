@@ -400,6 +400,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li><a href="#embed-file-as-pdf-attachment">Embed file as PDF attachment</a></li>
 <li><a href="#minimal-pdf-document">Minimal pdf document</a><ul>
 <li><a href="#standalone-package"><code>standalone</code> package</a></li>
+<li><a href="#better">Better</a></li>
 <li><a href="#pdf-svg-notes-pdf">PDF→SVG</a></li>
 <li><a href="#pdfcrop-command"><code>pdfcrop</code> command</a></li>
 </ul>
@@ -657,6 +658,7 @@ def f(x):
 </code></pre>
 <h2 id="embed-file-as-pdf-attachment">Embed file as PDF attachment</h2>
 <pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{embedfile}</span></span>
+<span class="hljs-comment">% \usepackage{navigator} % For xetex?</span>
 <span class="hljs-tag">\<span class="hljs-name">embedfile</span><span class="hljs-string">{doc.tex}</span></span>
 
 
@@ -674,6 +676,30 @@ def f(x):
   Hello minimal world!
 <span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
 </code></pre>
+<h3 id="better">Better</h3>
+<p>Taken from <a href="https://tex.stackexchange.com/a/11880">https://tex.stackexchange.com/a/11880</a></p>
+<p>You can use the standalone class for this. It loads the preview package automatically to crop the resulting PDF to the content. This makes the usage of pdfcrop unnecessary.</p>
+<p>Simply exchange the article class with standalone. (It uses article internally but another class can be specified using the class option.) Note that since v1.0 the default option has been changed from preview to crop. The latter is better for pictures etc. but doesn't support line breaks. Either select preview manually or use the varwidth option.</p>
+<pre><code>\documentclass[preview]{standalone}
+\begin{document}
+Hello. This is a test.
+\begin{equation}
+L = 2
+\end{equation}
+\end{document}
+</code></pre><p>There is a border class option which sets the border around the content (the default is 0.5bp). This option excepts either one (border for all sides), two (left/right, top/bottom) or four values (left, bottom, right, top).</p>
+<p>To convert it to a PNG I recommend to use the convert command of Image Magick:</p>
+<pre><code>pdflatex file
+convert -density 300 file.pdf -quality 90 file.png
+</code></pre><p>Here the density is 300 DPI which can be adapted to your needs. The quality setting selects the compression level and other things and 90 is AFAIK the optimum.</p>
+<p>You can also select the DPI resolution for X and Y separately and also resize the resulting image, e.g.:</p>
+<pre><code>convert -density 600x600 file.pdf -quality 90 -resize 1080x800 file.png
+</code></pre><p>Update 2011/12/21:</p>
+<p>The new version 1.0 standalone now has the ability to call the above command line (and others) automatically, e.g.:</p>
+<pre><code>\documentclass[convert={density=300,size=1080x800,outext=.png}]{standalone}
+</code></pre><p>or simply (using default setting 300dpi, no resizing, PNG):</p>
+<pre><code>\documentclass[convert]{standalone}
+</code></pre><p>This needs the <code>-shell-escape</code> compiler option to allow the execution of the conversion program from within the LaTeX document.</p>
 <h3 id="pdf-svg-notes-pdf"><a href="/notes/pdf">PDF→SVG</a></h3>
 <h3 id="pdfcrop-command"><code>pdfcrop</code> command</h3>
 <p>This is a command (included in the texlive latex distribution for linux) that crops margins from pdf documents. The command does not remove page breaks. Page numbers have to be explicitly suppressed.</p>

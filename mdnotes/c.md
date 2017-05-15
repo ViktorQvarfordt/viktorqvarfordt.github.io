@@ -15,4 +15,4 @@ $ gcc -ftree-vectorize -fopt-info-vec-missed main.c
 
 *SSE*?
 
-`xmmintrin.h` and other "intrinsic" functions.. what..?
+`xmmintrin.h` and other "intrinsic" functions..

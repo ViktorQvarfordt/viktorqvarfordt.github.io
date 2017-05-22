@@ -572,63 +572,64 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 \end{center}
 </code></pre><h2 id="beamer">Beamer</h2>
 <p>Plain theme:</p>
-<pre><code>\documentclass{beamer}
+<pre><code class="tex"><span class="hljs-tag">\<span class="hljs-name">documentclass</span><span class="hljs-string">{beamer}</span></span>
 
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{mathtools}
-% Fixes font issues
-\usepackage{lmodern}
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[T1]</span><span class="hljs-string">{fontenc}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">[utf8]</span><span class="hljs-string">{inputenc}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{mathtools}</span></span>
+<span class="hljs-comment">% Fixes font issues</span>
+<span class="hljs-tag">\<span class="hljs-name">usepackage</span><span class="hljs-string">{lmodern}</span></span>
 
-% Clean up the theme
-\beamertemplatenavigationsymbolsempty
-\setbeamercolor{title}{fg=black}
-\setbeamercolor{frametitle}{fg=black}
-\setbeamercolor{framesubtitle}{fg=black}
-\setbeamercolor{text}{fg=black}
-\setbeamercolor{item}{fg=black}
-\setbeamercolor{block title}{fg=black}
-\setbeamerfont{block title}{family=\bfseries}
+<span class="hljs-comment">% Clean up the theme</span>
+<span class="hljs-tag">\<span class="hljs-name">beamertemplatenavigationsymbolsempty</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamercolor</span><span class="hljs-string">{title}</span><span class="hljs-string">{fg=black}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamercolor</span><span class="hljs-string">{frametitle}</span><span class="hljs-string">{fg=black}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamercolor</span><span class="hljs-string">{framesubtitle}</span><span class="hljs-string">{fg=black}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamercolor</span><span class="hljs-string">{text}</span><span class="hljs-string">{fg=black}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamercolor</span><span class="hljs-string">{item}</span><span class="hljs-string">{fg=black}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamercolor</span><span class="hljs-string">{block title}</span><span class="hljs-string">{fg=black}</span></span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamerfont</span><span class="hljs-string">{block title}</span><span class="hljs-string">{family=\bfseries}</span></span>
 
-% Use standard font in math
-\usefonttheme{professionalfonts}
+<span class="hljs-comment">% Use standard font in math</span>
+<span class="hljs-tag">\<span class="hljs-name">usefonttheme</span><span class="hljs-string">{professionalfonts}</span></span>
 
-% Use standard lists
-\setbeamertemplate{itemize items}[circle]
+<span class="hljs-comment">% Use standard lists</span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamertemplate</span><span class="hljs-string">{itemize items}</span><span class="hljs-string">[circle]</span></span>
 
-% Show frame number
-\setbeamertemplate{footline}[frame number]
+<span class="hljs-comment">% Show frame number</span>
+<span class="hljs-tag">\<span class="hljs-name">setbeamertemplate</span><span class="hljs-string">{footline}</span><span class="hljs-string">[frame number]</span></span>
 
 
-\begin{document}
+<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{document}</span></span>
 
-% Make title page manually, for flexibility
-\begin{frame}
-  \centering
-  \huge
-  Non-Abelian Anyons \\[0.5em]
-  \Large
-  Statistical Repulsion and \\
-  Topological Quantum Computation \\[1.5em]
-  \normalsize
-  \textit{Viktor Qvarfordt} \\[1.5em]
-  Master's thesis in Mathematics \\[1em]
-  \small
-  Supervised by \\
-  Douglas Lundholm \\[1em]
-  KTH Royal Institute of Technology \\
-  and Stockholm University \\[1em]
+<span class="hljs-comment">% Make title page manually, for flexibility</span>
+<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{frame}</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">centering</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">huge</span></span>
+  Non-Abelian Anyons <span class="hljs-tag">\<span class="hljs-name">\</span><span class="hljs-string">[0.5em]</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">Large</span></span>
+  Statistical Repulsion and <span class="hljs-tag">\<span class="hljs-name">\</span></span>
+  Topological Quantum Computation <span class="hljs-tag">\<span class="hljs-name">\</span><span class="hljs-string">[1.5em]</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">normalsize</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">textit</span><span class="hljs-string">{Viktor Qvarfordt}</span></span> <span class="hljs-tag">\<span class="hljs-name">\</span><span class="hljs-string">[1.5em]</span></span>
+  Master's thesis in Mathematics <span class="hljs-tag">\<span class="hljs-name">\</span><span class="hljs-string">[1em]</span></span>
+  <span class="hljs-tag">\<span class="hljs-name">small</span></span>
+  Supervised by <span class="hljs-tag">\<span class="hljs-name">\</span></span>
+  Douglas Lundholm <span class="hljs-tag">\<span class="hljs-name">\</span><span class="hljs-string">[1em]</span></span>
+  KTH Royal Institute of Technology <span class="hljs-tag">\<span class="hljs-name">\</span></span>
+  and Stockholm University <span class="hljs-tag">\<span class="hljs-name">\</span><span class="hljs-string">[1em]</span></span>
   2017-05-23
-\end{frame}
+<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{frame}</span></span>
 
 
-\begin{frame}{Introduction}
+<span class="hljs-tag">\<span class="hljs-name">begin</span><span class="hljs-string">{frame}</span><span class="hljs-string">{Introduction}</span></span>
   Hello world!
-\end{frame}
+<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{frame}</span></span>
 
 
-\end{document}
-</code></pre><h2 id="sublimetext">SublimeText</h2>
+<span class="hljs-tag">\<span class="hljs-name">end</span><span class="hljs-string">{document}</span></span>
+</code></pre>
+<h2 id="sublimetext">SublimeText</h2>
 <h3 id="misc-improvements">Misc. improvements</h3>
 <h4 id="improve-symbol-goto">Improve symbol goto</h4>
 <p>This will make <code>ctrl+r</code> (symbol goto) show an overview of the document layout, for easy navigation</p>

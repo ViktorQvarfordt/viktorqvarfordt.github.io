@@ -190,7 +190,7 @@ Slanted arrows
 
 Plain theme:
 
-```
+```tex
 \documentclass{beamer}
 
 \usepackage[T1]{fontenc}

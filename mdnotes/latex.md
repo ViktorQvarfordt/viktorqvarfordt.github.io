@@ -186,6 +186,68 @@ Slanted arrows
 \end{center}
 ```
 
+## Beamer
+
+Plain theme:
+
+```
+\documentclass{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+% Fixes font issues
+\usepackage{lmodern}
+ 
+% Clean up the theme
+\beamertemplatenavigationsymbolsempty
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{framesubtitle}{fg=black}
+\setbeamercolor{text}{fg=black}
+\setbeamercolor{item}{fg=black}
+\setbeamercolor{block title}{fg=black}
+\setbeamerfont{block title}{family=\bfseries}
+
+% Use standard font in math
+\usefonttheme{professionalfonts}
+
+% Use standard lists
+\setbeamertemplate{itemize items}[circle]
+
+% Show frame number
+\setbeamertemplate{footline}[frame number]
+
+
+\begin{document}
+
+% Make title page manually, for flexibility
+\begin{frame}
+  \centering
+  \huge
+  Non-Abelian Anyons \\[0.5em]
+  \Large
+  Statistical Repulsion and \\
+  Topological Quantum Computation \\[1.5em]
+  \normalsize
+  \textit{Viktor Qvarfordt} \\[1.5em]
+  Master's thesis in Mathematics \\[1em]
+  \small
+  Supervised by \\
+  Douglas Lundholm \\[1em]
+  KTH Royal Institute of Technology \\
+  and Stockholm University \\[1em]
+  2017-05-23
+\end{frame}
+
+
+\begin{frame}{Introduction}
+  Hello world!
+\end{frame}
+
+
+\end{document}
+```
 
 
 ## SublimeText
@@ -596,6 +658,12 @@ More info:
 
 
 ## Misc
+
+### Change width of expression
+
+```
+\makebox[0pt][l]{short}\phantom{my long text}
+```
 
 ### Page number
 

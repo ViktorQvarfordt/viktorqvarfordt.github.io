@@ -1,4 +1,30 @@
-# C
+# C / C++
+
+## Snippets
+
+**Command line arguments:**
+
+```c++
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char *argv[]) {
+  cout << "argc = " << argc << endl;
+  for (int i = 0; i < argc; ++i) {
+    cout << "argv[" << i << "] = " << argv[i] << endl;
+  }
+  return 0;
+}
+```
+
+**Arrays:**
+
+```c++
+
+```
+
+<http://www.learncpp.com/cpp-tutorial/713-command-line-arguments/>
 
 ## Optimizations
 

@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>C</title>
+    <title>C / C++</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>@import url(https://fonts.googleapis.com/css?family=Inconsolata);
 a { color: #05a; text-decoration: none; }
@@ -241,12 +241,156 @@ hr { border:0; height:1px;
    }
 
 /* END TESTING */
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.diff .hljs-header,
+.hljs-javadoc {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.javascript .hljs-title,
+.nginx .hljs-title,
+.hljs-subst,
+.hljs-request,
+.hljs-status {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-hexcolor,
+.ruby .hljs-constant {
+  color: #099;
+}
+
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.tex .hljs-formula {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-id,
+.coffeescript .hljs-params,
+.scss .hljs-preprocessor {
+  color: #900;
+  font-weight: bold;
+}
+
+.javascript .hljs-title,
+.lisp .hljs-title,
+.clojure .hljs-title,
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-class .hljs-title,
+.haskell .hljs-type,
+.vhdl .hljs-literal,
+.tex .hljs-command {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rules .hljs-property,
+.django .hljs-tag .hljs-keyword {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body {
+  color: #008080;
+}
+
+.hljs-regexp {
+  color: #009926;
+}
+
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.lisp .hljs-keyword,
+.tex .hljs-special,
+.hljs-prompt {
+  color: #990073;
+}
+
+.hljs-built_in,
+.lisp .hljs-title,
+.clojure .hljs-built_in {
+  color: #0086b3;
+}
+
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.diff .hljs-change {
+  background: #0086b3;
+}
+
+.hljs-chunk {
+  color: #aaa;
+}
 </style>
   </head>
 
   <body>
 
-    <div class="content"><h1 id="c">C</h1>
+    <div class="content"><h1 id="c-c">C / C++</h1>
+<h2 id="snippets">Snippets</h2>
+<p><strong>Command line arguments:</strong></p>
+<pre><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>{
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"argc = "</span> &lt;&lt; argc &lt;&lt; <span class="hljs-built_in">endl</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; argc; ++i) {
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"argv["</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">"] = "</span> &lt;&lt; argv[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p><strong>Arrays:</strong></p>
+<pre><code class="c++">
+</code></pre>
+<p><a href="http://www.learncpp.com/cpp-tutorial/713-command-line-arguments/">http://www.learncpp.com/cpp-tutorial/713-command-line-arguments/</a></p>
 <h2 id="optimizations">Optimizations</h2>
 <p><a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms">https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms</a></p>
 <h3 id="vectorization">Vectorization</h3>

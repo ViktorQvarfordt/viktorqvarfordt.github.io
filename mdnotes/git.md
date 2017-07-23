@@ -20,7 +20,7 @@ git rebase master
 ```
 a--b--f--g [master]
     \
-     c--d--e [feature] (current branc)
+     c--d--e [feature] (current branch)
 
 ↦
 
@@ -114,6 +114,29 @@ where `c'` and `d'` are the same commits as `c` and `d` but with new SHA. The br
 ### From command line
 
 Github marks a PR as 'Merged' only if the commits in the PR are found on master. There is no support for rebasing from commandline and marking as 'Merged'.
+
+
+
+## Tags
+
+**Create tag at `HEAD`**
+
+Lightweight tag
+
+```
+git tag v1.2.3
+```
+
+Annotated tag
+
+```
+git tag -a v1.2.3 -m "My version 1.2.3"
+```
+
+**Push tag**
+```
+git push origin v1.2.3
+```
 
 
 

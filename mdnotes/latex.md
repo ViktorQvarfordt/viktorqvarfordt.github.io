@@ -547,6 +547,8 @@ After compiling the document, simply run the command `pdfcrop` on the resulting 
 \newcommand{\centermath}[1]{\par\centerline{\begin{minipage}{\linewidth}#1\end{minipage}}\par}
 ```
 
+Only works with starred environments; the labelnumber destroys the forced centering.
+
 Example:
 
 ```

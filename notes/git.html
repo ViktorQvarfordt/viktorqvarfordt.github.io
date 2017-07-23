@@ -255,7 +255,7 @@ hr { border:0; height:1px;
 <pre><code>git rebase master
 </code></pre><pre><code>a--b--f--g [master]
     \
-     c--d--e [feature] (current branc)
+     c--d--e [feature] (current branch)
 
 ↦
 
@@ -317,8 +317,16 @@ a--b--c'--d' [master]
 </code></pre><p>where <code>c'</code> and <code>d'</code> are the same commits as <code>c</code> and <code>d</code> but with new SHA. The branch <code>[feature]</code> can now safely be removed. This marks the PR as 'Merged'.</p>
 <h3 id="from-command-line">From command line</h3>
 <p>Github marks a PR as 'Merged' only if the commits in the PR are found on master. There is no support for rebasing from commandline and marking as 'Merged'.</p>
-<h2 id="fancy-log">Fancy log</h2>
-<pre><code>git log --graph --pretty=tformat:"%C(6)%an: %C(7)%s%n%C(2)%h%C(7): %C(5)%t%C(1)%d %C(3)% ar %C(4)%ad%n&quot; --abbrev=5 --date=short --all
+<h2 id="tags">Tags</h2>
+<p><strong>Create tag at <code>HEAD</code></strong></p>
+<p>Lightweight tag</p>
+<pre><code>git tag v1.2.3
+</code></pre><p>Annotated tag</p>
+<pre><code>git tag -a v1.2.3 -m "My version 1.2.3&quot;
+</code></pre><p><strong>Push tag</strong></p>
+<pre><code>git push origin v1.2.3
+</code></pre><h2 id="fancy-log">Fancy log</h2>
+<pre><code>git log --graph --pretty=tformat:&quot;%C(6)%an: %C(7)%s%n%C(2)%h%C(7): %C(5)%t%C(1)%d %C(3)% ar %C(4)%ad%n&quot; --abbrev=5 --date=short --all
 </code></pre><p>Or use <code>gitg</code>.</p>
 <h2 id="push-to-non-bare-repo">Push to non-bare repo</h2>
 <p>On the receiving repo, set</p>
